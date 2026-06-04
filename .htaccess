@@ -1,0 +1,76 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /filao/
+
+    # Tour Permalinks
+    # Matches /tours/slug (no trailing slash required, but allowed)
+    RewriteRule ^tours/([^/]+)/?$ tour-detail.php?slug=$1 [L,QSA]
+
+    # Destination Permalinks
+    # Matches /destinations/slug
+    RewriteRule ^destinations/([^/]+)/?$ destination-detail.php?slug=$1 [L,QSA]
+
+    # Blog Permalinks
+    # Matches /blog/slug
+    RewriteRule ^blog/([^/]+)/?$ blog-detail.php?slug=$1 [L,QSA]
+
+    # Activities Permalinks
+    RewriteRule ^activities/([^/]+)/?$ activity-detail.php?slug=$1 [L,QSA]
+
+    # Remove .php extension
+    # If the requested URI is not a directory or file
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    # And if the corresponding .php file exists
+    RewriteCond %{REQUEST_FILENAME}.php -f
+    # Rewrite to the .php file
+    RewriteRule ^([^\.]+)$ $1.php [NC,L]
+</IfModule>
+
+<IfModule mod_expires.c>
+    # Enable expirations
+    ExpiresActive On
+
+    # Default directive
+    ExpiresDefault "access plus 1 month"
+
+    # My favicon
+    ExpiresByType image/x-icon "access plus 1 year"
+
+    # Images
+    ExpiresByType image/gif "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/jpg "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/webp "access plus 1 month"
+    ExpiresByType video/webm "access plus 1 month"
+
+    # CSS, JavaScript
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+</IfModule>
+
+<IfModule mod_deflate.c>
+    # Compress HTML, CSS, JavaScript, Text, XML and fonts
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+    AddOutputFilterByType DEFLATE application/x-font
+    AddOutputFilterByType DEFLATE application/x-font-opentype
+    AddOutputFilterByType DEFLATE application/x-font-otf
+    AddOutputFilterByType DEFLATE application/x-font-truetype
+    AddOutputFilterByType DEFLATE application/x-font-ttf
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE font/opentype
+    AddOutputFilterByType DEFLATE font/otf
+    AddOutputFilterByType DEFLATE font/ttf
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE image/x-icon
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/xml
+</IfModule>
