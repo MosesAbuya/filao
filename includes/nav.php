@@ -34,6 +34,31 @@ if (empty($navToursByCountry)) {
   $navToursByCountry['All Tours'] = $allTours;
 }
 
+// Fetch Destiantions with their associated tours for the mobile menu
+$navDestData = $navPdo->query("
+    SELECT DISTINCT d.id, d.name, d.slug 
+    FROM destinations d
+    JOIN itinerary_steps ist ON d.id = ist.destination_id
+    JOIN tours t ON t.id = ist.tour_id
+    WHERE t.status='published'
+    ORDER BY d.name ASC LIMIT 10
+")->fetchAll();
+
+$navDestinations = [];
+foreach($navDestData as $dest) {
+    $tstmt = $navPdo->prepare("
+        SELECT DISTINCT t.id, t.title, t.slug 
+        FROM tours t
+        JOIN itinerary_steps ist ON t.id = ist.tour_id
+        WHERE ist.destination_id = ? AND t.status='published'
+        ORDER BY t.title ASC LIMIT 5
+    ");
+    $tstmt->execute([$dest['id']]);
+    $dest['tours'] = $tstmt->fetchAll();
+    $navDestinations[] = $dest;
+}
+
+
 // Recommended tours grouped by activity from DB
 $navRecommended = $navPdo->query("
     SELECT id, title, slug, featured_image, price_from_usd, duration_days, recommended_activity
@@ -561,7 +586,7 @@ foreach ($navSafarisThemes as $st) {
 <nav id="rmm-menu" class="rmm-menu d-lg-none">
   <!-- Header (Logo + Close) -->
   <div class="rmm-header">
-    <img src="images/Filao/Logo.png" alt="Filao Logo">
+    <img src="assets/logo/filao-logo.png" alt="Filao Logo">
     <div class="rmm-controls">
       <button class="rmm-close-btn">&times;</button>
     </div>

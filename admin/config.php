@@ -7,9 +7,9 @@ error_reporting(E_ALL);
 // Adjust credentials to match your XAMPP MySQL setup
 
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'filao_adventures');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_NAME', 'serenit6_filao_adventures');
+define('DB_USER', 'serenit6_filao');
+define('DB_PASS', 'Filao@2026');
 define('DB_CHARSET', 'utf8mb4');
 
 // App paths
