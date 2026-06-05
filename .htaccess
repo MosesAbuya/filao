@@ -1,15 +1,13 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # If an image is missing in /filao/uploads/, transparently load it from /uploads/
-    RewriteCond %{REQUEST_URI} ^/filao/uploads/ [NC]
+    # --- Live Server Compatibility ---
+    # Strip the /filao/ prefix from requests if the actual file/dir doesn't exist.
+    # This perfectly compensates for the <base href="/filao/"> tag when the project
+    # is deployed to a live domain's root directory.
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^filao/uploads/(.*)$ /uploads/$1 [L]
-
-    # If an image is missing in /uploads/, transparently load it from /filao/uploads/
-    RewriteCond %{REQUEST_URI} ^/uploads/ [NC]
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^uploads/(.*)$ /filao/uploads/$1 [L]
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^filao/(.*)$ $1 [L,QSA]
 
     # Redirect .php URLs to clean URLs (except admin/ directory)
     RewriteCond %{THE_REQUEST} \s/([^/]+)\.php[\s?] [NC]
