@@ -23,7 +23,9 @@ $heroImg = $img ?: 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head><base href="/filao/">
+<head>
+  <?php $base_href = ($_SERVER['HTTP_HOST'] === 'localhost' || $_SERVER['HTTP_HOST'] === '127.0.0.1') ? '/filao/' : '/'; ?>
+  <base href="<?= $base_href ?>">
   <title><?= htmlspecialchars($exp['name']) ?> &mdash; Filao Adventures</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">

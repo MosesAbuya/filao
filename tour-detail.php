@@ -56,7 +56,8 @@ $nights = $tour['duration_days'] - 1;
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <base href="/filao/">
+  <?php $base_href = ($_SERVER['HTTP_HOST'] === 'localhost' || $_SERVER['HTTP_HOST'] === '127.0.0.1') ? '/filao/' : '/'; ?>
+  <base href="<?= $base_href ?>">
   <title><?= htmlspecialchars($tour['seo_title'] ?: $tour['title']) ?> &mdash; Filao Adventures</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
