@@ -33,7 +33,7 @@
 </section>
 
 <section class="section-pad bg-cream" style="padding: 80px 0;">
-  <div class="container" style="max-width:900px; margin: 0 auto; background: #fff; padding: 60px 80px; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.04);">
+  <div class="container" style="max-width:1050px; margin: 0 auto; background: #fff; padding: 60px 4%; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.04);">
     <div class="rich-content">
       
             <h3>Comprehensive Coverage is Mandatory</h3>

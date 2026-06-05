@@ -98,8 +98,8 @@ $readTime = max(1, round(str_word_count(strip_tags($blog['body'])) / 200));
     <div class="row g-5">
 
       <!-- Article -->
-      <div class="col-lg-8">
-        <div style="background:#fff;padding:56px;border-radius:6px;box-shadow:0 4px 20px rgba(0,0,0,0.04);">
+      <div class="col-lg-9">
+        <div style="background:#fff;padding:32px;border-radius:6px;box-shadow:0 4px 20px rgba(0,0,0,0.04);">
           <?php if ($blog['excerpt']): ?>
           <p style="font-size:18px;color:#4A4340;line-height:1.8;font-family:'Cormorant Garant',serif;font-style:italic;border-left:4px solid #C49018;padding-left:20px;margin-bottom:36px;">
             <?= htmlspecialchars($blog['excerpt']) ?>
@@ -133,7 +133,7 @@ $readTime = max(1, round(str_word_count(strip_tags($blog['body'])) / 200));
       </div>
 
       <!-- Sidebar -->
-      <div class="col-lg-4">
+      <div class="col-lg-3">
         <!-- CTA Box -->
         <div style="background:#1C1712;border-radius:6px;padding:32px;margin-bottom:28px;text-align:center;">
           <span style="font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#C49018;font-family:'Inter',sans-serif;">Ready to Go?</span>

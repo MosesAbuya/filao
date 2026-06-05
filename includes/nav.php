@@ -500,14 +500,18 @@ foreach ($navSafarisThemes as $st) {
   </div><!-- /.fa-nav-row -->
 
   <!-- Search Bar -->
-  <div id="fa-search-bar" style="display:none;background:#fff;padding:14px 24px;border-top:1px solid #E5DDD0;">
-    <div style="max-width:600px;width:100%;margin:0 auto;display:flex;gap:10px;">
-      <input type="text" placeholder="Search tours, destinations..."
-        style="flex:1;padding:10px 16px;border:1px solid #E5DDD0;border-radius:4px;font-family:'Inter',sans-serif;font-size:14px;outline:none;">
+  <div id="fa-search-bar" style="display:none;background:#fff;padding:14px 24px;border-top:1px solid #E5DDD0;position:relative;">
+    <div style="max-width:600px;width:100%;margin:0 auto;display:flex;gap:10px;position:relative;">
+      <input type="text" id="fa-search-input" placeholder="Search tours, destinations..."
+        style="flex:1;padding:10px 16px;border:1px solid #E5DDD0;border-radius:4px;font-family:'Inter',sans-serif;font-size:14px;outline:none;" autocomplete="off">
       <button
         style="background:#C49018;color:#fff;border:none;padding:10px 22px;border-radius:4px;font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;font-family:'Inter',sans-serif;">Search</button>
       <button id="fa-search-close"
         style="background:none;border:none;cursor:pointer;font-size:20px;color:#6B6358;">&times;</button>
+        
+      <!-- AJAX Search Results Dropdown -->
+      <div id="fa-search-results" style="display:none;position:absolute;top:100%;left:0;width:calc(100% - 100px);background:#fff;border:1px solid #E5DDD0;border-radius:0 0 6px 6px;box-shadow:0 10px 25px rgba(0,0,0,0.1);z-index:1000;max-height:400px;overflow-y:auto;margin-top:2px;">
+      </div>
     </div>
   </div>
 
@@ -597,8 +601,10 @@ foreach ($navSafarisThemes as $st) {
     <!-- Main Panel (Level 0) -->
     <div class="rmm-panel rmm-panel-main rmm-active" id="rmm-panel-main">
       <ul class="rmm-links rmm-bg-white">
+        <li><a href="#" class="rmm-trigger" data-target="rmm-panel-tours">TOURS <i class="fa fa-angle-right"></i></a></li>
         <li><a href="#" class="rmm-trigger" data-target="rmm-panel-destinations">DESTINATIONS <i class="fa fa-angle-right"></i></a></li>
         <li><a href="#" class="rmm-trigger" data-target="rmm-panel-safaris">SAFARI EXPERIENCES <i class="fa fa-angle-right"></i></a></li>
+        <li><a href="#" class="rmm-trigger" data-target="rmm-panel-activities">ACTIVITIES <i class="fa fa-angle-right"></i></a></li>
         <li><a href="#" class="rmm-trigger" data-target="rmm-panel-recommend">WE RECOMMEND <i class="fa fa-angle-right"></i></a></li>
         <li><a href="blog">BLOG</a></li>
       </ul>
@@ -662,6 +668,34 @@ foreach ($navSafarisThemes as $st) {
       </ul>
     </div>
 
+    <!-- Tours Panel (Level 1) -->
+    <div class="rmm-panel" id="rmm-panel-tours">
+      <div class="rmm-panel-header">
+        <button class="rmm-back-btn" data-target="rmm-panel-main"><i class="fa fa-angle-left"></i></button>
+        <span>TOURS</span>
+      </div>
+      <ul class="rmm-links rmm-bg-white">
+        <?php foreach($navToursByCountry as $country => $cTours): ?>
+          <li><a href="#" class="rmm-trigger" data-target="rmm-panel-tours-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $country)) ?>"><?= strtoupper(htmlspecialchars($country)) ?> <i class="fa fa-angle-right"></i></a></li>
+        <?php endforeach; ?>
+        <li class="rmm-view-all" style="margin-top:20px;"><a href="tours">VIEW ALL TOURS</a></li>
+      </ul>
+    </div>
+
+    <!-- Activities Panel (Level 1) -->
+    <div class="rmm-panel" id="rmm-panel-activities">
+      <div class="rmm-panel-header">
+        <button class="rmm-back-btn" data-target="rmm-panel-main"><i class="fa fa-angle-left"></i></button>
+        <span>ACTIVITIES</span>
+      </div>
+      <ul class="rmm-links rmm-bg-white">
+        <?php foreach($navActByCategory as $category => $cActs): ?>
+          <li><a href="#" class="rmm-trigger" data-target="rmm-panel-act-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $category)) ?>"><?= strtoupper(htmlspecialchars($category)) ?> <i class="fa fa-angle-right"></i></a></li>
+        <?php endforeach; ?>
+        <li class="rmm-view-all" style="margin-top:20px;"><a href="activities">VIEW ALL ACTIVITIES</a></li>
+      </ul>
+    </div>
+
     <!-- Dynamically Generated Level 2 Panels -->
     <!-- Destinations Level 2 -->
     <?php foreach ($navDestinations as $dest): ?>
@@ -706,6 +740,36 @@ foreach ($navSafarisThemes as $st) {
       <ul class="rmm-links rmm-bg-white">
         <?php foreach ($recTours as $rt): ?>
           <li><a href="tours/<?= $rt['slug'] ?>"><?= strtoupper(htmlspecialchars($rt['title'])) ?></a></li>
+        <?php endforeach; ?>
+      </ul>
+    </div>
+    <?php endforeach; ?>
+
+    <!-- Tours Level 2 -->
+    <?php foreach ($navToursByCountry as $country => $cTours): ?>
+    <div class="rmm-panel" id="rmm-panel-tours-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $country)) ?>">
+      <div class="rmm-panel-header">
+        <button class="rmm-back-btn" data-target="rmm-panel-tours"><i class="fa fa-angle-left"></i></button>
+        <span><?= strtoupper(htmlspecialchars($country)) ?></span>
+      </div>
+      <ul class="rmm-links rmm-bg-white">
+        <?php foreach ($cTours as $t): ?>
+          <li><a href="tours/<?= $t['slug'] ?>"><?= strtoupper(htmlspecialchars($t['title'])) ?></a></li>
+        <?php endforeach; ?>
+      </ul>
+    </div>
+    <?php endforeach; ?>
+
+    <!-- Activities Level 2 -->
+    <?php foreach ($navActByCategory as $category => $cActs): ?>
+    <div class="rmm-panel" id="rmm-panel-act-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $category)) ?>">
+      <div class="rmm-panel-header">
+        <button class="rmm-back-btn" data-target="rmm-panel-activities"><i class="fa fa-angle-left"></i></button>
+        <span><?= strtoupper(htmlspecialchars($category)) ?></span>
+      </div>
+      <ul class="rmm-links rmm-bg-white">
+        <?php foreach ($cActs as $act): ?>
+          <li><a href="activities/<?= $act['slug'] ?>"><?= strtoupper(htmlspecialchars($act['name'])) ?></a></li>
         <?php endforeach; ?>
       </ul>
     </div>

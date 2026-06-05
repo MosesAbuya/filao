@@ -1,6 +1,16 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+    # If an image is missing in /filao/uploads/, transparently load it from /uploads/
+    RewriteCond %{REQUEST_URI} ^/filao/uploads/ [NC]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^filao/uploads/(.*)$ /uploads/$1 [L]
+
+    # If an image is missing in /uploads/, transparently load it from /filao/uploads/
+    RewriteCond %{REQUEST_URI} ^/uploads/ [NC]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^uploads/(.*)$ /filao/uploads/$1 [L]
+
     # Redirect .php URLs to clean URLs (except admin/ directory)
     RewriteCond %{THE_REQUEST} \s/([^/]+)\.php[\s?] [NC]
     RewriteCond %{REQUEST_URI} !^/admin/ [NC]

@@ -233,20 +233,74 @@
     var searchBtn   = document.getElementById('fa-search-toggle');
     var searchBar   = document.getElementById('fa-search-bar');
     var searchClose = document.getElementById('fa-search-close');
+    var searchInput = document.getElementById('fa-search-input');
+    var searchResults = document.getElementById('fa-search-results');
 
     if (searchBtn && searchBar) {
       searchBtn.addEventListener('click', function () {
         var isVisible = searchBar.style.display === 'flex';
         searchBar.style.display = isVisible ? 'none' : 'flex';
-        if (!isVisible) {
-          var inp = searchBar.querySelector('input');
-          if (inp) inp.focus();
+        if (!isVisible && searchInput) {
+          searchInput.focus();
         }
       });
     }
     if (searchClose && searchBar) {
       searchClose.addEventListener('click', function () {
         searchBar.style.display = 'none';
+        if (searchResults) searchResults.style.display = 'none';
+      });
+    }
+
+    // ── AJAX Search ──────────────────────────────────────
+    if (searchInput && searchResults) {
+      var searchTimeout;
+      searchInput.addEventListener('input', function() {
+        var q = this.value.trim();
+        clearTimeout(searchTimeout);
+
+        if (q.length < 2) {
+          searchResults.style.display = 'none';
+          return;
+        }
+
+        searchTimeout = setTimeout(function() {
+          fetch('ajax-search.php?q=' + encodeURIComponent(q))
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+              if (data.length === 0) {
+                searchResults.innerHTML = '<div style="padding:16px;color:#6B6358;font-size:14px;text-align:center;">No results found</div>';
+              } else {
+                var html = '<ul style="list-style:none;margin:0;padding:0;">';
+                data.forEach(function(item) {
+                  html += `
+                    <li style="border-bottom:1px solid #E5DDD0;">
+                      <a href="${item.url}" style="display:flex;align-items:center;padding:12px 16px;text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='#FAF8F4'" onmouseout="this.style.background='transparent'">
+                        <img src="${item.image}" alt="" style="width:50px;height:50px;object-fit:cover;border-radius:4px;margin-right:16px;">
+                        <div>
+                          <div style="font-family:'Cormorant Garant',serif;font-size:18px;color:#1C1712;line-height:1.2;margin-bottom:4px;">${item.title}</div>
+                          <div style="font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#C49018;">${item.type}</div>
+                        </div>
+                      </a>
+                    </li>
+                  `;
+                });
+                html += '</ul>';
+                searchResults.innerHTML = html;
+              }
+              searchResults.style.display = 'block';
+            })
+            .catch(function(err) {
+              console.error('Search error', err);
+            });
+        }, 300); // debounce 300ms
+      });
+      
+      // Close search results when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('#fa-search-bar')) {
+          searchResults.style.display = 'none';
+        }
       });
     }
 
