@@ -77,7 +77,7 @@ $heroImg = $img ?: 'images/Filao/East Africa/pexels-droneafrica-15373902.jpg';
           <h2 style="font-family:'Cormorant Garant',serif;font-size:36px;color:#1C1712;margin-bottom:24px;font-weight:400;">Experience <?= htmlspecialchars($act['name']) ?></h2>
           
           <div style="font-family:'Inter',sans-serif;font-size:17px;line-height:1.8;color:#4A4340;">
-            <p><?= nl2br(htmlspecialchars($act['description'] ?: 'Prepare for an unforgettable experience in the heart of nature.')) ?></p>
+            <p><?= nl2br(htmlspecialchars($act['description'] ?? 'Prepare for an unforgettable experience in the heart of nature.')) ?></p>
             <p>At Filao Adventures, we ensure that your activities are carefully tailored to your pace and preferences. Whether you seek thrilling adventures or peaceful relaxation, our expert guides provide unparalleled insight and hospitality.</p>
           </div>
         </div>

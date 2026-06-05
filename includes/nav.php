@@ -45,7 +45,7 @@ $navDestData = $navPdo->query("
 ")->fetchAll();
 
 $navDestinations = [];
-foreach($navDestData as $dest) {
+foreach($navDestData as $navDestLoop) {
     $tstmt = $navPdo->prepare("
         SELECT DISTINCT t.id, t.title, t.slug 
         FROM tours t
@@ -53,9 +53,9 @@ foreach($navDestData as $dest) {
         WHERE ist.destination_id = ? AND t.status='published'
         ORDER BY t.title ASC LIMIT 5
     ");
-    $tstmt->execute([$dest['id']]);
-    $dest['tours'] = $tstmt->fetchAll();
-    $navDestinations[] = $dest;
+    $tstmt->execute([$navDestLoop['id']]);
+    $navDestLoop['tours'] = $tstmt->fetchAll();
+    $navDestinations[] = $navDestLoop;
 }
 
 
@@ -633,8 +633,8 @@ foreach ($navSafarisThemes as $st) {
         <span>DESTINATIONS</span>
       </div>
       <ul class="rmm-links rmm-bg-white">
-        <?php foreach($navDestinations as $dest): ?>
-          <li><a href="#" class="rmm-trigger" data-target="rmm-panel-dest-<?= $dest['id'] ?>"><?= strtoupper(htmlspecialchars($dest['name'])) ?> <i class="fa fa-angle-right"></i></a></li>
+        <?php foreach($navDestinations as $navDestLoop): ?>
+          <li><a href="#" class="rmm-trigger" data-target="rmm-panel-dest-<?= $navDestLoop['id'] ?>"><?= strtoupper(htmlspecialchars($navDestLoop['name'])) ?> <i class="fa fa-angle-right"></i></a></li>
         <?php endforeach; ?>
         <li class="rmm-view-all" style="margin-top:20px;"><a href="destinations">VIEW ALL DESTINATIONS</a></li>
       </ul>
@@ -698,19 +698,19 @@ foreach ($navSafarisThemes as $st) {
 
     <!-- Dynamically Generated Level 2 Panels -->
     <!-- Destinations Level 2 -->
-    <?php foreach ($navDestinations as $dest): ?>
-    <div class="rmm-panel" id="rmm-panel-dest-<?= $dest['id'] ?>">
+    <?php foreach ($navDestinations as $navDestLoop): ?>
+    <div class="rmm-panel" id="rmm-panel-dest-<?= $navDestLoop['id'] ?>">
       <div class="rmm-panel-header">
         <button class="rmm-back-btn" data-target="rmm-panel-destinations"><i class="fa fa-angle-left"></i></button>
-        <span><?= strtoupper(htmlspecialchars($dest['name'])) ?></span>
+        <span><?= strtoupper(htmlspecialchars($navDestLoop['name'])) ?></span>
       </div>
       <ul class="rmm-links rmm-bg-white">
-        <?php if(!empty($dest['tours'])): foreach ($dest['tours'] as $t): ?>
+        <?php if(!empty($navDestLoop['tours'])): foreach ($navDestLoop['tours'] as $t): ?>
           <li><a href="tours/<?= $t['slug'] ?>"><?= strtoupper(htmlspecialchars($t['title'])) ?></a></li>
         <?php endforeach; else: ?>
           <li><a href="#">NO TOURS YET</a></li>
         <?php endif; ?>
-        <li class="rmm-view-all" style="margin-top:20px;"><a href="destinations#<?= htmlspecialchars($dest['slug']) ?>">VIEW ALL IN <?= strtoupper(htmlspecialchars($dest['name'])) ?></a></li>
+        <li class="rmm-view-all" style="margin-top:20px;"><a href="destinations#<?= htmlspecialchars($navDestLoop['slug']) ?>">VIEW ALL IN <?= strtoupper(htmlspecialchars($navDestLoop['name'])) ?></a></li>
       </ul>
     </div>
     <?php endforeach; ?>
@@ -768,8 +768,8 @@ foreach ($navSafarisThemes as $st) {
         <span><?= strtoupper(htmlspecialchars($category)) ?></span>
       </div>
       <ul class="rmm-links rmm-bg-white">
-        <?php foreach ($cActs as $act): ?>
-          <li><a href="activities/<?= $act['slug'] ?>"><?= strtoupper(htmlspecialchars($act['name'])) ?></a></li>
+        <?php foreach ($cActs as $navActLoop): ?>
+          <li><a href="activities/<?= $navActLoop['slug'] ?>"><?= strtoupper(htmlspecialchars($navActLoop['name'])) ?></a></li>
         <?php endforeach; ?>
       </ul>
     </div>
