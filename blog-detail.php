@@ -84,7 +84,7 @@ $readTime = max(1, round(str_word_count(strip_tags($blog['body'])) / 200));
     </div>
   </div>
   <div class="hero-breadcrumb">
-    <a href="index.php"><i class="fa fa-home"></i></a>
+    <a href="index"><i class="fa fa-home"></i></a>
     <span style="margin:0 8px;opacity:0.5;">/</span>
     <a href="blog">Blog</a>
     <span style="margin:0 8px;opacity:0.5;">/</span>

@@ -50,9 +50,9 @@ $heroImg = $img ?: 'images/Filao/East Africa/pexels-droneafrica-15373902.jpg';
     <span style="font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#C49018;margin-bottom:12px;display:block;font-family:'Inter',sans-serif;"><?= htmlspecialchars($dest['country']) ?></span>
     <h1><?= htmlspecialchars($dest['name']) ?></h1>
     <div class="breadcrumb-fa">
-      <a href="index.php">Home</a>
+      <a href="index">Home</a>
       <span class="bc-sep">&#8250;</span>
-      <a href="destinations.php">Destinations</a>
+      <a href="destinations">Destinations</a>
       <span class="bc-sep">&#8250;</span>
       <span class="bc-current"><?= htmlspecialchars($dest['name']) ?></span>
     </div>

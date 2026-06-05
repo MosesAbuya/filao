@@ -60,7 +60,7 @@ $categories = $pdo->query("SELECT DISTINCT category FROM blogs WHERE status='pub
     <h1 style="font-family:'Cormorant Garant',serif;font-size:clamp(40px,5vw,64px);color:#fff;margin-bottom:16px;">Insights From The Wild</h1>
     <p style="font-family:'Inter',sans-serif;font-size:18px;color:rgba(255,255,255,0.85);max-width:500px;margin:0 auto;">Expert guides, wildlife insights, travel tips, and destination stories from our safari specialists.</p>
     <div class="breadcrumb-fa justify-content-center mt-4" style="color:rgba(255,255,255,0.8);font-size:13px;">
-      <a href="index.php" style="color:rgba(255,255,255,0.8);"><i class="fa fa-home"></i></a>
+      <a href="index" style="color:rgba(255,255,255,0.8);"><i class="fa fa-home"></i></a>
       <span class="bc-sep" style="margin:0 10px;">/</span>
       <span style="color:#fff;font-weight:600;">Travel Blog</span>
     </div>
@@ -72,9 +72,9 @@ $categories = $pdo->query("SELECT DISTINCT category FROM blogs WHERE status='pub
   <div style="background:#FAF8F4; border-bottom:1px solid #E5DDD0; padding:20px 0;">
     <div class="container" style="max-width:1280px;">
       <div class="d-flex flex-wrap gap-2 align-items-center blog-filters">
-        <a href="blog.php" class="blog-filter-btn <?= !$catFilter ? 'active' : '' ?>">All Posts</a>
+        <a href="blog" class="blog-filter-btn <?= !$catFilter ? 'active' : '' ?>">All Posts</a>
         <?php foreach ($categories as $cat): ?>
-        <a href="blog.php?category=<?= urlencode($cat) ?>" class="blog-filter-btn <?= $catFilter===$cat ? 'active' : '' ?>"><?= htmlspecialchars($cat) ?></a>
+        <a href="blog?category=<?= urlencode($cat) ?>" class="blog-filter-btn <?= $catFilter===$cat ? 'active' : '' ?>"><?= htmlspecialchars($cat) ?></a>
         <?php endforeach; ?>
       </div>
     </div>
@@ -89,7 +89,7 @@ $categories = $pdo->query("SELECT DISTINCT category FROM blogs WHERE status='pub
       <?php if (empty($blogs)): ?>
       <div class="text-center py-5">
         <h3 style="font-family:'Cormorant Garant',serif;color:#1C1712;">No posts found.</h3>
-        <a href="blog.php" class="btn-filao-cta d-inline-block mt-3">View All Posts</a>
+        <a href="blog" class="btn-filao-cta d-inline-block mt-3">View All Posts</a>
       </div>
       <?php else: ?>
       <div class="row g-4">

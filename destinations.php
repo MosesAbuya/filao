@@ -70,7 +70,7 @@ foreach($destinations as $dest) {
   <div class="container fa-page-hero-content" style="max-width:1280px;">
     <h1>Explore Our Destinations</h1>
     <div class="breadcrumb-fa">
-      <a href="index.php">Home</a>
+      <a href="index">Home</a>
       <span class="bc-sep">&#8250;</span>
       <span class="bc-current">Destinations</span>
     </div>

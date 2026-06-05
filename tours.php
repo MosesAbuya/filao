@@ -86,7 +86,7 @@ $excerpts=[
   <div class="container fa-page-hero-content" style="max-width:1280px;">
     <h1>Our Tours &amp; Safaris</h1>
     <div class="breadcrumb-fa">
-      <a href="index.php">Home</a>
+      <a href="index">Home</a>
       <span class="bc-sep">&#8250;</span>
       <span class="bc-current">Tours</span>
     </div>
@@ -123,7 +123,7 @@ $excerpts=[
               <label><input type="checkbox" name="price[]" value="3000+"> $3,000+</label>
             </div>
             <button type="submit" class="btn-filter">Apply Filters</button>
-            <a href="tours.php" class="btn-filter-clear">Clear All</a>
+            <a href="tours" class="btn-filter-clear">Clear All</a>
           </div>
         </form>
       </div>
@@ -190,7 +190,7 @@ $excerpts=[
   <div class="container fa-cta-content" style="max-width:1280px;">
     <h2>Can't Find Your Perfect Safari?</h2>
     <p>Let our specialists craft a custom tour built entirely around your travel dates, budget, and dreams.</p>
-    <a href="contact.php" class="btn-filao-cta" style="padding:14px 32px;">Get a Custom Quote</a>
+    <a href="contact" class="btn-filao-cta" style="padding:14px 32px;">Get a Custom Quote</a>
   </div>
 </section>
 

@@ -42,9 +42,9 @@ $heroImg = $img ?: 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
     <span style="font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#C49018;margin-bottom:12px;display:block;font-family:'Inter',sans-serif;">Safari Experience</span>
     <h1><?= htmlspecialchars($exp['name']) ?></h1>
     <div class="breadcrumb-fa">
-      <a href="index.php">Home</a>
+      <a href="index">Home</a>
       <span class="bc-sep">&#8250;</span>
-      <a href="experiences.php">Experiences</a>
+      <a href="experiences">Experiences</a>
       <span class="bc-sep">&#8250;</span>
       <span class="bc-current"><?= htmlspecialchars($exp['name']) ?></span>
     </div>
@@ -84,9 +84,9 @@ $heroImg = $img ?: 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
                 </div>
                 <div style="padding:0 24px;">
                   <div class="tc-duration"><?= $nights ?> Nights</div>
-                  <div class="tc-title" style="font-size:20px;"><a href="tour-detail.php?id=<?= $tour['id'] ?>"><?= htmlspecialchars($tour['title']) ?></a></div>
+                  <div class="tc-title" style="font-size:20px;"><a href="tour-detail?id=<?= $tour['id'] ?>"><?= htmlspecialchars($tour['title']) ?></a></div>
                   <div class="tc-price">From <span class="price-val">$<?= number_format($tour['price_from_usd'] ?: 1200) ?></span></div>
-                  <a href="tour-detail.php?id=<?= $tour['id'] ?>" class="tc-cta">See The Trip &rarr;</a>
+                  <a href="tour-detail?id=<?= $tour['id'] ?>" class="tc-cta">See The Trip &rarr;</a>
                 </div>
               </div>
             </div>
@@ -95,7 +95,7 @@ $heroImg = $img ?: 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
         <?php else: ?>
           <div style="background:#fff;padding:32px;border-left:3px solid #C49018;">
             <p style="font-size:15px;color:#4A4340;margin-bottom:16px;">We currently do not have any published set-departure tours featuring this experience. However, as tailor-made specialists, we can easily incorporate <?= htmlspecialchars($exp['name']) ?> into a custom itinerary for you.</p>
-            <a href="contact.php" class="btn-filao-cta">Plan a Custom Safari</a>
+            <a href="contact" class="btn-filao-cta">Plan a Custom Safari</a>
           </div>
         <?php endif; ?>
 
@@ -115,7 +115,7 @@ $heroImg = $img ?: 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
             <span style="font-size:15px;color:#1C1712;font-weight:500;"><i class="fa fa-sliders" style="color:#C49018;width:16px;"></i> 100% Tailor-Made</span>
           </div>
 
-          <a href="contact.php" class="btn-filao-cta" style="width:100%;text-align:center;">Add to Itinerary</a>
+          <a href="contact" class="btn-filao-cta" style="width:100%;text-align:center;">Add to Itinerary</a>
         </div>
       </div>
     </div>

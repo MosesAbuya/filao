@@ -1,6 +1,11 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+    # Redirect .php URLs to clean URLs (except admin/ directory)
+    RewriteCond %{THE_REQUEST} \s/([^/]+)\.php[\s?] [NC]
+    RewriteCond %{REQUEST_URI} !^/admin/ [NC]
+    RewriteRule ^(.+)\.php$ /$1 [R=301,L]
+
     # Tour Permalinks
     # Matches /tours/slug (no trailing slash required, but allowed)
     RewriteRule ^tours/([^/]+)/?$ tour-detail.php?slug=$1 [L,QSA]

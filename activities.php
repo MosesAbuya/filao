@@ -64,7 +64,7 @@ foreach($activities as $act) {
   <div class="container fa-page-hero-content" style="max-width:1280px;">
     <h1>Explore Activities</h1>
     <div class="breadcrumb-fa">
-      <a href="index.php">Home</a>
+      <a href="index">Home</a>
       <span class="bc-sep">&#8250;</span>
       <span class="bc-current">Activities</span>
     </div>

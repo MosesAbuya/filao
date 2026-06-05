@@ -31,13 +31,13 @@
       <div class="col-lg-2 col-md-6 mb-5">
         <span class="footer-col-heading">Destinations</span>
         <ul>
-          <li><a href="destinations.php">Maasai Mara</a></li>
-          <li><a href="destinations.php">Amboseli</a></li>
-          <li><a href="destinations.php">Serengeti</a></li>
-          <li><a href="destinations.php">Zanzibar</a></li>
-          <li><a href="destinations.php">Diani Beach</a></li>
-          <li><a href="destinations.php">Bali &amp; Dubai</a></li>
-          <li><a href="destinations.php">View All &rarr;</a></li>
+          <li><a href="destinations">Maasai Mara</a></li>
+          <li><a href="destinations">Amboseli</a></li>
+          <li><a href="destinations">Serengeti</a></li>
+          <li><a href="destinations">Zanzibar</a></li>
+          <li><a href="destinations">Diani Beach</a></li>
+          <li><a href="destinations">Bali &amp; Dubai</a></li>
+          <li><a href="destinations">View All &rarr;</a></li>
         </ul>
       </div>
 
@@ -45,12 +45,12 @@
       <div class="col-lg-2 col-md-6 mb-5">
         <span class="footer-col-heading">Safaris &amp; Tours</span>
         <ul>
-          <li><a href="tours.php">All Tours</a></li>
-          <li><a href="experiences.php">Safari Experiences</a></li>
-          <li><a href="experiences.php">Wildlife Safaris</a></li>
-          <li><a href="experiences.php">Beach Holidays</a></li>
-          <li><a href="experiences.php">City Tours</a></li>
-          <li><a href="blog.php">Travel Blog</a></li>
+          <li><a href="tours">All Tours</a></li>
+          <li><a href="safaris">Safari Experiences</a></li>
+          <li><a href="safaris">Wildlife Safaris</a></li>
+          <li><a href="safaris">Beach Holidays</a></li>
+          <li><a href="safaris">City Tours</a></li>
+          <li><a href="blog">Travel Blog</a></li>
         </ul>
       </div>
 
@@ -58,12 +58,12 @@
       <div class="col-lg-2 col-md-6 mb-5">
         <span class="footer-col-heading">Company</span>
         <ul>
-          <li><a href="about.php">About Us</a></li>
-          <li><a href="team.php">Meet the Team</a></li>
-          <li><a href="sustainable-tourism.php">Sustainability</a></li>
-          <li><a href="accreditations.php">Accreditations</a></li>
-          <li><a href="careers.php">Careers</a></li>
-          <li><a href="privacy-policy.php">Privacy Policy</a></li>
+          <li><a href="about">About Us</a></li>
+          <li><a href="team">Meet the Team</a></li>
+          <li><a href="sustainable-tourism">Sustainability</a></li>
+          <li><a href="accreditations">Accreditations</a></li>
+          <li><a href="careers">Careers</a></li>
+          <li><a href="privacy-policy">Privacy Policy</a></li>
         </ul>
       </div>
 

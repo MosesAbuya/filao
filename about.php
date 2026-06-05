@@ -20,7 +20,7 @@
   <div class="container fa-page-hero-content" style="max-width:1280px;text-align:center;">
     <h1>About Filao Adventures</h1>
     <div class="breadcrumb-fa justify-content-center">
-      <a href="index.php">Home</a>
+      <a href="index">Home</a>
       <span class="bc-sep">&#8250;</span>
       <span class="bc-current">About Us</span>
     </div>

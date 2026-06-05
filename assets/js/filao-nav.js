@@ -36,34 +36,97 @@
       }, { passive: true });
     }
 
-    // ── Hamburger overlay & Mobile Mainnav ─────────────────
+    // 🍔 Hamburger overlay & Mobile Mainnav 🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔🍔
     var overlay = document.getElementById('fa-hamburger-overlay');
     var openBtn = document.getElementById('fa-menu-open');
     var closeBtn = document.getElementById('fa-menu-close');
     var mainNav = document.querySelector('.fa-mainnav');
     var mainNavClose = document.getElementById('fa-mainnav-close');
     var mobileMoreBtn = document.getElementById('fa-mobile-more');
+    
+    var rmmMenu = document.getElementById('rmm-menu');
+    var rmmOverlay = document.getElementById('rmm-overlay');
+    var rmmCloseBtn = document.querySelector('.rmm-close-btn');
 
     if (openBtn) {
-      openBtn.addEventListener('click', function () {
-        if (window.innerWidth < 992 && mainNav) {
-          // Open the mobile mainnav instead of the side overlay
-          mainNav.classList.add('mobile-open');
-          document.body.style.overflow = 'hidden';
+      openBtn.addEventListener('click', function() {
+        if (window.innerWidth < 992 && rmmMenu) {
+            // Open Rhino mobile menu
+            rmmMenu.classList.add('open');
+            rmmOverlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
         } else if (overlay) {
-          // PC: Open the standard side overlay
-          overlay.classList.add('open');
-          document.body.style.overflow = 'hidden';
+            // Open PC hamburger overlay
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
         }
       });
     }
-    
-    if (mainNavClose && mainNav) {
-      mainNavClose.addEventListener('click', function () {
-        mainNav.classList.remove('mobile-open');
+
+    if (closeBtn && overlay) {
+      closeBtn.addEventListener('click', function() {
+        overlay.classList.remove('open');
         document.body.style.overflow = '';
       });
     }
+    
+    // Close Rhino mobile menu
+    if (rmmCloseBtn && rmmMenu) {
+        rmmCloseBtn.addEventListener('click', function() {
+            rmmMenu.classList.remove('open');
+            rmmOverlay.classList.remove('open');
+            document.body.style.overflow = '';
+            
+            // Reset to main panel after 300ms
+            setTimeout(function() {
+                var panels = document.querySelectorAll('.rmm-panel');
+                panels.forEach(function(p) { p.classList.remove('rmm-active', 'rmm-left'); });
+                document.getElementById('rmm-panel-main').classList.add('rmm-active');
+            }, 300);
+        });
+        
+        rmmOverlay.addEventListener('click', function() {
+            rmmCloseBtn.click();
+        });
+    }
+
+    // Rhino mobile menu drill-down logic
+    var rmmTriggers = document.querySelectorAll('.rmm-trigger');
+    rmmTriggers.forEach(function(trigger) {
+        trigger.addEventListener('click', function(e) {
+            e.preventDefault();
+            var targetId = this.getAttribute('data-target');
+            var targetPanel = document.getElementById(targetId);
+            if (targetPanel) {
+                // Find current active panel and slide it left
+                var currentPanel = this.closest('.rmm-panel');
+                if (currentPanel) {
+                    currentPanel.classList.remove('rmm-active');
+                    currentPanel.classList.add('rmm-left');
+                }
+                targetPanel.classList.add('rmm-active');
+            }
+        });
+    });
+
+    var rmmBackBtns = document.querySelectorAll('.rmm-back-btn');
+    rmmBackBtns.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var targetId = this.getAttribute('data-target');
+            var targetPanel = document.getElementById(targetId);
+            if (targetPanel) {
+                // Find current panel and remove active
+                var currentPanel = this.closest('.rmm-panel');
+                if (currentPanel) {
+                    currentPanel.classList.remove('rmm-active');
+                }
+                // Bring back target panel
+                targetPanel.classList.remove('rmm-left');
+                targetPanel.classList.add('rmm-active');
+            }
+        });
+    });
 
     if (mobileMoreBtn && mainNav && overlay) {
       mobileMoreBtn.addEventListener('click', function() {
@@ -201,3 +264,13 @@
 
   });
 })();
+
+    // Rhino mobile menu search trigger
+    var rmmSearchBtn = document.querySelector('.rmm-search-btn');
+    var globalSearchToggle = document.getElementById('fa-search-toggle');
+    if (rmmSearchBtn && globalSearchToggle) {
+        rmmSearchBtn.addEventListener('click', function() {
+            if (rmmCloseBtn) rmmCloseBtn.click(); // Close mobile menu
+            globalSearchToggle.click(); // Open search bar
+        });
+    }

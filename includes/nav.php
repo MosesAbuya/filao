@@ -526,13 +526,13 @@ foreach ($navSafarisThemes as $st) {
     <div class="hb-col">
       <h4>Book With Us</h4>
       <ul>
-        <li><a href="why-us.php">Why Book With Filao?</a></li>
-        <li><a href="tailor-made.php">Tailor-Made Itineraries</a></li>
-        <li><a href="travel-confidence.php">Travel With Confidence</a></li>
-        <li><a href="booking-terms.php">Booking Terms</a></li>
-        <li><a href="travel-insurance.php">Travel Insurance</a></li>
-        <li><a href="best-price-guarantee.php">Best Price Guarantee</a></li>
-        <li><a href="best-time-to-visit.php">Best Time to Visit Africa</a></li>
+        <li><a href="why-us">Why Book With Filao?</a></li>
+        <li><a href="tailor-made">Tailor-Made Itineraries</a></li>
+        <li><a href="travel-confidence">Travel With Confidence</a></li>
+        <li><a href="booking-terms">Booking Terms</a></li>
+        <li><a href="travel-insurance">Travel Insurance</a></li>
+        <li><a href="best-price-guarantee">Best Price Guarantee</a></li>
+        <li><a href="best-time-to-visit">Best Time to Visit Africa</a></li>
       </ul>
     </div>
     <div class="hb-col">
@@ -556,3 +556,135 @@ foreach ($navSafarisThemes as $st) {
     <div class="hb-copy">&copy; <?php echo date('Y'); ?> Filao Adventures. All Rights Reserved.</div>
   </div>
 </div>
+<!-- ====== RHINO-STYLE MOBILE MENU ====== -->
+<div id="rmm-overlay" class="rmm-overlay d-lg-none"></div>
+<nav id="rmm-menu" class="rmm-menu d-lg-none">
+  <!-- Header (Logo + Close) -->
+  <div class="rmm-header">
+    <img src="images/Filao/Logo.png" alt="Filao Logo">
+    <div class="rmm-controls">
+      <button class="rmm-close-btn">&times;</button>
+    </div>
+  </div>
+
+  <!-- Panels Container -->
+  <div class="rmm-panels-wrapper">
+    <!-- Main Panel (Level 0) -->
+    <div class="rmm-panel rmm-panel-main rmm-active" id="rmm-panel-main">
+      <ul class="rmm-links rmm-bg-white">
+        <li><a href="#" class="rmm-trigger" data-target="rmm-panel-destinations">DESTINATIONS <i class="fa fa-angle-right"></i></a></li>
+        <li><a href="#" class="rmm-trigger" data-target="rmm-panel-safaris">SAFARI EXPERIENCES <i class="fa fa-angle-right"></i></a></li>
+        <li><a href="#" class="rmm-trigger" data-target="rmm-panel-recommend">WE RECOMMEND <i class="fa fa-angle-right"></i></a></li>
+        <li><a href="blog">BLOG</a></li>
+      </ul>
+      <div class="rmm-bottom rmm-bg-gray">
+        <ul class="rmm-links" style="margin-bottom:15px;">
+          <li><a href="about">Who We Are <i class="fa fa-angle-right"></i></a></li>
+          <li><a href="why-us">Book With Us <i class="fa fa-angle-right"></i></a></li>
+        </ul>
+        <div class="rmm-contact-info">
+          <p style="font-weight:bold;color:#000;">English (<img src="images/Filao/flag-us.png" alt="USD" style="height:12px;display:inline;margin:0 4px;" onerror="this.style.display='none'"> USD-$)</p>
+          <p><i class="fa fa-phone" style="transform:rotate(90deg);margin-right:8px;"></i> ZA Number: +27 21 469 2600</p>
+          <div class="rmm-socials" style="margin-top:20px;justify-content:center;">
+             <a href="#"><i class="fa fa-facebook"></i></a>
+             <a href="#"><i class="fa fa-instagram"></i></a>
+             <a href="#"><i class="fa fa-youtube-play"></i></a>
+             <a href="#"><i class="fa fa-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Destinations Panel (Level 1) -->
+    <div class="rmm-panel" id="rmm-panel-destinations">
+      <div class="rmm-panel-header">
+        <button class="rmm-back-btn" data-target="rmm-panel-main"><i class="fa fa-angle-left"></i></button>
+        <span>DESTINATIONS</span>
+      </div>
+      <ul class="rmm-links rmm-bg-white">
+        <?php foreach($navDestinations as $dest): ?>
+          <li><a href="#" class="rmm-trigger" data-target="rmm-panel-dest-<?= $dest['id'] ?>"><?= strtoupper(htmlspecialchars($dest['name'])) ?> <i class="fa fa-angle-right"></i></a></li>
+        <?php endforeach; ?>
+        <li class="rmm-view-all" style="margin-top:20px;"><a href="destinations">VIEW ALL DESTINATIONS</a></li>
+      </ul>
+    </div>
+
+    <!-- Safari Experiences Panel (Level 1) -->
+    <div class="rmm-panel" id="rmm-panel-safaris">
+      <div class="rmm-panel-header">
+        <button class="rmm-back-btn" data-target="rmm-panel-main"><i class="fa fa-angle-left"></i></button>
+        <span>SAFARI EXPERIENCES</span>
+      </div>
+      <ul class="rmm-links rmm-bg-white">
+        <?php foreach($navSafarisByTheme as $themeName => $themeTours): ?>
+          <li><a href="#" class="rmm-trigger" data-target="rmm-panel-saf-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $themeName)) ?>"><?= strtoupper(htmlspecialchars($themeName)) ?> <i class="fa fa-angle-right"></i></a></li>
+        <?php endforeach; ?>
+        <li class="rmm-view-all" style="margin-top:20px;"><a href="safaris">VIEW ALL SAFARI EXPERIENCES</a></li>
+      </ul>
+    </div>
+
+    <!-- We Recommend Panel (Level 1) -->
+    <div class="rmm-panel" id="rmm-panel-recommend">
+      <div class="rmm-panel-header">
+        <button class="rmm-back-btn" data-target="rmm-panel-main"><i class="fa fa-angle-left"></i></button>
+        <span>WE RECOMMEND</span>
+      </div>
+      <ul class="rmm-links rmm-bg-white">
+        <?php foreach($navRecByActivity as $activity => $recTours): ?>
+          <li><a href="#" class="rmm-trigger" data-target="rmm-panel-rec-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $activity)) ?>"><?= strtoupper(htmlspecialchars($activity)) ?> <i class="fa fa-angle-right"></i></a></li>
+        <?php endforeach; ?>
+        <li class="rmm-view-all" style="margin-top:20px;"><a href="tours">VIEW ALL RECOMMENDED</a></li>
+      </ul>
+    </div>
+
+    <!-- Dynamically Generated Level 2 Panels -->
+    <!-- Destinations Level 2 -->
+    <?php foreach ($navDestinations as $dest): ?>
+    <div class="rmm-panel" id="rmm-panel-dest-<?= $dest['id'] ?>">
+      <div class="rmm-panel-header">
+        <button class="rmm-back-btn" data-target="rmm-panel-destinations"><i class="fa fa-angle-left"></i></button>
+        <span><?= strtoupper(htmlspecialchars($dest['name'])) ?></span>
+      </div>
+      <ul class="rmm-links rmm-bg-white">
+        <?php if(!empty($dest['tours'])): foreach ($dest['tours'] as $t): ?>
+          <li><a href="tours/<?= $t['slug'] ?>"><?= strtoupper(htmlspecialchars($t['title'])) ?></a></li>
+        <?php endforeach; else: ?>
+          <li><a href="#">NO TOURS YET</a></li>
+        <?php endif; ?>
+        <li class="rmm-view-all" style="margin-top:20px;"><a href="destinations#<?= htmlspecialchars($dest['slug']) ?>">VIEW ALL IN <?= strtoupper(htmlspecialchars($dest['name'])) ?></a></li>
+      </ul>
+    </div>
+    <?php endforeach; ?>
+
+    <!-- Safari Experiences Level 2 -->
+    <?php foreach ($navSafarisByTheme as $themeName => $themeTours): ?>
+    <div class="rmm-panel" id="rmm-panel-saf-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $themeName)) ?>">
+      <div class="rmm-panel-header">
+        <button class="rmm-back-btn" data-target="rmm-panel-safaris"><i class="fa fa-angle-left"></i></button>
+        <span><?= strtoupper(htmlspecialchars($themeName)) ?></span>
+      </div>
+      <ul class="rmm-links rmm-bg-white">
+        <?php foreach ($themeTours as $t): ?>
+          <li><a href="tours/<?= $t['tour_slug'] ?>"><?= strtoupper(htmlspecialchars($t['title'])) ?></a></li>
+        <?php endforeach; ?>
+      </ul>
+    </div>
+    <?php endforeach; ?>
+
+    <!-- We Recommend Level 2 -->
+    <?php foreach ($navRecByActivity as $activity => $recTours): ?>
+    <div class="rmm-panel" id="rmm-panel-rec-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $activity)) ?>">
+      <div class="rmm-panel-header">
+        <button class="rmm-back-btn" data-target="rmm-panel-recommend"><i class="fa fa-angle-left"></i></button>
+        <span><?= strtoupper(htmlspecialchars($activity)) ?></span>
+      </div>
+      <ul class="rmm-links rmm-bg-white">
+        <?php foreach ($recTours as $rt): ?>
+          <li><a href="tours/<?= $rt['slug'] ?>"><?= strtoupper(htmlspecialchars($rt['title'])) ?></a></li>
+        <?php endforeach; ?>
+      </ul>
+    </div>
+    <?php endforeach; ?>
+
+  </div>
+</nav>

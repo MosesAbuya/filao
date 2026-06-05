@@ -57,7 +57,7 @@ $heroImg = $img ?: 'images/Filao/East Africa/pexels-droneafrica-15373902.jpg';
     <span style="font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#C49018;margin-bottom:12px;display:block;font-family:'Inter',sans-serif;"><?= htmlspecialchars($act['category']) ?></span>
     <h1><?= htmlspecialchars($act['name']) ?></h1>
     <div class="breadcrumb-fa">
-      <a href="index.php">Home</a>
+      <a href="index">Home</a>
       <span class="bc-sep">&#8250;</span>
       <a href="activities">Activities</a>
       <span class="bc-sep">&#8250;</span>

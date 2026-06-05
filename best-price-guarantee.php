@@ -25,7 +25,7 @@
   <div class="container fa-page-hero-content" style="max-width:1280px;text-align:center;position:relative;z-index:2; height:100%; display:flex; flex-direction:column; justify-content:center; padding-top:80px;">
     <h1 style="font-family:'Cormorant Garant',serif;font-size:clamp(40px,5vw,60px);color:#fff;margin-bottom:15px;">Unbeatable Value, Uncompromised Luxury</h1>
     <div class="breadcrumb-fa justify-content-center" style="font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,0.8);">
-      <a href="index.php" style="color:rgba(255,255,255,0.8);"><i class="fa fa-home"></i></a>
+      <a href="index" style="color:rgba(255,255,255,0.8);"><i class="fa fa-home"></i></a>
       <span class="bc-sep" style="margin:0 10px;">/</span>
       <span class="bc-current" style="color:#fff;font-weight:600;">Best Price Guarantee</span>
     </div>
@@ -65,7 +65,7 @@
   <div class="container fa-cta-content" style="max-width:800px; position:relative; z-index:2;">
     <h2 style="font-family:'Cormorant Garant',serif; font-size:42px; color:#fff; margin-bottom:20px;">Ready To Experience The Extraordinary?</h2>
     <p style="font-family:'Inter',sans-serif; font-size:18px; color:rgba(255,255,255,0.9); margin-bottom:40px;">Our Safari Specialists are ready to craft a bespoke itinerary tailored precisely to your dreams.</p>
-    <a href="contact.php" class="btn-filao-cta" style="padding:16px 40px; font-size:15px; background:#C49018; color:#fff; text-transform:uppercase; font-weight:700; letter-spacing:0.1em; border-radius:30px; text-decoration:none;">Enquire Now</a>
+    <a href="contact" class="btn-filao-cta" style="padding:16px 40px; font-size:15px; background:#C49018; color:#fff; text-transform:uppercase; font-weight:700; letter-spacing:0.1em; border-radius:30px; text-decoration:none;">Enquire Now</a>
   </div>
 </section>
 

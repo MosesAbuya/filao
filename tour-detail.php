@@ -123,9 +123,9 @@ $nights = $tour['duration_days'] - 1;
     <a href="#" class="btn-hero" data-open-planner="true" data-tour-id="<?= $tour['id'] ?>" data-tour-title="<?= htmlspecialchars($tour['title']) ?>">Start Planning Now</a>
   </div>
   <div class="hero-breadcrumb">
-    <a href="index.php"><i class="fa fa-home"></i></a>
+    <a href="index"><i class="fa fa-home"></i></a>
     <span class="sep">/</span>
-    <a href="tours.php">Tours</a>
+    <a href="tours">Tours</a>
     <span class="sep">/</span>
     <span class="current"><?= htmlspecialchars($tour['title']) ?></span>
   </div>

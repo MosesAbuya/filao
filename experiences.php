@@ -22,7 +22,7 @@ require_once 'includes/db.php';
     <h1>Safari Experiences</h1>
     <p style="color:rgba(255,255,255,0.85);font-size:18px;max-width:600px;margin:0 auto 24px;">From sunrise game drives to Maasai village visits &mdash; discover Africa on your own terms.</p>
     <div class="breadcrumb-fa justify-content-center">
-      <a href="index.php">Home</a>
+      <a href="index">Home</a>
       <span class="bc-sep">&#8250;</span>
       <span class="bc-current">Experiences</span>
     </div>
@@ -34,7 +34,7 @@ require_once 'includes/db.php';
     <div class="row">
       
       <div class="col-lg-4 col-md-6">
-        <a href="experience-detail.php?slug=game-drives" class="fa-exp-tile">
+        <a href="experience-detail?slug=game-drives" class="fa-exp-tile">
           <img src="images/Filao/East Africa/Maasai Mara/pexels-photo-8150758 (7).jpg" alt="Game Drives" loading="lazy">
           <div class="exp-overlay"></div>
           <div class="exp-text">
@@ -46,7 +46,7 @@ require_once 'includes/db.php';
       </div>
 
       <div class="col-lg-4 col-md-6">
-        <a href="experience-detail.php?slug=great-migration" class="fa-exp-tile">
+        <a href="experience-detail?slug=great-migration" class="fa-exp-tile">
           <img src="images/Filao/East Africa/Maasai Mara/free-photo-of-wildebeest-grazing-in-the-kenyan-savannah (6).jpeg" alt="Great Migration" loading="lazy">
           <div class="exp-overlay"></div>
           <div class="exp-text">
@@ -58,7 +58,7 @@ require_once 'includes/db.php';
       </div>
 
       <div class="col-lg-4 col-md-6">
-        <a href="experience-detail.php?slug=hot-air-balloon" class="fa-exp-tile">
+        <a href="experience-detail?slug=hot-air-balloon" class="fa-exp-tile">
           <img src="images/Filao/East Africa/pexels-droneafrica-15373902.jpg" alt="Hot Air Balloon Safari" loading="lazy">
           <div class="exp-overlay"></div>
           <div class="exp-text">
@@ -70,7 +70,7 @@ require_once 'includes/db.php';
       </div>
 
       <div class="col-lg-4 col-md-6">
-        <a href="experience-detail.php?slug=cultural-visits" class="fa-exp-tile">
+        <a href="experience-detail?slug=cultural-visits" class="fa-exp-tile">
           <img src="images/Filao/East Africa/Maasai Mara/free-photo-of-portrait-of-a-maasai-man-in-traditional-attire (6).jpeg" alt="Maasai Cultural Visits" loading="lazy">
           <div class="exp-overlay"></div>
           <div class="exp-text">
@@ -82,7 +82,7 @@ require_once 'includes/db.php';
       </div>
 
       <div class="col-lg-4 col-md-6">
-        <a href="experience-detail.php?slug=photography" class="fa-exp-tile">
+        <a href="experience-detail?slug=photography" class="fa-exp-tile">
           <img src="images/Filao/East Africa/Maasai Mara/free-photo-of-leopard-resting-in-tree-masai-mara-kenya (4).jpeg" alt="Big Five Photography" loading="lazy">
           <div class="exp-overlay"></div>
           <div class="exp-text">
@@ -94,7 +94,7 @@ require_once 'includes/db.php';
       </div>
 
       <div class="col-lg-4 col-md-6">
-        <a href="tours.php?category=hybrid-tours" class="fa-exp-tile">
+        <a href="tours?category=hybrid-tours" class="fa-exp-tile">
           <img src="images/Filao/Indian Ocean/pexels-asadphoto-9394269.jpg" alt="Beach & Bush" loading="lazy">
           <div class="exp-overlay"></div>
           <div class="exp-text">
@@ -114,7 +114,7 @@ require_once 'includes/db.php';
   <div class="container fa-cta-content" style="max-width:1280px;">
     <h2>Craft Your Own Experience</h2>
     <p>Tell us what you want to see and do, and we'll weave it into a seamless, unforgettable itinerary.</p>
-    <a href="contact.php" class="btn-filao-cta" style="padding:14px 32px;">Contact a Specialist</a>
+    <a href="contact" class="btn-filao-cta" style="padding:14px 32px;">Contact a Specialist</a>
   </div>
 </section>
 
