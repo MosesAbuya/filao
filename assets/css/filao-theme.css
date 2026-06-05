@@ -1175,9 +1175,50 @@ body.no-scroll { overflow: hidden; padding-right: 17px; }
    RESPONSIVE
    ============================================================ */
 @media (max-width: 991px) {
+  /* Hide Desktop Row 1 entirely */
+  .fa-logo-row { display: none !important; }
+  
+  /* Make Row 2 solid and fixed as main mobile header */
+  .fa-nav-row { background: #fff !important; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+  .fa-site-header.scrolled .fa-nav-row { box-shadow: 0 4px 28px rgba(0,0,0,.10); }
+
+  /* Hide main navigation links */
+  .fa-mainnav { display: none !important; }
   .fa-subnav { display: none; }
   .fa-megamenu { display: none !important; }
+
   .fa-navbar-inner { padding: 0 18px; }
+  
+  /* Center sticky logo */
+  .fa-sticky-logo { 
+    display: flex !important; 
+    position: absolute; 
+    left: 50%; 
+    transform: translateX(-50%); 
+  }
+  .fa-sticky-logo img { filter: none !important; height: 38px; }
+  
+  /* Mobile controls */
+  .fa-nav-row-inner { justify-content: flex-end; }
+  
+  /* Move hamburger to the left */
+  #fa-menu-open { 
+    position: absolute; 
+    left: 18px; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    color: var(--fa-text);
+  }
+  #fa-menu-open span { display: none; } /* Hide 'Menu' text */
+  #fa-menu-open i { font-size: 20px; }
+  
+  /* Make search icon black and on the right */
+  #fa-search-toggle { color: var(--fa-text); }
+  #fa-search-toggle i { font-size: 18px; }
+  
+  /* Hide Start Planning button on mobile to save space */
+  .btn-filao-cta { display: none !important; }
+
   .hb-body { grid-template-columns: 1fr; padding: 32px 24px; }
   .hb-topbar { padding: 12px 24px; }
   .hb-footer { padding: 16px 24px; flex-direction: column; gap: 12px; }

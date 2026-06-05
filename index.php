@@ -54,7 +54,7 @@ function getTourRoute($pdo, $tourId)
 
   <?php require_once 'includes/nav.php'; ?>
 
-  <!-- ====== VIDEO HERO ========= -->
+  <!-- ====== VIDEO HERO =========== -->
   <section class="fa-video-hero" id="heroSection">
     <video autoplay muted loop playsinline poster="images/Filao/East Africa/pexels-kelly-17291020.jpg">
       <source src="assets/videos/hero.webm" type="video/webm">
