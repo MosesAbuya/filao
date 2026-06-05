@@ -36,17 +36,42 @@
       }, { passive: true });
     }
 
-    // ── Hamburger overlay ──────────────────────────────────
-    var overlay  = document.getElementById('fa-hamburger-overlay');
-    var openBtn  = document.getElementById('fa-menu-open');
+    // ── Hamburger overlay & Mobile Mainnav ─────────────────
+    var overlay = document.getElementById('fa-hamburger-overlay');
+    var openBtn = document.getElementById('fa-menu-open');
     var closeBtn = document.getElementById('fa-menu-close');
+    var mainNav = document.querySelector('.fa-mainnav');
+    var mainNavClose = document.getElementById('fa-mainnav-close');
+    var mobileMoreBtn = document.getElementById('fa-mobile-more');
 
-    if (openBtn && overlay) {
+    if (openBtn) {
       openBtn.addEventListener('click', function () {
-        overlay.classList.add('open');
-        document.body.style.overflow = 'hidden';
+        if (window.innerWidth < 992 && mainNav) {
+          // Open the mobile mainnav instead of the side overlay
+          mainNav.classList.add('mobile-open');
+          document.body.style.overflow = 'hidden';
+        } else if (overlay) {
+          // PC: Open the standard side overlay
+          overlay.classList.add('open');
+          document.body.style.overflow = 'hidden';
+        }
       });
     }
+    
+    if (mainNavClose && mainNav) {
+      mainNavClose.addEventListener('click', function () {
+        mainNav.classList.remove('mobile-open');
+        document.body.style.overflow = '';
+      });
+    }
+
+    if (mobileMoreBtn && mainNav && overlay) {
+      mobileMoreBtn.addEventListener('click', function() {
+        mainNav.classList.remove('mobile-open');
+        overlay.classList.add('open');
+      });
+    }
+
     if (closeBtn && overlay) {
       closeBtn.addEventListener('click', function () {
         overlay.classList.remove('open');
@@ -57,6 +82,10 @@
       if (e.key === 'Escape') {
         if (overlay && overlay.classList.contains('open')) {
           overlay.classList.remove('open');
+          document.body.style.overflow = '';
+        }
+        if (mainNav && mainNav.classList.contains('mobile-open')) {
+          mainNav.classList.remove('mobile-open');
           document.body.style.overflow = '';
         }
         // Also close any open mega menu

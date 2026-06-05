@@ -258,7 +258,7 @@ $nights = $tour['duration_days'] - 1;
                   <div class="card-header" id="accHeading<?= $idx ?>">
                     <h5 class="mb-0">
                       <button class="btn btn-link <?= $idx===0 ? '' : 'collapsed' ?>" type="button" data-toggle="collapse" data-target="#accCollapse<?= $idx ?>" aria-expanded="<?= $idx===0 ? 'true' : 'false' ?>" aria-controls="accCollapse<?= $idx ?>">
-                        <span class="day-label"><?= $dayLabel ?>:</span> <?= htmlspecialchars($step['acc_name']) ?>
+                        <span class="day-label"><?= $dayLabel ?>:</span> <?= htmlspecialchars($step['acc_name'] ?? 'Accommodation TBD') ?>
                         <i class="fa fa-chevron-down pull-right"></i>
                       </button>
                     </h5>
@@ -267,13 +267,13 @@ $nights = $tour['duration_days'] - 1;
                     <div class="card-body">
                       <div class="row">
                         <div class="col-md-5 mb-3 mb-md-0">
-                          <img src="<?= $img ?>" alt="<?= htmlspecialchars($step['acc_name']) ?>" class="img-fluid rounded" style="width:100%;height:220px;object-fit:cover;">
+                          <img src="<?= $img ?>" alt="<?= htmlspecialchars($step['acc_name'] ?? 'Accommodation TBD') ?>" class="img-fluid rounded" style="width:100%;height:220px;object-fit:cover;">
                         </div>
                         <div class="col-md-7">
-                          <h4 style="font-family:'Cormorant Garant',serif;font-size:22px;font-weight:600;color:#1C1712;"><?= htmlspecialchars($step['acc_name']) ?></h4>
-                          <p style="font-size:14px;color:#6B6358;"><i class="fa fa-map-marker mr-1" style="color:#C49018;"></i> <?= htmlspecialchars($step['dest_name']) ?> &mdash; <?= $nights ?> Night(s)</p>
+                          <h4 style="font-family:'Cormorant Garant',serif;font-size:22px;font-weight:600;color:#1C1712;"><?= htmlspecialchars($step['acc_name'] ?? 'Accommodation TBD') ?></h4>
+                          <p style="font-size:14px;color:#6B6358;"><i class="fa fa-map-marker mr-1" style="color:#C49018;"></i> <?= htmlspecialchars($step['dest_name'] ?? 'Various') ?> &mdash; <?= $nights ?> Night(s)</p>
                           <div style="font-size:14px;color:#4A4340;line-height:1.7;">
-                            <?= nl2br(htmlspecialchars($step['acc_desc'])) ?>
+                            <?= nl2br(htmlspecialchars($step['acc_desc'] ?? 'Details about the accommodation will be provided upon booking.')) ?>
                           </div>
                         </div>
                       </div>

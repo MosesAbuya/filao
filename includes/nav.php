@@ -121,6 +121,9 @@ foreach ($navSafarisThemes as $st) {
 
       <!-- Nav Links (centered) -->
       <nav class="fa-mainnav">
+        <div class="d-lg-none" style="text-align:right; margin-bottom: 10px; padding: 20px 20px 0 0;">
+          <button id="fa-mainnav-close" style="background:none;border:none;color:#fff;font-size:32px;line-height:1;cursor:pointer;">&times;</button>
+        </div>
         <ul class="fa-subnav-inner">
 
           <!-- DESTINATIONS -->
@@ -445,6 +448,13 @@ foreach ($navSafarisThemes as $st) {
 
           <!-- BLOG -->
           <li><a href="blog">Blog</a></li>
+
+          <!-- MORE OPTIONS (MOBILE ONLY) -->
+          <li class="d-lg-none" style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.1); padding-top:15px;">
+             <button id="fa-mobile-more" style="background:none;border:none;color:#C49018;font-family:'Inter',sans-serif;font-size:16px;font-weight:600;cursor:pointer;padding:0;display:flex;align-items:center;text-transform:uppercase;letter-spacing:0.05em;">
+                More Options <i class="fa fa-angle-right" style="margin-left:8px;"></i>
+             </button>
+          </li>
 
         </ul>
       </nav>

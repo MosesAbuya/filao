@@ -1183,10 +1183,53 @@ body.no-scroll { overflow: hidden; padding-right: 17px; }
   .fa-site-header.scrolled .fa-nav-row { box-shadow: 0 4px 28px rgba(0,0,0,.10); }
 
   /* Hide main navigation links */
-  .fa-mainnav { display: none !important; }
-  .fa-subnav { display: none; }
-  .fa-megamenu { display: none !important; }
+  .fa-mainnav { 
+    display: none; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh; 
+    background: #1C1712; 
+    z-index: 10000; 
+    flex-direction: column; 
+    overflow-y: auto; 
+    padding-bottom: 40px; 
+  }
+  .fa-mainnav.mobile-open { display: flex !important; }
+  .fa-subnav-inner { flex-direction: column; padding: 20px; }
+  .fa-subnav-inner > li { border-bottom: 1px solid rgba(255,255,255,0.1); padding: 15px 0; margin: 0 !important; }
+  .nav-top-link { color: #fff !important; font-size: 18px !important; }
+  
+  .has-mega-menu { position: relative; }
+  .fa-megamenu {
+    position: relative !important;
+    top: 0 !important;
+    transform: none !important;
+    width: 100% !important;
+    display: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 10px 0 0 0 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  .fa-subnav-inner > li.open .fa-megamenu { display: block !important; }
+  .mm-close-btn { display: none !important; }
+  .fa-megamenu-inner { flex-direction: column; padding: 0 !important; }
+  .fa-mm-tabs { width: 100% !important; border-right: none !important; margin-bottom: 10px; }
+  .fa-mm-links { width: 100% !important; padding: 0 !important; }
+  .fa-mm-image { display: none !important; }
+  
+  .fa-mm-tabs span.mm-heading { color: #C49018 !important; padding: 0 10px; }
+  .fa-mm-tabs ul li a { color: rgba(255,255,255,0.6) !important; padding: 10px; }
+  .fa-mm-tabs ul li.mm-active a { color: #fff !important; background: rgba(255,255,255,0.05); border-radius: 4px; }
+  
+  .fa-mm-links ul li a { color: rgba(255,255,255,0.6) !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important; padding: 10px; }
+  .fa-mm-links ul li a:hover { color: #C49018 !important; }
 
+  .fa-subnav { display: none; }
+  
   .fa-navbar-inner { padding: 0 18px; }
   
   /* Center sticky logo */
