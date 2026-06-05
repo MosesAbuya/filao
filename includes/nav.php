@@ -579,17 +579,17 @@ foreach ($navSafarisThemes as $st) {
       </ul>
       <div class="rmm-bottom rmm-bg-gray">
         <ul class="rmm-links" style="margin-bottom:15px;">
-          <li><a href="about">Who We Are <i class="fa fa-angle-right"></i></a></li>
-          <li><a href="why-us">Book With Us <i class="fa fa-angle-right"></i></a></li>
+          <li><a href="#" class="rmm-trigger" data-target="rmm-panel-who-we-are">WHO WE ARE <i class="fa fa-angle-right"></i></a></li>
+          <li><a href="#" class="rmm-trigger" data-target="rmm-panel-book-with-us">BOOK WITH US <i class="fa fa-angle-right"></i></a></li>
         </ul>
         <div class="rmm-contact-info">
-          <p style="font-weight:bold;color:#000;">English (<img src="images/Filao/flag-us.png" alt="USD" style="height:12px;display:inline;margin:0 4px;" onerror="this.style.display='none'"> USD-$)</p>
-          <p><i class="fa fa-phone" style="transform:rotate(90deg);margin-right:8px;"></i> ZA Number: +27 21 469 2600</p>
+          <p><i class="fa fa-phone" style="margin-right:8px;color:#C49018;"></i> <a href="tel:+254757139239" style="color:#000;text-decoration:none;font-weight:600;">+254 757 139239</a></p>
+          <p><i class="fa fa-envelope" style="margin-right:8px;color:#C49018;"></i> <a href="mailto:info@filaoadventures.co.ke" style="color:#000;text-decoration:none;font-size:13px;font-weight:600;">info@filaoadventures.co.ke</a></p>
           <div class="rmm-socials" style="margin-top:20px;justify-content:center;">
              <a href="#"><i class="fa fa-facebook"></i></a>
              <a href="#"><i class="fa fa-instagram"></i></a>
-             <a href="#"><i class="fa fa-youtube-play"></i></a>
-             <a href="#"><i class="fa fa-linkedin"></i></a>
+             <a href="#"><i class="fa fa-youtube"></i></a>
+             <a href="https://wa.me/254757139239"><i class="fa fa-whatsapp"></i></a>
           </div>
         </div>
       </div>
@@ -685,6 +685,41 @@ foreach ($navSafarisThemes as $st) {
       </ul>
     </div>
     <?php endforeach; ?>
+
+    <!-- Who We Are Panel (Level 1) -->
+    <div class="rmm-panel" id="rmm-panel-who-we-are">
+      <div class="rmm-panel-header">
+        <button class="rmm-back-btn" data-target="rmm-panel-main"><i class="fa fa-angle-left"></i></button>
+        <span>WHO WE ARE</span>
+      </div>
+      <ul class="rmm-links rmm-bg-white">
+        <li><a href="about">ABOUT US</a></li>
+        <li><a href="team">MEET THE TEAM</a></li>
+        <li><a href="accreditations">OUR ACCREDITATIONS</a></li>
+        <li><a href="testimonials">CLIENT TESTIMONIALS</a></li>
+        <li><a href="sustainable-tourism">SUSTAINABLE TOURISM</a></li>
+        <li><a href="privacy-policy">PRIVACY POLICY</a></li>
+        <li><a href="careers">CAREERS</a></li>
+        <li><a href="contact">CONTACT US</a></li>
+      </ul>
+    </div>
+
+    <!-- Book With Us Panel (Level 1) -->
+    <div class="rmm-panel" id="rmm-panel-book-with-us">
+      <div class="rmm-panel-header">
+        <button class="rmm-back-btn" data-target="rmm-panel-main"><i class="fa fa-angle-left"></i></button>
+        <span>BOOK WITH US</span>
+      </div>
+      <ul class="rmm-links rmm-bg-white">
+        <li><a href="why-us">WHY BOOK WITH FILAO?</a></li>
+        <li><a href="tailor-made">TAILOR-MADE ITINERARIES</a></li>
+        <li><a href="travel-confidence">TRAVEL WITH CONFIDENCE</a></li>
+        <li><a href="booking-terms">BOOKING TERMS</a></li>
+        <li><a href="travel-insurance">TRAVEL INSURANCE</a></li>
+        <li><a href="best-price-guarantee">BEST PRICE GUARANTEE</a></li>
+        <li><a href="best-time-to-visit">BEST TIME TO VISIT AFRICA</a></li>
+      </ul>
+    </div>
 
   </div>
 </nav>
