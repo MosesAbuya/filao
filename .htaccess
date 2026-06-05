@@ -1,6 +1,6 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /filao/
+    RewriteBase /
 
     # Tour Permalinks
     # Matches /tours/slug (no trailing slash required, but allowed)
