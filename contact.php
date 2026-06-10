@@ -93,10 +93,10 @@ $pdo = getPDO();
       <div style="margin-top:40px;border-top:1px solid #E5DDD0;padding-top:32px;">
         <h4 style="font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#C49018;margin-bottom:16px;">Connect With Us</h4>
         <div style="display:flex;gap:12px;">
-          <a href="#" style="width:40px;height:40px;background:#fff;border:1px solid #E5DDD0;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#6B6358;transition:all 0.2s;"><i class="fa fa-facebook"></i></a>
-          <a href="#" style="width:40px;height:40px;background:#fff;border:1px solid #E5DDD0;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#6B6358;transition:all 0.2s;"><i class="fa fa-instagram"></i></a>
+          <a href="https://www.facebook.com/profile.php?id=100084891550126#" style="width:40px;height:40px;background:#fff;border:1px solid #E5DDD0;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#6B6358;transition:all 0.2s;"><i class="fa fa-facebook"></i></a>
+          <a href="https://www.instagram.com/filaoadventures/" style="width:40px;height:40px;background:#fff;border:1px solid #E5DDD0;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#6B6358;transition:all 0.2s;"><i class="fa fa-instagram"></i></a>
+          <a href="https://ke.linkedin.com/jobs/view/travel-consultant-at-filao-adventures-4398464574" style="width:40px;height:40px;background:#fff;border:1px solid #E5DDD0;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#6B6358;transition:all 0.2s;"><i class="fa fa-linkedin"></i></a>
           <a href="#" style="width:40px;height:40px;background:#fff;border:1px solid #E5DDD0;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#6B6358;transition:all 0.2s;"><i class="fa fa-youtube"></i></a>
-          <a href="#" style="width:40px;height:40px;background:#fff;border:1px solid #E5DDD0;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#6B6358;transition:all 0.2s;"><i class="fa fa-music"></i></a>
         </div>
       </div>
       
@@ -115,5 +115,7 @@ $pdo = getPDO();
 <script src="js/bootstrap.min.js"></script>
 <script src="assets/js/filao-nav.js"></script>
 <script src="js/start-planning.js"></script>
+<script>
+</script>
 </body>
 </html>

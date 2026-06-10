@@ -208,7 +208,10 @@
       var panels = menu.querySelectorAll('.mm-panel');
       var imgEl  = menu.querySelector('.fa-mm-image img');
       var capEl  = menu.querySelector('.fa-mm-image .mm-caption');
+      var defaultImg = imgEl ? imgEl.src : '';
+      var defaultCap = capEl ? capEl.textContent : '';
 
+      // Column 1: Click to switch active panel
       tabs.forEach(function (tab) {
         tab.addEventListener('click', function (e) {
           e.preventDefault();
@@ -223,8 +226,24 @@
             p.style.display = p.getAttribute('data-id') === target ? 'block' : 'none';
           });
 
-          if (imgEl && newImg) imgEl.src = newImg;
-          if (capEl && newCap) capEl.textContent = newCap;
+          // Set default image for the new active panel
+          if (imgEl && newImg) { imgEl.src = newImg; defaultImg = newImg; }
+          if (capEl && newCap) { capEl.textContent = newCap; defaultCap = newCap; }
+        });
+      });
+
+      // Column 2: Hover to swap image
+      var childLinks = menu.querySelectorAll('.mm-panel a');
+      childLinks.forEach(function(link) {
+        link.addEventListener('mouseenter', function() {
+          var hoverImg = link.getAttribute('data-img');
+          var hoverCap = link.getAttribute('data-caption');
+          if (imgEl && hoverImg) imgEl.src = hoverImg;
+          if (capEl && hoverCap) capEl.textContent = hoverCap;
+        });
+        link.addEventListener('mouseleave', function() {
+          if (imgEl) imgEl.src = defaultImg;
+          if (capEl) capEl.textContent = defaultCap;
         });
       });
     });

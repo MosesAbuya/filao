@@ -2,19 +2,26 @@
 require_once __DIR__ . '/auth_guard.php';
 $pdo = getPDO();
 
-// Handle toggle recommended
+try {
+    $pdo->exec("ALTER TABLE tours ADD COLUMN is_hot_offer TINYINT(1) DEFAULT 0");
+} catch (PDOException $e) {
+    // Column might already exist
+}
+
+// Handle toggle recommended & hot offer
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'toggle') {
   $tid = intval($_POST['tour_id']);
   $rec = intval($_POST['is_recommended']);
+  $hot = intval($_POST['is_hot_offer'] ?? 0);
   $act = trim($_POST['recommended_activity'] ?? '');
-  $pdo->prepare('UPDATE tours SET is_recommended=?, recommended_activity=? WHERE id=?')->execute([$rec, $act ?: null, $tid]);
+  $pdo->prepare('UPDATE tours SET is_recommended=?, is_hot_offer=?, recommended_activity=? WHERE id=?')->execute([$rec, $hot, $act ?: null, $tid]);
   header('Location: recommendations.php?saved=1');
   exit;
 }
 
 // Fetch all published tours with their primary destination country
 $tours = $pdo->query("
-    SELECT t.id, t.title, t.duration_days, t.price_from_usd, t.is_recommended, t.recommended_activity, t.featured_image,
+    SELECT t.id, t.title, t.duration_days, t.price_from_usd, t.is_recommended, t.is_hot_offer, t.recommended_activity, t.featured_image,
            (SELECT d.country FROM destinations d JOIN itinerary_steps ist ON d.id=ist.destination_id WHERE ist.tour_id=t.id ORDER BY ist.step_number LIMIT 1) AS country
     FROM tours t
     WHERE t.status='published'
@@ -58,6 +65,7 @@ include 'partials/sidebar.php';
             <thead>
               <tr>
                 <th style="width:50px;">Rec.</th>
+                <th style="width:50px;">Hot</th>
                 <th>Tour</th>
                 <th>Country</th>
                 <th>Duration</th>
@@ -72,6 +80,12 @@ include 'partials/sidebar.php';
                     <div class="form-check">
                       <input class="form-check-input rec-check" type="checkbox" id="rec-<?= $tour['id'] ?>"
                         <?= $tour['is_recommended'] ? 'checked' : '' ?> data-id="<?= $tour['id'] ?>">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check">
+                      <input class="form-check-input hot-check" type="checkbox" id="hot-<?= $tour['id'] ?>"
+                        <?= $tour['is_hot_offer'] ? 'checked' : '' ?> data-id="<?= $tour['id'] ?>">
                     </div>
                   </td>
                   <td>
@@ -99,6 +113,7 @@ include 'partials/sidebar.php';
                       <input type="hidden" name="action" value="toggle">
                       <input type="hidden" name="tour_id" value="<?= $tour['id'] ?>">
                       <input type="hidden" name="is_recommended" class="rec-val" value="<?= $tour['is_recommended'] ?>">
+                      <input type="hidden" name="is_hot_offer" class="hot-val" value="<?= $tour['is_hot_offer'] ?>">
                       <input type="hidden" name="recommended_activity" class="act-val"
                         value="<?= htmlspecialchars($tour['recommended_activity'] ?? '') ?>">
                       <button type="submit" class="btn btn-sm btn-primary save-btn">Save</button>
@@ -119,11 +134,13 @@ include 'partials/sidebar.php';
   // Sync checkbox and select into hidden inputs before form submit
   document.querySelectorAll('tbody tr').forEach(function (row) {
     const check = row.querySelector('.rec-check');
+    const hotCheck = row.querySelector('.hot-check');
     const sel = row.querySelector('.activity-select');
     const form = row.querySelector('form');
     if (!form) return;
     form.addEventListener('submit', function () {
       form.querySelector('.rec-val').value = check.checked ? 1 : 0;
+      form.querySelector('.hot-val').value = hotCheck.checked ? 1 : 0;
       form.querySelector('.act-val').value = sel ? sel.value : '';
     });
   });

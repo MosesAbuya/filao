@@ -125,29 +125,10 @@
       <span class="eyebrow">Client Feedback</span>
       <h2>What Our Travelers Say</h2>
     </div>
-    <div class="row carousel-testimony owl-carousel mt-5">
-      <div class="item">
-        <div class="fa-testimonial" style="background:#fff;">
-          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <blockquote>"Standing in the Maasai Mara as a herd of over two hundred elephants moved silently through the golden grass &mdash; I will never forget that moment. Filao arranged everything perfectly."</blockquote>
-          <div class="reviewer-name">Sarah M. 🇬🇧</div>
-          <div class="reviewer-origin">London, United Kingdom</div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="fa-testimonial" style="background:#fff;">
-          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <blockquote>"Our honeymoon was everything we dreamed of. Filao combined four nights at a stunning Amboseli lodge with Kilimanjaro views and then three blissful days on Diani Beach."</blockquote>
-          <div class="reviewer-name">James &amp; Linda K. 🇺🇸</div>
-          <div class="reviewer-origin">New York, USA</div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="fa-testimonial" style="background:#fff;">
-          <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <blockquote>"I had heard about Kenya's wildlife all my life but never imagined it would look like this. Within 24 hours I was watching lions hunt at sunset in the Mara. Absolutely world-class service."</blockquote>
-          <div class="reviewer-name">Ahmed Al-Rashid 🇦🇪</div>
-          <div class="reviewer-origin">Dubai, UAE</div>
+    <div class="row justify-content-center mt-5">
+      <div class="col-lg-10">
+        <div style="background: rgba(255,255,255,0.7); padding: 40px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.02);">
+          <div id="featurable-ca357a07-9cb6-4644-8d3e-18eac19a55c6" data-featurable-async></div><script src="https://featurable.com/assets/bundle.js" defer charset="UTF-8"></script> 
         </div>
       </div>
     </div>
@@ -157,8 +138,11 @@
 <section class="section-pad bg-cream" style="padding-top:32px;">
   <div class="container" style="max-width:1280px;text-align:center;">
     <h3 style="font-family:'Cormorant Garant',serif;font-size:28px;color:#1C1712;margin-bottom:24px;">Our Affiliations</h3>
-    <a href="https://www.safaribookings.com/" target="_blank" rel="noopener noreferrer" style="display:inline-block;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+    <a href="https://www.safaribookings.com/p6895" target="_blank" rel="noopener noreferrer" style="display:inline-block;transition:transform 0.2s; margin-right: 20px;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
       <img src="images/Filao/safaribookings.png" alt="Safari Bookings" style="height:60px;opacity:0.9;">
+    </a>
+    <a href="https://www.tripadvisor.co.za/Attraction_Review-g294207-d24109431-Reviews-FILAO_ADVENTURES-Nairobi.html" target="_blank" rel="noopener noreferrer" style="display:inline-block;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      <img src="images/Filao/tripadvisor.svg" alt="TripAdvisor" style="height:60px;opacity:0.9;">
     </a>
   </div>
 </section>

@@ -10,6 +10,7 @@ header('Content-Type: application/json');
 header('X-Content-Type-Options: nosniff');
 
 require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/mailer.php';
 $pdo = getPDO();
 
 // Only accept POST
@@ -19,12 +20,23 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$type = trim($_POST['type'] ?? 'contact');
+$input = $_POST;
+if (empty($input)) {
+    $json = file_get_contents('php://input');
+    if ($json) {
+        $input = json_decode($json, true) ?: [];
+    }
+}
+
+$type = trim($input['type'] ?? $input['form_type'] ?? 'contact');
 
 // --- Helper: sanitize ---
 function clean($v) {
     return htmlspecialchars(strip_tags(trim($v ?? '')));
 }
+
+$stmtSettings = $pdo->query("SELECT setting_value FROM settings WHERE setting_key = 'contact_email'");
+$adminEmail = $stmtSettings->fetchColumn() ?: 'info@filaoadventures.co.ke';
 
 // ----------------------------------------------------------
 // ENSURE tables exist
@@ -56,15 +68,16 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS enquiries (
 
 if ($type === 'contact') {
     // ---- CONTACT FORM ----
-    $fname  = clean($_POST['fname'] ?? '');
-    $lname  = clean($_POST['lname'] ?? '');
-    $email  = filter_var(trim($_POST['email'] ?? ''), FILTER_SANITIZE_EMAIL);
-    $phone  = clean($_POST['phone'] ?? '');
-    $dest   = clean($_POST['destination'] ?? '');
-    $adults = max(1, (int)($_POST['adults'] ?? 2));
-    $children = max(0, (int)($_POST['children'] ?? 0));
-    $tdate  = clean($_POST['travel_date'] ?? ''); // YYYY-MM format
-    $msg    = clean($_POST['message'] ?? '');
+    $fname  = clean($input['fname'] ?? $input['first_name'] ?? '');
+    $lname  = clean($input['lname'] ?? $input['last_name'] ?? '');
+    $email  = filter_var(trim($input['email'] ?? ''), FILTER_SANITIZE_EMAIL);
+    $phone  = clean($input['phone'] ?? '');
+    $dest   = clean($input['destination'] ?? '');
+    $adults = max(1, (int)($input['adults'] ?? 2));
+    $children = max(0, (int)($input['children'] ?? 0));
+    $tdate  = clean($input['travel_date'] ?? '');
+    $subject= clean($input['subject'] ?? 'New Contact Form Enquiry');
+    $msg    = clean($input['message'] ?? '');
 
     if (!$fname || !$email) {
         echo json_encode(['success' => false, 'message' => 'Please fill in your name and email.']);
@@ -83,30 +96,50 @@ if ($type === 'contact') {
         VALUES ('contact', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->execute([$fname, $lname, $email, $phone, $dest, $travel_month, $travel_year, $adults, $children, $msg]);
 
-    echo json_encode(['success' => true, 'message' => "Thank you, {$fname}! Your enquiry has been received. A Filao safari specialist will be in touch shortly."]);
+    // Send Emails
+    $emailMsg = '';
+    try {
+        $adminBody = "<h3>New Contact Enquiry</h3>
+                      <p><strong>Name:</strong> $fname $lname</p>
+                      <p><strong>Email:</strong> $email</p>
+                      <p><strong>Phone:</strong> $phone</p>
+                      <p><strong>Subject:</strong> $subject</p>
+                      <p><strong>Message:</strong><br/>$msg</p>";
+        sendSiteEmail($adminEmail, "Filao Admin", "New Contact Enquiry: $subject", $adminBody);
+
+        $userBody = "<h3>Thank you for reaching out!</h3>
+                     <p>Hi $fname,</p>
+                     <p>We have received your message. Our safari specialists will review it and get back to you shortly.</p>
+                     <p>Best Regards,<br>Filao Adventures Team</p>";
+        sendSiteEmail($email, "$fname $lname", "We have received your enquiry", $userBody);
+    } catch (Exception $e) {
+        $emailMsg = " Note: Email could not be sent due to server configuration.";
+    }
+
+    echo json_encode(['success' => true, 'message' => "Thank you, {$fname}! Your enquiry has been received." . $emailMsg]);
     exit;
 }
 
 if ($type === 'start_planning') {
     // ---- START PLANNING STEPPER ----
-    $fname      = clean($_POST['first_name'] ?? '');
-    $lname      = clean($_POST['last_name'] ?? '');
-    $email      = filter_var(trim($_POST['email'] ?? ''), FILTER_SANITIZE_EMAIL);
-    $phone      = clean($_POST['phone'] ?? '');
-    $dest       = clean($_POST['destination'] ?? '');
-    $tour_id    = (int)($_POST['tour_id'] ?? 0) ?: null;
-    $tour_title = clean($_POST['tour_title'] ?? '');
-    $activities = clean(implode(', ', (array)($_POST['activities'] ?? [])));
-    $purpose    = clean($_POST['custom_purpose'] ?? '');
-    $travel_month = clean($_POST['travel_month'] ?? '');
-    $travel_year  = (int)($_POST['travel_year'] ?? 0) ?: null;
-    $duration   = clean($_POST['duration'] ?? '');
-    $adults     = max(1, (int)($_POST['adults'] ?? 2));
-    $children   = max(0, (int)($_POST['children'] ?? 0));
-    $budget     = (int)($_POST['budget'] ?? 0) ?: null;
-    $travelled  = clean($_POST['travelled_before'] ?? '');
-    $referred   = clean($_POST['referred'] ?? '');
-    $msg        = clean($_POST['message'] ?? '');
+    $fname      = clean($input['first_name'] ?? '');
+    $lname      = clean($input['last_name'] ?? '');
+    $email      = filter_var(trim($input['email'] ?? ''), FILTER_SANITIZE_EMAIL);
+    $phone      = clean($input['phone'] ?? '');
+    $dest       = clean($input['destination'] ?? '');
+    $tour_id    = (int)($input['tour_id'] ?? 0) ?: null;
+    $tour_title = clean($input['tour_title'] ?? '');
+    $activities = clean(is_array($input['activities'] ?? '') ? implode(', ', $input['activities']) : ($input['activities'] ?? ''));
+    $purpose    = clean($input['custom_purpose'] ?? '');
+    $travel_month = clean($input['travel_month'] ?? '');
+    $travel_year  = (int)($input['travel_year'] ?? 0) ?: null;
+    $duration   = clean($input['duration'] ?? '');
+    $adults     = max(1, (int)($input['adults'] ?? 2));
+    $children   = max(0, (int)($input['children'] ?? 0));
+    $budget     = (int)($input['budget'] ?? 0) ?: null;
+    $travelled  = clean($input['travelled_before'] ?? '');
+    $referred   = clean($input['referred'] ?? '');
+    $msg        = clean($input['message'] ?? '');
 
     if (!$fname || !$email) {
         echo json_encode(['success' => false, 'message' => 'Please fill in your name and email.']);
@@ -130,7 +163,32 @@ if ($type === 'start_planning') {
         $msg
     ]);
 
-    echo json_encode(['success' => true, 'message' => "Thank you, {$fname}! We've received your safari plan. Our specialist will reach out to you within 24 hours to craft your perfect journey."]);
+    // Send Emails
+    $emailMsg = '';
+    try {
+        $adminBody = "<h3>New Trip Planning Request</h3>
+                      <p><strong>Name:</strong> $fname $lname</p>
+                      <p><strong>Email:</strong> $email</p>
+                      <p><strong>Phone:</strong> $phone</p>
+                      <p><strong>Destination:</strong> $dest</p>
+                      <p><strong>Tour:</strong> $tour_title</p>
+                      <p><strong>When:</strong> $travel_month $travel_year for $duration</p>
+                      <p><strong>Guests:</strong> $adults Adults, $children Children</p>
+                      <p><strong>Budget:</strong> \$$budget</p>
+                      <p><strong>Activities:</strong> $activities</p>
+                      <p><strong>Message:</strong><br/>$msg</p>";
+        sendSiteEmail($adminEmail, "Filao Admin", "New Trip Planning Request from $fname $lname", $adminBody);
+
+        $userBody = "<h3>We're crafting your perfect journey!</h3>
+                     <p>Hi $fname,</p>
+                     <p>Thank you for submitting your trip planning request. Our safari specialists will review your details and reach out to you within 24 hours.</p>
+                     <p>Best Regards,<br>Filao Adventures Team</p>";
+        sendSiteEmail($email, "$fname $lname", "We've received your safari plan", $userBody);
+    } catch (Exception $e) {
+        $emailMsg = " Note: Email could not be sent due to server configuration.";
+    }
+
+    echo json_encode(['success' => true, 'message' => "Thank you, {$fname}! We've received your safari plan. Our specialist will reach out to you within 24 hours." . $emailMsg]);
     exit;
 }
 

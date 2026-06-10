@@ -87,45 +87,8 @@
         <p>Read through the unfiltered, genuine feedback from our global clientele who have entrusted us with their
           African dreams.</p>
 
-        <div style="background:#FAF8F4; padding:40px; border-radius:8px; margin-top:40px; border:1px solid #E5DDD0;">
-          <div style="color:#C49018; font-size:24px; margin-bottom:15px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <h4 style="font-family:'Cormorant Garant',serif; font-size:26px; color:#1C1712; margin-bottom:20px;">"Flawless
-            from start to finish."</h4>
-          <p style="font-style:italic; font-size:16px;">"My wife and I have traveled extensively across Europe and Asia,
-            but we were hesitant about planning an African safari due to the complex logistics. Filao Adventures
-            completely removed the stress. From the private helicopter transfer into the Serengeti to the surprise
-            champagne sundowner they arranged for our anniversary, the attention to detail was staggering. Our guide,
-            Daniel, was a walking encyclopedia of the bush. We are already planning our return trip with Filao."</p>
-          <p
-            style="text-transform:uppercase; font-size:12px; font-weight:700; letter-spacing:0.1em; color:#6B6358; margin-bottom:0;">
-            Robert & Emily Harrington, New York, USA</p>
-        </div>
-
-        <div style="background:#FAF8F4; padding:40px; border-radius:8px; margin-top:30px; border:1px solid #E5DDD0;">
-          <div style="color:#C49018; font-size:24px; margin-bottom:15px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <h4 style="font-family:'Cormorant Garant',serif; font-size:26px; color:#1C1712; margin-bottom:20px;">"The
-            Great Migration was life-changing."</h4>
-          <p style="font-style:italic; font-size:16px;">"We told Filao we wanted to see the river crossings, and they
-            delivered spectacularly. Because they understand the micro-movements of the herds, they positioned us in a
-            luxury mobile camp right on the Mara River. We witnessed three massive crossings in two days. The camp was
-            exquisite, the food rivaled top London restaurants, and the warmth of the staff made us feel like family."
-          </p>
-          <p
-            style="text-transform:uppercase; font-size:12px; font-weight:700; letter-spacing:0.1em; color:#6B6358; margin-bottom:0;">
-            The Al-Fayed Family, Dubai, UAE</p>
-        </div>
-
-        <div style="background:#FAF8F4; padding:40px; border-radius:8px; margin-top:30px; border:1px solid #E5DDD0;">
-          <div style="color:#C49018; font-size:24px; margin-bottom:15px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-          <h4 style="font-family:'Cormorant Garant',serif; font-size:26px; color:#1C1712; margin-bottom:20px;">"A
-            perfect blend of adventure and relaxation."</h4>
-          <p style="font-style:italic; font-size:16px;">"We booked a bush-and-beach combo. After thrilling, dusty days
-            tracking wild dogs in Ruaha, stepping off a short flight onto the pristine white sands of Zanzibar was
-            surreal. Filao curated the perfect balance. Every lodge was a masterpiece of design, deeply integrated into
-            nature but offering uncompromising luxury."</p>
-          <p
-            style="text-transform:uppercase; font-size:12px; font-weight:700; letter-spacing:0.1em; color:#6B6358; margin-bottom:0;">
-            Claire Jenkins, Sydney, Australia</p>
+        <div style="background: rgba(255,255,255,0.7); padding: 40px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.02); margin-top: 40px;">
+          <div id="featurable-ca357a07-9cb6-4644-8d3e-18eac19a55c6" data-featurable-async></div><script src="https://featurable.com/assets/bundle.js" defer charset="UTF-8"></script> 
         </div>
 
         <p class="mt-5 text-center">Ready to write your own story? <a href="contact"

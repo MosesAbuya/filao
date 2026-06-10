@@ -82,13 +82,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $updateStmt = $pdo->prepare("UPDATE tours SET 
             title=?, slug=?, description=?, excerpt=?, duration_days=?, price_from_usd=?, 
             status=?, featured_image=?, focus_keyphrase=?, seo_title=?, meta_description=?, 
-            highlights=?, inclusions=?, exclusions=? WHERE id=?");
+            highlights=?, inclusions=?, exclusions=?, is_hot_offer=?, 
+            price_1_person=?, price_2_people=?, price_3_people=?, price_4_people=?, price_5_people=?, price_6_people=? WHERE id=?");
             
         $updateStmt->execute([
             $title, $slug, $_POST['description'] ?? '', $_POST['excerpt'] ?? '', 
             (int)$_POST['duration_days'], (float)$_POST['price_from_usd'], $status, $featuredImage,
             $_POST['focus_keyphrase'] ?? '', $_POST['seo_title'] ?? '', $_POST['meta_description'] ?? '',
             $_POST['highlights'] ?? '', $_POST['inclusions'] ?? '', $_POST['exclusions'] ?? '',
+            isset($_POST['is_hot_offer']) ? 1 : 0,
+            !empty($_POST['price_1_person']) ? (float)$_POST['price_1_person'] : null,
+            !empty($_POST['price_2_people']) ? (float)$_POST['price_2_people'] : null,
+            !empty($_POST['price_3_people']) ? (float)$_POST['price_3_people'] : null,
+            !empty($_POST['price_4_people']) ? (float)$_POST['price_4_people'] : null,
+            !empty($_POST['price_5_people']) ? (float)$_POST['price_5_people'] : null,
+            !empty($_POST['price_6_people']) ? (float)$_POST['price_6_people'] : null,
             $id
         ]);
 
@@ -269,11 +277,15 @@ include 'partials/sidebar.php';
                                     <div class="panel-header mb-3"><h2>Publishing</h2></div>
                                     <div class="mb-3">
                                         <label class="form-label">Status</label>
-                                        <select name="status" class="form-select">
+                                        <select name="status" class="form-select mb-3">
                                             <option value="draft" <?= $tour['status'] === 'draft' ? 'selected' : '' ?>>Draft</option>
                                             <option value="published" <?= $tour['status'] === 'published' ? 'selected' : '' ?>>Published</option>
                                             <option value="archived" <?= $tour['status'] === 'archived' ? 'selected' : '' ?>>Archived</option>
                                         </select>
+                                        <div class="form-check form-switch mt-2">
+                                            <input class="form-check-input" type="checkbox" role="switch" id="is_hot_offer" name="is_hot_offer" value="1" <?= $tour['is_hot_offer'] ? 'checked' : '' ?>>
+                                            <label class="form-check-label" for="is_hot_offer">Mark as Hot Offer</label>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="panel mb-4">
@@ -339,12 +351,29 @@ include 'partials/sidebar.php';
                                         <label class="form-label">Duration (Days)</label>
                                         <input type="number" class="form-control" name="duration_days" min="1" value="<?= $tour['duration_days'] ?>" required>
                                     </div>
-                                    <div class="mb-0">
+                                    <div class="mb-3">
                                         <label class="form-label">Starting Price (USD)</label>
                                         <div class="input-group">
                                             <span class="input-group-text bg-light">$</span>
                                             <input type="number" class="form-control" name="price_from_usd" step="0.01" min="0" value="<?= $tour['price_from_usd'] ?>" required>
                                         </div>
+                                        <small class="text-muted d-block mt-1">This is the 'From' price shown on cards.</small>
+                                    </div>
+                                    <hr>
+                                    <h6 class="mb-3">Detailed Pricing (Per Person)</h6>
+                                    <div class="row g-2">
+                                        <?php for($i=1; $i<=6; $i++): 
+                                            $col = "price_{$i}_person" . ($i>1?'s':'');
+                                            $val = $tour[$col] ?? '';
+                                        ?>
+                                        <div class="col-6 mb-2">
+                                            <label class="form-label small"><?= $i ?> Person<?= $i>1?'s':'' ?> (USD)</label>
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-text bg-light">$</span>
+                                                <input type="number" class="form-control" name="<?= $col ?>" step="0.01" min="0" value="<?= sanitize($val) ?>">
+                                            </div>
+                                        </div>
+                                        <?php endfor; ?>
                                     </div>
                                 </div>
                                 <div class="panel">

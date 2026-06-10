@@ -156,6 +156,9 @@ $nights = $tour['duration_days'] - 1;
         <li class="nav-item">
           <button class="nav-link" id="inclusions-tab" data-toggle="tab" data-target="#inclusions" type="button" role="tab">Inclusions</button>
         </li>
+        <li class="nav-item">
+          <button class="nav-link" id="pricing-tab" data-toggle="tab" data-target="#pricing" type="button" role="tab">Pricing</button>
+        </li>
       </ul>
 
       <div class="tab-content" id="tourTabsContent">
@@ -339,6 +342,55 @@ $nights = $tour['duration_days'] - 1;
                   <?= $tour['exclusions'] ?: '<ul><li>International flights and visa fees</li><li>Travel insurance (highly recommended)</li><li>Tips and gratuities for guides/staff</li><li>Items of a personal nature (laundry, drinks, phone calls)</li><li>Optional activities (e.g., hot air balloon safari)</li></ul>' ?>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRICING -->
+        <div class="tab-pane fade" id="pricing" role="tabpanel">
+          <div class="td-content-box">
+            <h3>Tour Pricing</h3>
+            <div class="table-responsive mt-4">
+              <table class="table table-bordered" style="font-family:'Inter',sans-serif; color:#4A4340;">
+                <thead style="background:#FAF8F4;">
+                  <tr>
+                    <th>Group Size</th>
+                    <th>Price Per Person (USD)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php 
+                  $tiers = [
+                      1 => '1 Person',
+                      2 => '2 People',
+                      3 => '3 People',
+                      4 => '4 People',
+                      5 => '5 People',
+                      6 => '6 People'
+                  ];
+                  $hasPricing = false;
+                  foreach($tiers as $num => $label) {
+                      $col = "price_{$num}_person" . ($num > 1 ? 's' : '');
+                      // Note: column names in DB are actually: price_1_person, price_2_people, price_3_people, price_4_people, price_5_people, price_6_people
+                      if ($num > 1) {
+                          $col = "price_{$num}_people";
+                      } else {
+                          $col = "price_{$num}_person";
+                      }
+                      
+                      $p = isset($tour[$col]) ? $tour[$col] : null;
+                      if (!empty($p) && $p > 0) {
+                          $hasPricing = true;
+                          echo "<tr><td><strong>{$label}</strong></td><td>$" . number_format($p) . "</td></tr>";
+                      }
+                  }
+                  if (!$hasPricing) {
+                      echo "<tr><td colspan='2'>Please contact us for detailed pricing.</td></tr>";
+                  }
+                  ?>
+                </tbody>
+              </table>
+              <p class="mt-3 text-muted" style="font-size:13px;">* Prices are subject to change based on seasonality and availability. Please request a quote for exact pricing for your travel dates.</p>
             </div>
           </div>
         </div>

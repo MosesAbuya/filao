@@ -6,6 +6,27 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap');
 
+.hero-zoom-anim {
+  animation: heroZoom 30s ease-in-out infinite;
+}
+
+@keyframes heroZoom {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.hero-zoom-out-anim {
+  animation: heroZoomOut 30s ease-in-out infinite;
+}
+
+@keyframes heroZoomOut {
+  0% { transform: scale(1.15); }
+  50% { transform: scale(1); }
+  100% { transform: scale(1.15); }
+}
+
+/* ── Hero Carousel ── */
 /* ── CSS Variables ── */
 :root {
   --fa-gold:         #C49018;
@@ -62,14 +83,23 @@ h1, h2, h3, h4, h5 {
   left: 0;
   right: 0;
   z-index: 1010;
-  /* In hero mode it starts with topbar above it;
-     JS pushes it to top:34px (topbar height) */
+  transition: background .35s ease, box-shadow .35s ease, backdrop-filter .35s ease;
+}
+.fa-site-header:hover {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 /* Scroll-triggered solid state */
 .fa-site-header.scrolled {
   position: fixed;
   top: 0;
   box-shadow: 0 4px 28px rgba(0,0,0,.14);
+}
+.fa-site-header.scrolled:hover {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .fa-logo-row {
@@ -94,25 +124,29 @@ h1, h2, h3, h4, h5 {
 .fa-logo-img-large {
   height: 60px;
   display: block;
-  filter: brightness(0) invert(1); /* white on transparent */
   transition: filter .3s, transform .3s ease;
 }
 .fa-logo-centered-link:hover .fa-logo-img-large {
   transform: scale(1.02);
 }
-.fa-site-header.scrolled .fa-logo-img-large { filter: none; }
 
 /* ── ROW 2: Navigation Bar ── */
 .fa-nav-row {
   background: transparent;
   border-top: 1px solid rgba(255,255,255,.12);
-  transition: background .35s ease, border-color .35s ease, box-shadow .35s ease;
+  transition: background .35s ease, border-color .35s ease, box-shadow .35s ease, backdrop-filter .35s ease;
+}
+.fa-site-header:hover .fa-nav-row {
+  border-top-color: rgba(255,255,255,0.25);
 }
 /* Scrolled: row 2 becomes solid white */
-.fa-site-header.scrolled .fa-nav-row {
+.fa-site-header.scrolled .fa-nav-row,
+.fa-site-header.scrolled .fa-nav-row:hover {
   background: #fff;
   border-top-color: var(--fa-border);
   box-shadow: 0 4px 28px rgba(0,0,0,.10);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 .fa-nav-row-inner {
   display: flex;
@@ -360,11 +394,10 @@ body.no-scroll { overflow: hidden; padding-right: 17px; }
 .fa-mm-links ul { list-style: none; margin: 0; padding: 0; }
 .fa-mm-links ul li a {
   display: block;
-  padding: 9px 0;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
+  padding: 6px 0;
+  font-family: 'Cormorant Garant', serif;
+  font-size: 17px;
+  font-weight: 500;
   color: var(--fa-text);
   text-decoration: none;
   border-bottom: 1px solid #f0ece5;

@@ -68,11 +68,11 @@ $user = currentUser();
 
         <?php if ($user && $user['role'] === 'admin'): ?>
         <div class="nav-group-label">System</div>
-        <a href="#" class="nav-link <?= $currentPage === 'users.php' ? 'active' : '' ?>">
-            <span class="nav-icon"><i class="bi bi-people-fill"></i></span>
-            <span class="nav-text">Users</span>
+        <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], 'users.php') !== false ? 'active' : '' ?>" href="users.php">
+          <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
+          <span class="nav-text">Users</span>
         </a>
-        <a href="#" class="nav-link <?= $currentPage === 'settings.php' ? 'active' : '' ?>">
+        <a href="settings.php" class="nav-link <?= $currentPage === 'settings.php' ? 'active' : '' ?>">
             <span class="nav-icon"><i class="bi bi-gear-fill"></i></span>
             <span class="nav-text">Settings</span>
         </a>

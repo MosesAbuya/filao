@@ -4,20 +4,43 @@ require_once __DIR__ . '/db.php';
 $navPdo = getPDO();
 
 // Tours grouped by destination country from DB
-$navCountries = $navPdo->query("
-    SELECT DISTINCT d.country
-    FROM destinations d
-    JOIN itinerary_steps ist ON d.id = ist.destination_id
-    JOIN tours t ON t.id = ist.tour_id
-    WHERE t.status='published' AND d.country IS NOT NULL AND d.country != ''
-    ORDER BY d.country ASC
-    LIMIT 8
-")->fetchAll(PDO::FETCH_COLUMN);
+$navCountriesData = $navPdo->query("
+    SELECT country, MAX(featured_image) as featured_image
+    FROM destinations
+    WHERE country IS NOT NULL AND country != ''
+    GROUP BY country
+    ORDER BY country ASC
+")->fetchAll(PDO::FETCH_ASSOC);
+
+$navRegions = [];
+$navCountries = []; // Just the names for the tour dropdown
+foreach ($navCountriesData as $row) {
+    $cName = trim($row['country']);
+    $navCountries[] = $cName;
+    
+    $region = 'Africa';
+    $cLower = strtolower($cName);
+    if (in_array($cLower, ['maldives', 'sri lanka', 'indonesia', 'bali'])) {
+        $region = 'Asia';
+    } elseif (in_array($cLower, ['dubai', 'uae', 'oman', 'qatar'])) {
+        $region = 'Middle East';
+    } elseif (in_array($cLower, ['seychelles', 'mauritius', 'madagascar'])) {
+        $region = 'Indian Ocean';
+    } elseif (in_array($cLower, ['france', 'paris', 'greece', 'santorini', 'italy'])) {
+        $region = 'Europe';
+    }
+    
+    if (!isset($navRegions[$region])) {
+        $navRegions[$region] = [];
+    }
+    $navRegions[$region][] = $row;
+}
+$navCountries = array_unique($navCountries);
 
 $navToursByCountry = [];
 foreach ($navCountries as $country) {
   $rows = $navPdo->prepare("
-        SELECT DISTINCT t.id, t.title, t.slug
+        SELECT DISTINCT t.id, t.title, t.slug, t.featured_image
         FROM tours t
         JOIN itinerary_steps ist ON t.id = ist.tour_id
         JOIN destinations d ON d.id = ist.destination_id
@@ -25,7 +48,10 @@ foreach ($navCountries as $country) {
         ORDER BY t.title ASC LIMIT 6
     ");
   $rows->execute([$country]);
-  $navToursByCountry[$country] = $rows->fetchAll();
+  $toursList = $rows->fetchAll();
+  if (count($toursList) > 0) {
+      $navToursByCountry[$country] = $toursList;
+  }
 }
 
 // Fallback: if no country-based grouping, just load all tours
@@ -127,8 +153,9 @@ foreach ($navSafarisThemes as $st) {
           class="text-white text-decoration-none d-flex align-items-center"
           style="font-size: 11px; opacity: 0.85; gap: 6px;"><i class="fa fa-whatsapp" style="font-size: 15px;"></i>
           WhatsApp</a>
-        <a href="#" target="_blank" class="text-white" style="opacity: 0.85;"><i class="fa fa-instagram"></i></a>
-        <a href="#" target="_blank" class="text-white" style="opacity: 0.85;"><i class="fa fa-facebook"></i></a>
+        <a href="https://www.instagram.com/filaoadventures/" target="_blank" class="text-white" style="opacity: 0.85;"><i class="fa fa-instagram"></i></a>
+        <a href="https://www.facebook.com/profile.php?id=100084891550126#" target="_blank" class="text-white" style="opacity: 0.85;"><i class="fa fa-facebook"></i></a>
+        <a href="https://ke.linkedin.com/jobs/view/travel-consultant-at-filao-adventures-4398464574" target="_blank" class="text-white" style="opacity: 0.85;"><i class="fa fa-linkedin"></i></a>
       </div>
     </div>
   </div>
@@ -161,71 +188,69 @@ foreach ($navSafarisThemes as $st) {
                   <div class="fa-mm-tabs">
                     <span class="mm-heading">Destinations</span>
                     <ul>
-                      <li class="mm-active"><a href="#" class="mm-tab-trigger" data-panel="dest-top"
-                          data-img="images/Filao/East Africa/pexels-kelly-17291020.jpg"
-                          data-caption="The Majestic East African Savannah">Our Top Destinations</a></li>
-                      <li><a href="#" class="mm-tab-trigger" data-panel="dest-east"
-                          data-img="images/Filao/East Africa/pexels-droneafrica-13234382.jpg"
-                          data-caption="Explore East Africa Wildlife">East Africa Wildlife</a></li>
-                      <li><a href="#" class="mm-tab-trigger" data-panel="dest-global"
-                          data-img="images/Filao/Dubai/pexels-axp-photography-500641970-16412106.jpg"
-                          data-caption="Global Luxury Escapes">Global Luxury</a></li>
-                      <li><a href="#" class="mm-tab-trigger" data-panel="dest-ocean"
-                          data-img="images/Filao/Indian Ocean/pexels-asadphoto-9394268.jpg"
-                          data-caption="Pristine Indian Ocean Beaches">Indian Ocean &amp; Beaches</a></li>
-                      <li><a href="#" class="mm-tab-trigger" data-panel="dest-parks"
-                          data-img="images/Filao/East Africa/pexels-balazsimon-15993990.jpg"
-                          data-caption="Iconic National Parks &amp; Reserves">National Parks &amp; Reserves</a></li>
-                      <li><a href="destinations"
-                          style="margin-top:12px;border-top:1px solid #E5DDD0;padding-top:12px;">View All
-                          Destinations</a></li>
+                      <?php
+                      $firstReg = true;
+                      $firstImg = '';
+                      $firstCat = '';
+                      foreach ($navRegions as $regionName => $countriesList):
+                        // Get an image for the region
+                        $rawImg = $countriesList[0]['featured_image'];
+                        $img = 'images/Filao/East Africa/pexels-kelly-17291020.jpg';
+                        if (!empty($rawImg)) {
+                            $img = str_starts_with($rawImg, 'destinations/') ? 'uploads/' . $rawImg : 'uploads/destinations/' . $rawImg;
+                        }
+                        if ($firstReg) {
+                          $firstImg = $img;
+                          $firstCat = $regionName;
+                        }
+                      ?>
+                      <li class="<?= $firstReg ? 'mm-active' : '' ?>">
+                        <a href="#" class="mm-tab-trigger" data-panel="dest-<?= md5($regionName) ?>"
+                          data-img="<?= htmlspecialchars($img) ?>"
+                          data-caption="Explore <?= htmlspecialchars($regionName) ?>">
+                          <?= htmlspecialchars($regionName) ?>
+                        </a>
+                      </li>
+                      <?php 
+                        $firstReg = false;
+                      endforeach; 
+                      ?>
+                      <li><a href="destinations" style="margin-top:12px;border-top:1px solid #E5DDD0;padding-top:12px;">View All Regions</a></li>
                     </ul>
                   </div>
                   <div class="fa-mm-links">
-                    <div class="mm-panel" data-id="dest-top" style="display:block;">
+                    <?php
+                    $firstReg = true;
+                    foreach ($navRegions as $regionName => $countriesList):
+                    ?>
+                    <div class="mm-panel" data-id="dest-<?= md5($regionName) ?>" style="display: <?= $firstReg ? 'block' : 'none' ?>;">
                       <ul>
-                        <li><a href="destinations/maasai-mara-national-reserve">Maasai Mara National Reserve</a></li>
-                        <li><a href="destinations/amboseli-national-park">Amboseli National Park</a></li>
-                        <li><a href="destinations/serengeti-national-park">Serengeti National Park</a></li>
-                        <li><a href="destinations/ngorongoro-crater">Ngorongoro Crater</a></li>
-                        <li><a href="destinations/zanzibar-island">Zanzibar Island</a></li>
-                        <li><a href="destinations/diani-beach">Diani Beach</a></li>
+                        <?php
+                        // Filter unique countries for this region
+                        $uniqueCountries = [];
+                        foreach ($countriesList as $c) {
+                          if (!isset($uniqueCountries[$c['country']])) {
+                            $uniqueCountries[$c['country']] = $c['featured_image'];
+                          }
+                        }
+                        foreach ($uniqueCountries as $cName => $cImg):
+                          $imgUrl = 'images/Filao/East Africa/pexels-kelly-17291020.jpg';
+                          if (!empty($cImg)) {
+                              $imgUrl = str_starts_with($cImg, 'destinations/') ? 'uploads/' . $cImg : 'uploads/destinations/' . $cImg;
+                          }
+                        ?>
+                        <li><a href="country?name=<?= urlencode($cName) ?>" data-img="<?= htmlspecialchars($imgUrl) ?>" data-caption="<?= htmlspecialchars($cName) ?>"><?= htmlspecialchars($cName) ?></a></li>
+                        <?php endforeach; ?>
                       </ul>
                     </div>
-                    <div class="mm-panel" data-id="dest-east" style="display:none;">
-                      <ul>
-                        <li><a href="destinations/tsavo-east-national-park">Tsavo East National Park</a></li>
-                        <li><a href="destinations/lake-nakuru-national-park">Lake Nakuru National Park</a></li>
-                        <li><a href="destinations/maasai-mara-national-reserve">Maasai Mara National Reserve</a></li>
-                        <li><a href="destinations/amboseli-national-park">Amboseli National Park</a></li>
-                      </ul>
-                    </div>
-                    <div class="mm-panel" data-id="dest-global" style="display:none;">
-                      <ul>
-                        <li><a href="destinations/nairobi">Nairobi City</a></li>
-                        <li><a href="destinations/mombasa-old-town">Mombasa Old Town</a></li>
-                      </ul>
-                    </div>
-                    <div class="mm-panel" data-id="dest-ocean" style="display:none;">
-                      <ul>
-                        <li><a href="destinations/diani-beach">Diani Beach</a></li>
-                        <li><a href="destinations/zanzibar-island">Zanzibar Island</a></li>
-                      </ul>
-                    </div>
-                    <div class="mm-panel" data-id="dest-parks" style="display:none;">
-                      <ul>
-                        <li><a href="destinations/maasai-mara-national-reserve">Maasai Mara</a></li>
-                        <li><a href="destinations/amboseli-national-park">Amboseli</a></li>
-                        <li><a href="destinations/serengeti-national-park">Serengeti</a></li>
-                        <li><a href="destinations/ngorongoro-crater">Ngorongoro</a></li>
-                        <li><a href="destinations/tsavo-east-national-park">Tsavo East</a></li>
-                        <li><a href="destinations/lake-nakuru-national-park">Lake Nakuru</a></li>
-                      </ul>
-                    </div>
+                    <?php
+                      $firstReg = false;
+                    endforeach;
+                    ?>
                   </div>
                   <div class="fa-mm-image">
-                    <img id="mm-dest-img" src="images/Filao/East Africa/pexels-kelly-17291020.jpg" alt="Destinations">
-                    <div class="mm-caption" id="mm-dest-caption">The Majestic East African Savannah</div>
+                    <img id="mm-dest-img" src="<?= htmlspecialchars($firstImg) ?>" alt="Destinations">
+                    <div class="mm-caption" id="mm-dest-caption">Explore <?= htmlspecialchars($firstCat) ?></div>
                   </div>
                 </div>
               </div>
@@ -277,9 +302,15 @@ foreach ($navSafarisThemes as $st) {
                       <div class="mm-panel" data-id="<?= $panelId ?>"
                         style="display:<?= $firstAct ? 'block' : 'none' ?>;">
                         <ul>
-                          <?php foreach ($cActs as $navActLoop): ?>
+                          <?php foreach ($cActs as $navActLoop): 
+                            $cImg = $navActLoop['featured_image'];
+                            if (!empty($cImg) && !str_starts_with($cImg, 'http') && !str_starts_with($cImg, 'images/')) $cImg = 'uploads/' . $cImg;
+                            $cImg = $cImg ?: 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
+                          ?>
                             <li><a
-                                href="activities/<?= htmlspecialchars($navActLoop['slug']) ?>"><?= htmlspecialchars($navActLoop['name']) ?></a>
+                                href="activities/<?= htmlspecialchars($navActLoop['slug']) ?>"
+                                data-img="<?= htmlspecialchars($cImg) ?>"
+                                data-caption="<?= htmlspecialchars($navActLoop['name']) ?>"><?= htmlspecialchars($navActLoop['name']) ?></a>
                             </li>
                           <?php endforeach; ?>
                         </ul>
@@ -325,8 +356,14 @@ foreach ($navSafarisThemes as $st) {
                       <div class="mm-panel" data-id="tour-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $country)) ?>"
                         style="display:<?= $firstCountry ? 'block' : 'none' ?>">
                         <ul>
-                          <?php foreach ($cTours as $t): ?>
-                            <li><a href="tours/<?= $t['slug'] ?>"><?= htmlspecialchars($t['title']) ?></a></li>
+                          <?php foreach ($cTours as $t): 
+                            $cImg = $t['featured_image'];
+                            if (!empty($cImg) && !str_starts_with($cImg, 'http') && !str_starts_with($cImg, 'images/')) $cImg = 'uploads/' . $cImg;
+                            $cImg = $cImg ?: 'images/Filao/East Africa/pexels-balazsimon-15994023.jpg';
+                          ?>
+                            <li><a href="tours/<?= $t['slug'] ?>"
+                                data-img="<?= htmlspecialchars($cImg) ?>"
+                                data-caption="<?= htmlspecialchars($t['title']) ?>"><?= htmlspecialchars($t['title']) ?></a></li>
                           <?php endforeach; ?>
                         </ul>
                       </div>
@@ -378,7 +415,7 @@ foreach ($navSafarisThemes as $st) {
                           style="display:<?= $firstSafTheme ? 'block' : 'none' ?>;">
                           <ul>
                             <?php foreach ($themeTours as $t): ?>
-                              <li><a href="tours/<?= $t['tour_slug'] ?>"><?= htmlspecialchars($t['title']) ?></a></li>
+                              <li><a href="tours/<?= $t['tour_slug'] ?>" data-img="<?= (!empty($t['featured_image'])) ? (str_starts_with($t['featured_image'], 'images/') ? $t['featured_image'] : 'uploads/' . $t['featured_image']) : 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg' ?>" data-caption="<?= htmlspecialchars($t['title']) ?>"><?= htmlspecialchars($t['title']) ?></a></li>
                             <?php endforeach; ?>
                           </ul>
                         </div>
@@ -453,7 +490,7 @@ foreach ($navSafarisThemes as $st) {
                           <ul>
                             <?php foreach ($recTours as $rt): ?>
                               <li><a
-                                  href="tours/<?= $rt['slug'] ?>"><?= htmlspecialchars($rt['title']) ?><?php if ($rt['duration_days']): ?>
+                                  href="tours/<?= $rt['slug'] ?>" data-img="<?= (!empty($rt['featured_image'])) ? (str_starts_with($rt['featured_image'], 'images/') ? $rt['featured_image'] : 'uploads/' . $rt['featured_image']) : 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg' ?>" data-caption="<?= htmlspecialchars($rt['title']) ?>"><?= htmlspecialchars($rt['title']) ?><?php if ($rt['duration_days']): ?>
                                     <span style="font-size:11px;color:#9E9083;"> &ndash; <?= $rt['duration_days'] ?>
                                       Days</span><?php endif; ?></a></li>
                             <?php endforeach; ?>
@@ -547,8 +584,11 @@ foreach ($navSafarisThemes as $st) {
       </ul>
       <div style="margin-top:32px;">
         <h4 style="margin-bottom:8px;">Our Affiliations</h4>
-        <a href="https://www.safaribookings.com/" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.safaribookings.com/p6895" target="_blank" rel="noopener noreferrer" style="margin-right: 10px;">
           <img src="images/Filao/safaribookings.png" alt="Safari Bookings" style="height:35px;opacity:0.9;">
+        </a>
+        <a href="https://www.tripadvisor.co.za/Attraction_Review-g294207-d24109431-Reviews-FILAO_ADVENTURES-Nairobi.html" target="_blank" rel="noopener noreferrer">
+          <img src="images/Filao/tripadvisor.svg" alt="TripAdvisor" style="height:35px;opacity:0.9;">
         </a>
       </div>
     </div>
@@ -576,11 +616,10 @@ foreach ($navSafarisThemes as $st) {
 
   <div class="hb-footer">
     <div class="hb-socials">
-      <a href="#" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-      <a href="#" aria-label="Instagram"><i class="fa fa-instagram"></i></a>
-      <a href="#" aria-label="TikTok"><i class="fa fa-music"></i></a>
-      <a href="#" aria-label="YouTube"><i class="fa fa-youtube"></i></a>
-      <a href="https://wa.me/254757139239" aria-label="WhatsApp"><i class="fa fa-whatsapp"></i></a>
+      <a href="https://www.facebook.com/profile.php?id=100084891550126#" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="fa fa-facebook"></i></a>
+      <a href="https://www.instagram.com/filaoadventures/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fa fa-instagram"></i></a>
+      <a href="https://ke.linkedin.com/jobs/view/travel-consultant-at-filao-adventures-4398464574" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="fa fa-linkedin"></i></a>
+      <a href="https://wa.me/254757139239" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer"><i class="fa fa-whatsapp"></i></a>
     </div>
     <div class="hb-copy">&copy; <?php echo date('Y'); ?> Filao Adventures. All Rights Reserved.</div>
   </div>

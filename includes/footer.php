@@ -10,18 +10,21 @@
         <p class="fa-footer-desc">Your premier safari and luxury travel partner. Crafting unforgettable journeys across
           Africa and beyond since 2020.</p>
         <div class="social-links" style="margin-bottom:24px;">
-          <a href="#" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-          <a href="#" aria-label="Instagram"><i class="fa fa-instagram"></i></a>
-          <a href="#" aria-label="Twitter/X"><i class="fa fa-twitter"></i></a>
-          <a href="#" aria-label="YouTube"><i class="fa fa-youtube"></i></a>
-          <a href="https://wa.me/254757139239" aria-label="WhatsApp"><i class="fa fa-whatsapp"></i></a>
+          <a href="https://www.facebook.com/profile.php?id=100084891550126#" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="fa fa-facebook"></i></a>
+          <a href="https://www.instagram.com/filaoadventures/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fa fa-instagram"></i></a>
+          <a href="https://ke.linkedin.com/jobs/view/travel-consultant-at-filao-adventures-4398464574" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="fa fa-linkedin"></i></a>
+          <a href="https://wa.me/254757139239" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer"><i class="fa fa-whatsapp"></i></a>
         </div>
         <div class="footer-affiliation">
           <span
             style="font-size:11px;font-family:'Inter',sans-serif;color:#6B6358;text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:8px;">Proudly
             Affiliated With</span>
-          <a href="https://www.safaribookings.com/" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.safaribookings.com/p6895" target="_blank" rel="noopener noreferrer" style="margin-right: 10px;">
             <img src="images/Filao/safaribookings.png" alt="Safari Bookings"
+              style="height:35px;opacity:0.9;transition:opacity 0.2s;">
+          </a>
+          <a href="https://www.tripadvisor.co.za/Attraction_Review-g294207-d24109431-Reviews-FILAO_ADVENTURES-Nairobi.html" target="_blank" rel="noopener noreferrer">
+            <img src="images/Filao/tripadvisor.svg" alt="TripAdvisor"
               style="height:35px;opacity:0.9;transition:opacity 0.2s;">
           </a>
         </div>

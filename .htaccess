@@ -2,6 +2,10 @@
     RewriteEngine On
 
     # --- Live Server Compatibility ---
+    # Explicit redirects for uploads and images to solve 404s
+    RewriteRule ^filao/uploads/(.*)$ /uploads/$1 [L,R=301]
+    RewriteRule ^filao/images/(.*)$ /images/$1 [L,R=301]
+
     # Strip the /filao/ prefix from requests if the actual file/dir doesn't exist.
     # This perfectly compensates for the <base href="/filao/"> tag when the project
     # is deployed to a live domain's root directory.
