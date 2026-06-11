@@ -1,5 +1,9 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    RewriteBase /
+
+    # Disable MultiViews to prevent conflicts with clean URLs
+    Options -MultiViews
 
     # --- Live Server Compatibility ---
     # Explicit redirects for uploads and images to solve 404s
@@ -7,13 +11,13 @@
     RewriteRule ^filao/images/(.*)$ /images/$1 [L,R=301]
 
     # Strip the /filao/ prefix from requests if the actual file/dir doesn't exist.
-    # This perfectly compensates for the <base href="/filao/"> tag when the project
-    # is deployed to a live domain's root directory.
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^filao/(.*)$ $1 [L,QSA]
 
-    # Redirect .php URLs to clean URLs (except admin/ directory)
+    # Redirect .php URLs to clean URLs (only for direct GET browser requests, to not break AJAX/POST)
+    RewriteCond %{ENV:REDIRECT_STATUS} ^$
+    RewriteCond %{REQUEST_METHOD} GET
     RewriteCond %{THE_REQUEST} \s/([^/]+)\.php[\s?] [NC]
     RewriteCond %{REQUEST_URI} !^/admin/ [NC]
     RewriteRule ^(.+)\.php$ /$1 [R=301,L]
