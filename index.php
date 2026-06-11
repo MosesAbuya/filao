@@ -22,6 +22,9 @@ $countries = $pdo->query("
     LIMIT 8
 ")->fetchAll();
 
+// Fetch recent blogs
+$recent_blogs = $pdo->query("SELECT * FROM blogs WHERE status='published' ORDER BY created_at DESC LIMIT 3")->fetchAll();
+
 // Helper: build route string from itinerary
 function getTourRoute($pdo, $tourId)
 {
@@ -666,53 +669,22 @@ function getTourRoute($pdo, $tourId)
         </div>
       </div>
       <div class="row">
+        <?php foreach($recent_blogs as $blog): 
+           $img = $blog['featured_image'] ? 'uploads/' . $blog['featured_image'] : 'images/placeholder-blog.jpg';
+        ?>
         <div class="col-lg-4 col-md-6 mb-5 d-flex">
           <div class="fa-blog-card w-100">
-            <div class="bc-image-wrap"><img
-                src="images/Filao/East Africa/Maasai Mara/free-photo-of-wildebeest-grazing-in-the-kenyan-savannah (6).jpeg"
-                alt="Maasai Mara Migration" class="bc-image" loading="lazy"></div>
+            <div class="bc-image-wrap"><img src="<?= htmlspecialchars($img) ?>" alt="<?= htmlspecialchars($blog['title']) ?>" class="bc-image" loading="lazy"></div>
             <div class="bc-meta">
-              <span class="bc-date">March 2025</span>
-              <span class="bc-cat">Safari Guide</span>
+              <span class="bc-date"><?= date('F Y', strtotime($blog['created_at'])) ?></span>
+              <span class="bc-cat"><?= htmlspecialchars($blog['category']) ?></span>
             </div>
-            <div class="bc-title"><a href="blog">Best Time to Visit the Maasai Mara: A Month-by-Month Guide</a>
-            </div>
-            <div class="bc-excerpt">The Maasai Mara is spectacular year-round, but timing your visit around the Great
-              Migration when 1.5 million wildebeest cross the Mara River creates once-in-a-lifetime moments.</div>
-            <a href="blog" class="bc-link">Read More <i class="fa fa-arrow-right"></i></a>
+            <div class="bc-title"><a href="blog-detail?slug=<?= htmlspecialchars($blog['slug']) ?>"><?= htmlspecialchars($blog['title']) ?></a></div>
+            <div class="bc-excerpt"><?= htmlspecialchars(mb_strimwidth(strip_tags($blog['content']), 0, 100, '...')) ?></div>
+            <a href="blog-detail?slug=<?= htmlspecialchars($blog['slug']) ?>" class="bc-link">Read More <i class="fa fa-arrow-right"></i></a>
           </div>
         </div>
-        <div class="col-lg-4 col-md-6 mb-5 d-flex">
-          <div class="fa-blog-card w-100">
-            <div class="bc-image-wrap"><img
-                src="images/Filao/East Africa/Amboseli/Sarova-Shaba-Safari-breakfast-in-the-wild.jpg"
-                alt="Amboseli Safari" class="bc-image" loading="lazy"></div>
-            <div class="bc-meta">
-              <span class="bc-date">January 2025</span>
-              <span class="bc-cat">Comparison</span>
-            </div>
-            <div class="bc-title"><a href="blog">Amboseli vs Maasai Mara: Which Safari Park is Right for You?</a>
-            </div>
-            <div class="bc-excerpt">Both parks offer extraordinary wildlife experiences, but they each have a distinctly
-              different character. Here is how to decide which one belongs on your Kenya itinerary.</div>
-            <a href="blog" class="bc-link">Read More <i class="fa fa-arrow-right"></i></a>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6 mb-5 d-flex">
-          <div class="fa-blog-card w-100">
-            <div class="bc-image-wrap"><img src="images/Filao/Company/guy picnic in a park with safaricar.jpeg"
-                alt="Tailor Made Safari" class="bc-image" loading="lazy"></div>
-            <div class="bc-meta">
-              <span class="bc-date">February 2025</span>
-              <span class="bc-cat">Travel Tips</span>
-            </div>
-            <div class="bc-title"><a href="blog">5 Reasons to Choose a Tailor-Made Safari Over a Group Tour</a>
-            </div>
-            <div class="bc-excerpt">When you choose a tailor-made safari with Filao Adventures, every detail from the
-              lodge to the guide, the pace, and the route is shaped entirely around you.</div>
-            <a href="blog" class="bc-link">Read More <i class="fa fa-arrow-right"></i></a>
-          </div>
-        </div>
+        <?php endforeach; ?>
       </div>
       <div class="text-center"><a href="blog" class="view-all-link">View All Articles &rarr;</a></div>
     </div>

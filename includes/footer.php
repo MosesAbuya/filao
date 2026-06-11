@@ -23,6 +23,7 @@
         <p class="fa-footer-desc">Your premier safari and luxury travel partner. Crafting unforgettable journeys across
           Africa and beyond since 2020.</p>
         <div class="social-links" style="margin-bottom:24px;">
+          <a href="https://x.com/FilaoAdventures" aria-label="X (Twitter)" target="_blank" rel="noopener noreferrer"><i class="fa fa-twitter"></i></a>
           <a href="https://www.facebook.com/profile.php?id=100084891550126#" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="fa fa-facebook"></i></a>
           <a href="https://www.instagram.com/filaoadventures/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fa fa-instagram"></i></a>
           <a href="https://ke.linkedin.com/jobs/view/travel-consultant-at-filao-adventures-4398464574" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="fa fa-linkedin"></i></a>
@@ -70,7 +71,7 @@
         <span class="footer-col-heading">Company</span>
         <ul>
           <li><a href="about">About Us</a></li>
-          <li><a href="team">Meet the Team</a></li>
+
           <li><a href="sustainable-tourism">Sustainability</a></li>
           <li><a href="accreditations">Accreditations</a></li>
           <li><a href="careers">Careers</a></li>

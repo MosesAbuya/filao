@@ -161,6 +161,7 @@ $navJoiningTours = $navPdo->query("
           style="font-size: 11px; opacity: 0.85; gap: 6px;"><i class="fa fa-whatsapp" style="font-size: 15px;"></i>
           WhatsApp</a>
         <a href="https://www.instagram.com/filaoadventures/" target="_blank" class="text-white" style="opacity: 0.85;"><i class="fa fa-instagram"></i></a>
+        <a href="https://x.com/FilaoAdventures" target="_blank" class="text-white mr-3" style="opacity: 0.85;"><i class="fa fa-twitter"></i></a>
         <a href="https://www.facebook.com/profile.php?id=100084891550126#" target="_blank" class="text-white" style="opacity: 0.85;"><i class="fa fa-facebook"></i></a>
         <a href="https://ke.linkedin.com/jobs/view/travel-consultant-at-filao-adventures-4398464574" target="_blank" class="text-white" style="opacity: 0.85;"><i class="fa fa-linkedin"></i></a>
       </div>
@@ -597,7 +598,7 @@ $navJoiningTours = $navPdo->query("
       <h4>Who We Are</h4>
       <ul>
         <li><a href="about">About Us</a></li>
-        <li><a href="team">Meet The Team</a></li>
+
         <li><a href="accreditations">Our Accreditations</a></li>
         <li><a href="testimonials">Client Testimonials</a></li>
         <li><a href="sustainable-tourism">Sustainable Tourism</a></li>
@@ -631,6 +632,7 @@ $navJoiningTours = $navPdo->query("
 
   <div class="hb-footer">
     <div class="hb-socials">
+      <a href="https://x.com/FilaoAdventures" aria-label="X (Twitter)" target="_blank" rel="noopener noreferrer" style="margin-right:15px;"><i class="fa fa-twitter"></i></a>
       <a href="https://www.facebook.com/profile.php?id=100084891550126#" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="fa fa-facebook"></i></a>
       <a href="https://www.instagram.com/filaoadventures/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fa fa-instagram"></i></a>
       <a href="https://ke.linkedin.com/jobs/view/travel-consultant-at-filao-adventures-4398464574" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="fa fa-linkedin"></i></a>
@@ -671,7 +673,8 @@ $navJoiningTours = $navPdo->query("
           <p><i class="fa fa-phone" style="margin-right:8px;color:#C49018;"></i> <a href="tel:+254757139239" style="color:#000;text-decoration:none;font-weight:600;">+254 757 139239</a></p>
           <p><i class="fa fa-envelope" style="margin-right:8px;color:#C49018;"></i> <a href="mailto:info@filaoadventures.co.ke" style="color:#000;text-decoration:none;font-size:13px;font-weight:600;">info@filaoadventures.co.ke</a></p>
           <div class="rmm-socials" style="margin-top:20px;justify-content:center;">
-             <a href="#"><i class="fa fa-facebook"></i></a>
+             <a href="https://x.com/FilaoAdventures" target="_blank"><i class="fa fa-twitter"></i></a>
+             <a href="https://www.facebook.com/profile.php?id=100084891550126#" target="_blank"><i class="fa fa-facebook"></i></a>
              <a href="#"><i class="fa fa-instagram"></i></a>
              <a href="#"><i class="fa fa-youtube"></i></a>
              <a href="https://wa.me/254757139239"><i class="fa fa-whatsapp"></i></a>
@@ -837,7 +840,7 @@ $navJoiningTours = $navPdo->query("
       </div>
       <ul class="rmm-links rmm-bg-white">
         <li><a href="about">ABOUT US</a></li>
-        <li><a href="team">MEET THE TEAM</a></li>
+
         <li><a href="accreditations">OUR ACCREDITATIONS</a></li>
         <li><a href="testimonials">CLIENT TESTIMONIALS</a></li>
         <li><a href="sustainable-tourism">SUSTAINABLE TOURISM</a></li>
