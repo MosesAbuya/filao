@@ -670,17 +670,21 @@ function getTourRoute($pdo, $tourId)
       </div>
       <div class="row">
         <?php foreach($recent_blogs as $blog): 
-           $img = $blog['featured_image'] ? 'uploads/' . $blog['featured_image'] : 'images/placeholder-blog.jpg';
+           $imgSrc = $blog['featured_image'] ? (str_starts_with($blog['featured_image'],'images/') ? $blog['featured_image'] : 'uploads/'.$blog['featured_image']) : 'images/Filao/East Africa/pexels-droneafrica-13234382.jpg';
         ?>
-        <div class="col-lg-4 col-md-6 mb-5 d-flex">
+        <div class="col-lg-4 col-md-6 mb-5 d-flex align-items-stretch">
           <div class="fa-blog-card w-100">
-            <div class="bc-image-wrap"><img src="<?= htmlspecialchars($img) ?>" alt="<?= htmlspecialchars($blog['title']) ?>" class="bc-image" loading="lazy"></div>
+            <div class="bc-image-wrap">
+              <a href="blog-detail?slug=<?= htmlspecialchars($blog['slug']) ?>">
+                <img src="<?= htmlspecialchars($imgSrc) ?>" alt="<?= htmlspecialchars($blog['title']) ?>" class="bc-image" loading="lazy">
+              </a>
+            </div>
             <div class="bc-meta">
-              <span class="bc-date"><?= date('F Y', strtotime($blog['created_at'])) ?></span>
-              <span class="bc-cat"><?= htmlspecialchars($blog['category']) ?></span>
+              <span class="bc-date"><?= date('M d, Y', strtotime($blog['created_at'])) ?></span>
+              <span class="bc-cat"><?= htmlspecialchars($blog['category'] ?? 'Uncategorized') ?></span>
             </div>
             <div class="bc-title"><a href="blog-detail?slug=<?= htmlspecialchars($blog['slug']) ?>"><?= htmlspecialchars($blog['title']) ?></a></div>
-            <div class="bc-excerpt"><?= htmlspecialchars(mb_strimwidth(strip_tags($blog['content']), 0, 100, '...')) ?></div>
+            <div class="bc-excerpt"><?= htmlspecialchars(mb_strimwidth(strip_tags($blog['excerpt'] ?: $blog['body']), 0, 120, '...')) ?></div>
             <a href="blog-detail?slug=<?= htmlspecialchars($blog['slug']) ?>" class="bc-link">Read More <i class="fa fa-arrow-right"></i></a>
           </div>
         </div>
