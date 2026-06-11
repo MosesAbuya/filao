@@ -178,6 +178,17 @@ $readTime = max(1, round(str_word_count(strip_tags($blog['body'])) / 200));
           </a>
           <?php endforeach; ?>
         </div>
+
+        <!-- Newsletter Sidebar Box -->
+        <div class="blog-sidebar-box" style="text-align:center;">
+          <h4>Join Our Newsletter</h4>
+          <p style="font-size:14px;color:#6B6358;font-family:'Inter',sans-serif;margin-bottom:16px;">Expert tips, safari inspiration, and exclusive offers.</p>
+          <form id="sidebarNewsletterForm" class="newsletter-form">
+            <input type="email" name="email" placeholder="Your Email Address" required style="width:100%; padding:10px 15px; border:1px solid #E5DDD0; border-radius:4px; margin-bottom:12px; font-family:'Inter',sans-serif; font-size:14px; outline:none;">
+            <button type="submit" style="width:100%; background:#1C1712; color:#fff; border:none; padding:12px; border-radius:4px; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:12px; letter-spacing:0.1em; cursor:pointer; transition:background 0.3s;">Subscribe</button>
+          </form>
+          <div id="sidebarNewsletterFeedback" style="display:none; font-size:12px; margin-top:12px; border-radius:4px; padding:8px;"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -187,5 +198,55 @@ $readTime = max(1, round(str_word_count(strip_tags($blog['body'])) / 200));
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="assets/js/filao-nav.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const sForm = document.getElementById('sidebarNewsletterForm');
+    const sFeedback = document.getElementById('sidebarNewsletterFeedback');
+    
+    if (sForm) {
+        sForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = sForm.querySelector('button[type="submit"]');
+            const originalText = btn.innerText;
+            btn.innerText = 'Subscribing...';
+            btn.disabled = true;
+            sFeedback.style.display = 'none';
+            
+            const formData = new FormData(sForm);
+            fetch('/filao/handlers/newsletter.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(r => r.json())
+            .then(res => {
+                btn.innerText = originalText;
+                btn.disabled = false;
+                sFeedback.style.display = 'block';
+                if(res.success) {
+                    sFeedback.style.backgroundColor = 'rgba(98,140,82,0.1)';
+                    sFeedback.style.border = '1px solid #628C52';
+                    sFeedback.style.color = '#4e7040';
+                    sFeedback.innerHTML = '<i class="fa fa-check-circle mr-2"></i> ' + res.message;
+                    sForm.reset();
+                } else {
+                    sFeedback.style.backgroundColor = 'rgba(180,30,30,0.1)';
+                    sFeedback.style.border = '1px solid #b41e1e';
+                    sFeedback.style.color = '#b41e1e';
+                    sFeedback.innerHTML = '<i class="fa fa-exclamation-circle mr-2"></i> ' + res.message;
+                }
+            })
+            .catch(err => {
+                btn.innerText = originalText;
+                btn.disabled = false;
+                sFeedback.style.display = 'block';
+                sFeedback.style.backgroundColor = 'rgba(180,30,30,0.1)';
+                sFeedback.style.border = '1px solid #b41e1e';
+                sFeedback.style.color = '#b41e1e';
+                sFeedback.innerHTML = '<i class="fa fa-exclamation-circle mr-2"></i> Network error.';
+            });
+        });
+    }
+});
+</script>
 </body>
 </html>

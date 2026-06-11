@@ -147,18 +147,18 @@ function getTourRoute($pdo, $tourId)
       <div class="row justify-content-center w-100 mx-0">
         <div class="col-lg-10 col-xl-9 text-center mx-auto">
           
-          <div class="fa-hero-search" style="opacity: 1; margin: 0 auto; max-width: 900px; text-align: left; background: #ffffff; border-radius: 8px; padding: 6px; position: relative; z-index: 10; box-shadow: 0 25px 50px rgba(0,0,0,0.25);">
+          <form action="tours" method="GET" class="fa-hero-search" style="opacity: 1; margin: 0 auto; max-width: 900px; text-align: left; background: #ffffff; border-radius: 8px; padding: 6px; position: relative; z-index: 10; box-shadow: 0 25px 50px rgba(0,0,0,0.25);">
             <div style="display:flex; align-items:center; flex-wrap:nowrap; width: 100%;">
               
               <div class="fa-search-field" style="flex: 2; position: relative; padding: 10px 20px; border-right: 1px solid rgba(0,0,0,0.08);">
                 <label for="hero-live-search" style="color: #6B6358; font-size:10px; font-weight:700; letter-spacing: 0.1em; text-transform:uppercase; margin-bottom:2px; display:block;">DESTINATION</label>
-                <input type="text" id="hero-live-search" placeholder="Where do you want to go?" style="width: 100%; padding: 4px 0; border: none; outline: none; background:transparent; font-size:15px; color:#1C1712;">
+                <input type="text" name="dest" id="hero-live-search" placeholder="Where do you want to go?" style="width: 100%; padding: 4px 0; border: none; outline: none; background:transparent; font-size:15px; color:#1C1712;">
                 <div id="hero-search-results" class="ajax-search-results-dropdown d-none" style="position: absolute; top: 100%; left: 0; width: 100%; background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 4px; z-index: 100; max-height: 300px; overflow-y: auto; text-align: left;"></div>
               </div>
               
               <div class="fa-search-field" style="flex: 1.5; padding: 10px 20px; border-right: 1px solid rgba(0,0,0,0.08);">
                 <label style="color: #6B6358; font-size:10px; font-weight:700; letter-spacing: 0.1em; text-transform:uppercase; margin-bottom:2px; display:block;">TRAVEL MONTH</label>
-                <select style="width: 100%; padding: 4px 0; border: none; outline: none; background:transparent; font-size:15px; color:#1C1712; cursor:pointer; -webkit-appearance:none; -moz-appearance:none; appearance:none; background-image:url('data:image/svg+xml;utf8,<svg fill=%22%231C1712%22 height=%2224%22 viewBox=%220 0 24 24%22 width=%2224%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M7 10l5 5 5-5z%22/><path d=%22M0 0h24v24H0z%22 fill=%22none%22/></svg>'); background-repeat:no-repeat; background-position-x:100%; background-position-y:5px;">
+                <select name="month" style="width: 100%; padding: 4px 0; border: none; outline: none; background:transparent; font-size:15px; color:#1C1712; cursor:pointer; -webkit-appearance:none; -moz-appearance:none; appearance:none; background-image:url('data:image/svg+xml;utf8,<svg fill=%22%231C1712%22 height=%2224%22 viewBox=%220 0 24 24%22 width=%2224%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M7 10l5 5 5-5z%22/><path d=%22M0 0h24v24H0z%22 fill=%22none%22/></svg>'); background-repeat:no-repeat; background-position-x:100%; background-position-y:5px;">
                   <option value="">Any Month</option>
                   <option value="january">January</option>
                   <option value="february">February</option>
@@ -177,7 +177,7 @@ function getTourRoute($pdo, $tourId)
 
               <div class="fa-search-field" style="flex: 1.5; padding: 10px 20px;">
                 <label style="color: #6B6358; font-size:10px; font-weight:700; letter-spacing: 0.1em; text-transform:uppercase; margin-bottom:2px; display:block;">GUESTS</label>
-                <select style="width: 100%; padding: 4px 0; border: none; outline: none; background:transparent; font-size:15px; color:#1C1712; cursor:pointer; -webkit-appearance:none; -moz-appearance:none; appearance:none; background-image:url('data:image/svg+xml;utf8,<svg fill=%22%231C1712%22 height=%2224%22 viewBox=%220 0 24 24%22 width=%2224%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M7 10l5 5 5-5z%22/><path d=%22M0 0h24v24H0z%22 fill=%22none%22/></svg>'); background-repeat:no-repeat; background-position-x:100%; background-position-y:5px;">
+                <select name="guests" style="width: 100%; padding: 4px 0; border: none; outline: none; background:transparent; font-size:15px; color:#1C1712; cursor:pointer; -webkit-appearance:none; -moz-appearance:none; appearance:none; background-image:url('data:image/svg+xml;utf8,<svg fill=%22%231C1712%22 height=%2224%22 viewBox=%220 0 24 24%22 width=%2224%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M7 10l5 5 5-5z%22/><path d=%22M0 0h24v24H0z%22 fill=%22none%22/></svg>'); background-repeat:no-repeat; background-position-x:100%; background-position-y:5px;">
                   <option value="1">1 Adult</option>
                   <option value="2">2 Adults</option>
                   <option value="3">3 Adults</option>
@@ -187,11 +187,11 @@ function getTourRoute($pdo, $tourId)
               </div>
 
               <div style="flex: 0 0 auto; padding: 0 4px;">
-                <a href="tours" class="btn" style="background:#628C52; color:#fff; padding:15px 24px; font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; border-radius:4px; border:none; display:flex; align-items:center;"><i class="fa fa-search" style="margin-right:8px; font-size:14px;"></i> SEARCH TOURS</a>
+                <button type="submit" class="btn" style="background:#628C52; color:#fff; padding:15px 24px; font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; border-radius:4px; border:none; display:flex; align-items:center; cursor:pointer;"><i class="fa fa-search" style="margin-right:8px; font-size:14px;"></i> SEARCH TOURS</button>
               </div>
               
             </div>
-          </div>
+          </form>
 
         </div>
       </div>
@@ -260,70 +260,6 @@ function getTourRoute($pdo, $tourId)
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ====== FEATURED TOURS ====== -->
-  <section class="section-pad bg-cream">
-    <div class="container" style="max-width:1280px;">
-      <div class="row">
-        <div class="col-12">
-          <div class="fa-section-heading centered">
-            <span class="eyebrow">Our Tours</span>
-            <h2>Signature Safari Experiences</h2>
-            <p>Each journey is personally crafted from the first game drive to the final sundowner.</p>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <?php
-        $tourExcerpts = [
-          "Traverse southern Kenya's most iconic wildlife corridors   encountering elephants beneath Kilimanjaro and big cats in the red dust of Tsavo.",
-          "Experience the legendary Amboseli with its vast elephant herds against the backdrop of Africa's highest peak, Mt. Kilimanjaro.",
-          "Join a small-group game drive through the grasslands of the Masai Mara   Africa's premier big cat territory and wildebeest home.",
-          "Combine two of Kenya's most rewarding parks: the flamingo-lined shores of Lake Nakuru and the big cat paradise of the Masai Mara.",
-          "The ultimate Kenya safari   seven days through the Masai Mara, Lake Nakuru, and Amboseli with Kilimanjaro as your backdrop.",
-          "A comprehensive East African adventure through Kenya's most celebrated wildlife destinations.",
-        ];
-        foreach ($tours as $idx => $tour):
-          $img = $tour['featured_image'] ? 'uploads/' . $tour['featured_image'] : 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
-          $route = getTourRoute($pdo, $tour['id']);
-          $excerpt = $tour['excerpt'] ?: ($tourExcerpts[$idx] ?? 'An expertly guided safari through Kenya\'s most spectacular landscapes and wildlife destinations.');
-          $nights = $tour['duration_days'] - 1;
-          $price = $tour['price_from_usd'] ? '$' . number_format($tour['price_from_usd']) : 'Contact Us';
-          ?>
-          <div class="col-lg-4 col-md-6 mb-5 d-flex">
-            <div class="fa-tour-card w-100">
-              <div class="tc-image-wrap">
-                <img src="<?= htmlspecialchars($img) ?>" alt="<?= htmlspecialchars($tour['title']) ?>" class="tc-image"
-                  loading="lazy">
-                <div class="tc-price-badge <?= $tour['price_from_usd'] ? '' : 'contact' ?>">
-                  <?= $tour['price_from_usd'] ? '$' . number_format($tour['price_from_usd']) . '/person' : 'Enquire' ?>
-                </div>
-                <div class="tc-duration-badge"><?= $nights ?> Nights</div>
-              </div>
-              <div class="tc-body">
-                <div class="tc-country">Kenya &bull; Safari</div>
-                <div class="tc-title"><a href="tours/<?= $tour['slug'] ?>"><?= htmlspecialchars($tour['title']) ?></a>
-                </div>
-                <?php if ($route): ?>
-                  <div class="tc-route"><i class="fa fa-map-marker"></i><?= htmlspecialchars($route) ?></div>
-                <?php endif; ?>
-                <div class="tc-excerpt"><?= htmlspecialchars(substr(strip_tags($excerpt), 0, 130)) ?>...</div>
-                <div class="tc-footer">
-                  <div class="tc-price-text">From <strong><?= $price ?></strong></div>
-                  <a href="tours/<?= $tour['slug'] ?>" class="tc-cta" style="padding:10px 24px; font-size:11px;">View
-                    Itinerary</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        <?php endforeach; ?>
-      </div>
-      </div>
-      <div class="text-center mt-3">
-        <a href="tours" class="view-all-link" style="font-size:12px;">View All Tours &rarr;</a>
       </div>
     </div>
   </section>
@@ -490,6 +426,70 @@ function getTourRoute($pdo, $tourId)
   </style>
   <?php endif; ?>
 
+  <!-- ====== FEATURED TOURS ====== -->
+  <section class="section-pad bg-cream">
+    <div class="container" style="max-width:1280px;">
+      <div class="row">
+        <div class="col-12">
+          <div class="fa-section-heading centered">
+            <span class="eyebrow">Our Tours</span>
+            <h2>Signature Safari Experiences</h2>
+            <p>Each journey is personally crafted from the first game drive to the final sundowner.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <?php
+        $tourExcerpts = [
+          "Traverse southern Kenya's most iconic wildlife corridors   encountering elephants beneath Kilimanjaro and big cats in the red dust of Tsavo.",
+          "Experience the legendary Amboseli with its vast elephant herds against the backdrop of Africa's highest peak, Mt. Kilimanjaro.",
+          "Join a small-group game drive through the grasslands of the Masai Mara   Africa's premier big cat territory and wildebeest home.",
+          "Combine two of Kenya's most rewarding parks: the flamingo-lined shores of Lake Nakuru and the big cat paradise of the Masai Mara.",
+          "The ultimate Kenya safari   seven days through the Masai Mara, Lake Nakuru, and Amboseli with Kilimanjaro as your backdrop.",
+          "A comprehensive East African adventure through Kenya's most celebrated wildlife destinations.",
+        ];
+        foreach ($tours as $idx => $tour):
+          $img = $tour['featured_image'] ? 'uploads/' . $tour['featured_image'] : 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
+          $route = getTourRoute($pdo, $tour['id']);
+          $excerpt = $tour['excerpt'] ?: ($tourExcerpts[$idx] ?? 'An expertly guided safari through Kenya\'s most spectacular landscapes and wildlife destinations.');
+          $nights = $tour['duration_days'] - 1;
+          $price = $tour['price_from_usd'] ? '$' . number_format($tour['price_from_usd']) : 'Contact Us';
+          ?>
+          <div class="col-lg-4 col-md-6 mb-5 d-flex">
+            <div class="fa-tour-card w-100">
+              <div class="tc-image-wrap">
+                <img src="<?= htmlspecialchars($img) ?>" alt="<?= htmlspecialchars($tour['title']) ?>" class="tc-image"
+                  loading="lazy">
+                <div class="tc-price-badge <?= $tour['price_from_usd'] ? '' : 'contact' ?>">
+                  <?= $tour['price_from_usd'] ? '$' . number_format($tour['price_from_usd']) . '/person' : 'Enquire' ?>
+                </div>
+                <div class="tc-duration-badge"><?= $nights ?> Nights</div>
+              </div>
+              <div class="tc-body">
+                <div class="tc-country">Kenya &bull; Safari</div>
+                <div class="tc-title"><a href="tours/<?= $tour['slug'] ?>"><?= htmlspecialchars($tour['title']) ?></a>
+                </div>
+                <?php if ($route): ?>
+                  <div class="tc-route"><i class="fa fa-map-marker"></i><?= htmlspecialchars($route) ?></div>
+                <?php endif; ?>
+                <div class="tc-excerpt"><?= htmlspecialchars(substr(strip_tags($excerpt), 0, 130)) ?>...</div>
+                <div class="tc-footer">
+                  <div class="tc-price-text">From <strong><?= $price ?></strong></div>
+                  <a href="tours/<?= $tour['slug'] ?>" class="tc-cta" style="padding:10px 24px; font-size:11px;">View
+                    Itinerary</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        <?php endforeach; ?>
+      </div>
+      </div>
+      <div class="text-center mt-3">
+        <a href="tours" class="view-all-link" style="font-size:12px;">View All Tours &rarr;</a>
+      </div>
+    </div>
+  </section>
+
   <!-- ====== DESTINATIONS CAROUSEL ====== -->
   <section class="section-pad bg-earth">
     <div class="container" style="max-width:1280px;">
@@ -586,7 +586,7 @@ function getTourRoute($pdo, $tourId)
       <div class="row align-items-center">
         <div class="col-lg-5 mb-5 mb-lg-0">
           <div style="overflow:hidden;border-radius:4px;height:520px;">
-            <img src="images/Filao/East Africa/pexels-muganineza-arsene-2152761221-34784514.jpg"
+            <img src="images/Filao/Company/tourists behind safari car.jpeg"
               alt="Filao Adventures Story" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
         </div>
@@ -700,7 +700,7 @@ function getTourRoute($pdo, $tourId)
         </div>
         <div class="col-lg-4 col-md-6 mb-5 d-flex">
           <div class="fa-blog-card w-100">
-            <div class="bc-image-wrap"><img src="images/Filao/East Africa/pexels-droneafrica-13234382.jpg"
+            <div class="bc-image-wrap"><img src="images/Filao/Company/guy picnic in a park with safaricar.jpeg"
                 alt="Tailor Made Safari" class="bc-image" loading="lazy"></div>
             <div class="bc-meta">
               <span class="bc-date">February 2025</span>

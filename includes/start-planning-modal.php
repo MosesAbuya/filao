@@ -256,6 +256,12 @@ $currentYear = (int) date('Y');
             <textarea id="spMessage" class="sp-text-input sp-textarea" rows="3"
               placeholder="Special requirements, preferred lodges, occasion..."></textarea>
           </div>
+          <div class="sp-field-wrap sp-field-full" style="margin-top:10px;">
+            <label style="display:flex; align-items:flex-start; gap:8px; font-size:13.5px; font-family:'Inter',sans-serif; color:#4A4340; cursor:pointer; line-height:1.4;">
+              <input type="checkbox" id="spNewsletterOptIn" checked style="accent-color:#C49018; margin-top:3px;">
+              <span>Yes, I'd like to receive safari inspiration, expert tips, and exclusive offers from Filao Adventures via email.</span>
+            </label>
+          </div>
         </div>
 
         <div id="spFormError" class="sp-form-error" style="display:none;"></div>

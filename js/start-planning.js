@@ -291,6 +291,10 @@
       formData.append('budget', state.budget);
       formData.append('travelled_before', state.travelled_before || '');
       formData.append('referred', state.referred || '');
+      const optInBox = document.getElementById('spNewsletterOptIn');
+      if (optInBox && optInBox.checked) {
+        formData.append('newsletter_optin', '1');
+      }
       state.activities.forEach(a => formData.append('activities[]', a));
 
       fetch('/filao/handlers/enquiry.php', {

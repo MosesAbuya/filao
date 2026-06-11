@@ -13,15 +13,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'toggl
   $tid = intval($_POST['tour_id']);
   $rec = intval($_POST['is_recommended']);
   $hot = intval($_POST['is_hot_offer'] ?? 0);
+  $ad = intval($_POST['is_active_ad'] ?? 0);
+  $join = intval($_POST['is_joining_tour'] ?? 0);
   $act = trim($_POST['recommended_activity'] ?? '');
-  $pdo->prepare('UPDATE tours SET is_recommended=?, is_hot_offer=?, recommended_activity=? WHERE id=?')->execute([$rec, $hot, $act ?: null, $tid]);
+  $pdo->prepare('UPDATE tours SET is_recommended=?, is_hot_offer=?, is_active_ad=?, is_joining_tour=?, recommended_activity=? WHERE id=?')->execute([$rec, $hot, $ad, $join, $act ?: null, $tid]);
   header('Location: recommendations.php?saved=1');
   exit;
 }
 
 // Fetch all published tours with their primary destination country
 $tours = $pdo->query("
-    SELECT t.id, t.title, t.duration_days, t.price_from_usd, t.is_recommended, t.is_hot_offer, t.recommended_activity, t.featured_image,
+    SELECT t.id, t.slug, t.title, t.duration_days, t.price_from_usd, t.is_recommended, t.is_hot_offer, t.is_active_ad, t.is_joining_tour, t.recommended_activity, t.featured_image,
            (SELECT d.country FROM destinations d JOIN itinerary_steps ist ON d.id=ist.destination_id WHERE ist.tour_id=t.id ORDER BY ist.step_number LIMIT 1) AS country
     FROM tours t
     WHERE t.status='published'
@@ -64,8 +66,10 @@ include 'partials/sidebar.php';
           <table class="table align-middle">
             <thead>
               <tr>
-                <th style="width:50px;">Rec.</th>
+                <th>Recommendation</th>
                 <th style="width:50px;">Hot</th>
+                <th style="width:50px;">Active Ad</th>
+                <th style="width:50px;">Joining Tour</th>
                 <th>Tour</th>
                 <th>Country</th>
                 <th>Duration</th>
@@ -89,12 +93,29 @@ include 'partials/sidebar.php';
                     </div>
                   </td>
                   <td>
+                    <div class="form-check">
+                      <input class="form-check-input ad-check" type="checkbox" id="ad-<?= $tour['id'] ?>"
+                        <?= $tour['is_active_ad'] ? 'checked' : '' ?> data-id="<?= $tour['id'] ?>">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check">
+                      <input class="form-check-input join-check" type="checkbox" id="join-<?= $tour['id'] ?>"
+                        <?= $tour['is_joining_tour'] ? 'checked' : '' ?> data-id="<?= $tour['id'] ?>">
+                    </div>
+                  </td>
+                  <td>
                     <?php if ($tour['featured_image']): ?>
                       <?php $img = str_starts_with($tour['featured_image'], 'images/') ? '../' . $tour['featured_image'] : '../uploads/' . $tour['featured_image']; ?>
                       <img src="<?= htmlspecialchars($img) ?>"
                         style="width:50px;height:35px;object-fit:cover;border-radius:3px;margin-right:8px;vertical-align:middle;">
                     <?php endif; ?>
                     <strong><?= sanitize($tour['title']) ?></strong>
+                    <?php if ($tour['is_active_ad']): ?>
+                      <div class="mt-1">
+                        <a href="../ad/<?= $tour['slug'] ?>" target="_blank" class="badge bg-danger text-decoration-none" style="font-size:11px;"><i class="fa fa-external-link me-1"></i>View Ad Page</a>
+                      </div>
+                    <?php endif; ?>
                   </td>
                   <td><?= sanitize($tour['country'] ?: 'Kenya') ?></td>
                   <td><?= $tour['duration_days'] ?> Days</td>
@@ -114,6 +135,8 @@ include 'partials/sidebar.php';
                       <input type="hidden" name="tour_id" value="<?= $tour['id'] ?>">
                       <input type="hidden" name="is_recommended" class="rec-val" value="<?= $tour['is_recommended'] ?>">
                       <input type="hidden" name="is_hot_offer" class="hot-val" value="<?= $tour['is_hot_offer'] ?>">
+                      <input type="hidden" name="is_active_ad" class="ad-val" value="<?= $tour['is_active_ad'] ?>">
+                      <input type="hidden" name="is_joining_tour" class="join-val" value="<?= $tour['is_joining_tour'] ?>">
                       <input type="hidden" name="recommended_activity" class="act-val"
                         value="<?= htmlspecialchars($tour['recommended_activity'] ?? '') ?>">
                       <button type="submit" class="btn btn-sm btn-primary save-btn">Save</button>
@@ -131,16 +154,19 @@ include 'partials/sidebar.php';
   <?php include 'partials/footer.php'; ?>
 </div>
 <script>
-  // Sync checkbox and select into hidden inputs before form submit
   document.querySelectorAll('tbody tr').forEach(function (row) {
     const check = row.querySelector('.rec-check');
     const hotCheck = row.querySelector('.hot-check');
+    const adCheck = row.querySelector('.ad-check');
+    const joinCheck = row.querySelector('.join-check');
     const sel = row.querySelector('.activity-select');
     const form = row.querySelector('form');
     if (!form) return;
     form.addEventListener('submit', function () {
       form.querySelector('.rec-val').value = check.checked ? 1 : 0;
       form.querySelector('.hot-val').value = hotCheck.checked ? 1 : 0;
+      form.querySelector('.ad-val').value = adCheck.checked ? 1 : 0;
+      form.querySelector('.join-val').value = joinCheck.checked ? 1 : 0;
       form.querySelector('.act-val').value = sel ? sel.value : '';
     });
   });

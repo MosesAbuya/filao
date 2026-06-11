@@ -33,7 +33,7 @@
     <div class="row align-items-center">
       <div class="col-lg-6 mb-5 mb-lg-0">
         <div style="overflow:hidden;border-radius:4px;height:600px;">
-          <img src="images/Filao/East Africa/pexels-muganineza-arsene-2152761221-34784514.jpg" alt="Our Story" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <img src="images/Filao/Company/safari car with back door open.jpeg" alt="Our Story" style="width:100%;height:100%;object-fit:cover;display:block;">
         </div>
       </div>
       <div class="col-lg-6 pl-lg-5">
@@ -86,7 +86,7 @@
 </section>
 
 <!-- Stats Bar -->
-<section class="fa-stats-bar" style="background-image:url('images/Filao/East Africa/pexels-droneafrica-13234382.jpg');background-size:cover;background-position:center;position:relative;">
+<section class="fa-stats-bar" style="background-image:url('images/Filao/Company/tour vehicle back .jpeg');background-size:cover;background-position:center;position:relative;">
   <div class="overlay" style="position:absolute;inset:0;background:rgba(30,18,8,0.85);"></div>
   <div class="container" style="max-width:1280px;position:relative;z-index:2;">
     <div class="row text-center">
@@ -135,17 +135,7 @@
   </div>
 </section>
 
-<section class="section-pad bg-cream" style="padding-top:32px;">
-  <div class="container" style="max-width:1280px;text-align:center;">
-    <h3 style="font-family:'Cormorant Garant',serif;font-size:28px;color:#1C1712;margin-bottom:24px;">Our Affiliations</h3>
-    <a href="https://www.safaribookings.com/p6895" target="_blank" rel="noopener noreferrer" style="display:inline-block;transition:transform 0.2s; margin-right: 20px;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-      <img src="images/Filao/safaribookings.png" alt="Safari Bookings" style="height:60px;opacity:0.9;">
-    </a>
-    <a href="https://www.tripadvisor.co.za/Attraction_Review-g294207-d24109431-Reviews-FILAO_ADVENTURES-Nairobi.html" target="_blank" rel="noopener noreferrer" style="display:inline-block;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-      <img src="images/Filao/tripadvisor.svg" alt="TripAdvisor" style="height:60px;opacity:0.9;">
-    </a>
-  </div>
-</section>
+
 
 <section class="fa-cta-banner" style="background-image:url('images/Filao/East Africa/pexels-zacchaeus-rains-262050732-20523197.jpg');">
   <div class="overlay"></div>

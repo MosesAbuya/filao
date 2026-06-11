@@ -195,14 +195,13 @@ $nights = $tour['duration_days'] - 1;
               <?php foreach($steps as $idx => $step): ?>
               <div class="card">
                 <div class="card-header" id="heading<?= $step['id'] ?>">
-                  <button type="button" data-toggle="collapse" data-target="#collapse<?= $step['id'] ?>" aria-expanded="<?= $idx===0 ? 'true':'false' ?>">
+                  <button type="button" aria-expanded="true" style="cursor:default; pointer-events:none;">
                     <span class="day-badge">DAY <?= $step['step_number'] ?></span>
                     <?= htmlspecialchars($step['dest_name']) ?>
                     <?php if($step['nights_count']>1): ?><span style="font-size:11px;color:#6B6358;font-weight:400;letter-spacing:0;text-transform:none;">(<?= $step['nights_count'] ?> Nights)</span><?php endif; ?>
-                    <i class="fa fa-angle-down ml-auto" style="color:#C49018;"></i>
                   </button>
                 </div>
-                <div id="collapse<?= $step['id'] ?>" class="collapse <?= $idx===0 ? 'show':'' ?>" data-parent="#itineraryAccordion">
+                <div id="collapse<?= $step['id'] ?>" class="show">
                   <div class="card-body">
                     <div class="step-meta">
                       <?php if($step['acc_name']): ?>
@@ -261,13 +260,12 @@ $nights = $tour['duration_days'] - 1;
                 <div class="card">
                   <div class="card-header" id="accHeading<?= $idx ?>">
                     <h5 class="mb-0">
-                      <button class="btn btn-link <?= $idx===0 ? '' : 'collapsed' ?>" type="button" data-toggle="collapse" data-target="#accCollapse<?= $idx ?>" aria-expanded="<?= $idx===0 ? 'true' : 'false' ?>" aria-controls="accCollapse<?= $idx ?>">
+                      <button class="btn btn-link" type="button" aria-expanded="true" style="cursor:default; pointer-events:none;">
                         <span class="day-label"><?= $dayLabel ?>:</span> <?= htmlspecialchars($step['acc_name'] ?? 'Accommodation TBD') ?>
-                        <i class="fa fa-chevron-down pull-right"></i>
                       </button>
                     </h5>
                   </div>
-                  <div id="accCollapse<?= $idx ?>" class="collapse <?= $idx===0 ? 'show' : '' ?>" aria-labelledby="accHeading<?= $idx ?>" data-parent="#accAccordion">
+                  <div id="accCollapse<?= $idx ?>" class="show">
                     <div class="card-body">
                       <div class="row">
                         <div class="col-md-5 mb-3 mb-md-0">

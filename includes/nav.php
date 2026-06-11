@@ -124,6 +124,13 @@ foreach ($navSafarisThemes as $st) {
   $navSafarisByTheme[$st['theme_name']][] = $st;
 }
 
+// Joining Tours
+$navJoiningTours = $navPdo->query("
+    SELECT id, title, slug, featured_image
+    FROM tours
+    WHERE is_joining_tour=1 AND status='published'
+    ORDER BY title ASC
+")->fetchAll();
 ?>
 <!-- ====== MAIN HEADER ====== -->
 <header class="fa-site-header" id="faNavbar">
@@ -403,6 +410,13 @@ foreach ($navSafarisThemes as $st) {
                             data-img="images/Filao/East Africa/pexels-balazsimon-15993990.jpg"
                             data-caption="Featured Safaris">Featured Safaris</a></li>
                       <?php endif; ?>
+                      <?php if(!empty($navJoiningTours)): ?>
+                        <li class="<?= empty($navSafarisByTheme) ? 'mm-active' : '' ?>">
+                          <a href="#" class="mm-tab-trigger" data-panel="saf-joining"
+                            data-img="<?= (!empty($navJoiningTours[0]['featured_image'])) ? (str_starts_with($navJoiningTours[0]['featured_image'], 'images/') ? $navJoiningTours[0]['featured_image'] : 'uploads/' . $navJoiningTours[0]['featured_image']) : 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg' ?>"
+                            data-caption="Joining Tours">Joining Tours</a>
+                        </li>
+                      <?php endif; ?>
                       <li><a href="safaris" style="margin-top:12px;border-top:1px solid #E5DDD0;padding-top:12px;">View
                           All Safaris</a></li>
                     </ul>
@@ -424,6 +438,15 @@ foreach ($navSafarisThemes as $st) {
                       <div class="mm-panel" data-id="saf-featured" style="display:block;">
                         <ul>
                           <li><a href="#">More safaris coming soon!</a></li>
+                        </ul>
+                      </div>
+                    <?php endif; ?>
+                    <?php if(!empty($navJoiningTours)): ?>
+                      <div class="mm-panel" data-id="saf-joining" style="display:<?= empty($navSafarisByTheme) ? 'block' : 'none' ?>;">
+                        <ul>
+                          <?php foreach ($navJoiningTours as $t): ?>
+                            <li><a href="tours/<?= $t['slug'] ?>" data-img="<?= (!empty($t['featured_image'])) ? (str_starts_with($t['featured_image'], 'images/') ? $t['featured_image'] : 'uploads/' . $t['featured_image']) : 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg' ?>" data-caption="<?= htmlspecialchars($t['title']) ?>"><?= htmlspecialchars($t['title']) ?></a></li>
+                          <?php endforeach; ?>
                         </ul>
                       </div>
                     <?php endif; ?>
@@ -537,20 +560,20 @@ foreach ($navSafarisThemes as $st) {
   </div><!-- /.fa-nav-row -->
 
   <!-- Search Bar -->
-  <div id="fa-search-bar" style="display:none;background:#fff;padding:14px 24px;border-top:1px solid #E5DDD0;position:relative;">
+  <form action="tours" method="GET" id="fa-search-bar" style="display:none;background:#fff;padding:14px 24px;border-top:1px solid #E5DDD0;position:relative; margin:0;">
     <div style="max-width:600px;width:100%;margin:0 auto;display:flex;gap:10px;position:relative;">
-      <input type="text" id="fa-search-input" placeholder="Search tours, destinations..."
+      <input type="text" name="q" id="fa-search-input" placeholder="Search tours, destinations..."
         style="flex:1;padding:10px 16px;border:1px solid #E5DDD0;border-radius:4px;font-family:'Inter',sans-serif;font-size:14px;outline:none;" autocomplete="off">
-      <button
+      <button type="submit"
         style="background:#C49018;color:#fff;border:none;padding:10px 22px;border-radius:4px;font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;font-family:'Inter',sans-serif;">Search</button>
-      <button id="fa-search-close"
+      <button type="button" id="fa-search-close"
         style="background:none;border:none;cursor:pointer;font-size:20px;color:#6B6358;">&times;</button>
         
       <!-- AJAX Search Results Dropdown -->
       <div id="fa-search-results" style="display:none;position:absolute;top:100%;left:0;width:calc(100% - 100px);background:#fff;border:1px solid #E5DDD0;border-radius:0 0 6px 6px;box-shadow:0 10px 25px rgba(0,0,0,0.1);z-index:1000;max-height:400px;overflow-y:auto;margin-top:2px;">
       </div>
     </div>
-  </div>
+  </form>
 
 </header>
 
@@ -582,15 +605,7 @@ foreach ($navSafarisThemes as $st) {
         <li><a href="careers">Careers</a></li>
         <li><a href="contact">Contact Us</a></li>
       </ul>
-      <div style="margin-top:32px;">
-        <h4 style="margin-bottom:8px;">Our Affiliations</h4>
-        <a href="https://www.safaribookings.com/p6895" target="_blank" rel="noopener noreferrer" style="margin-right: 10px;">
-          <img src="images/Filao/safaribookings.png" alt="Safari Bookings" style="height:35px;opacity:0.9;">
-        </a>
-        <a href="https://www.tripadvisor.co.za/Attraction_Review-g294207-d24109431-Reviews-FILAO_ADVENTURES-Nairobi.html" target="_blank" rel="noopener noreferrer">
-          <img src="images/Filao/tripadvisor.svg" alt="TripAdvisor" style="height:35px;opacity:0.9;">
-        </a>
-      </div>
+
     </div>
     <div class="hb-col">
       <h4>Book With Us</h4>

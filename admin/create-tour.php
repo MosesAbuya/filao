@@ -218,6 +218,14 @@ include 'partials/sidebar.php';
                                             <input class="form-check-input" type="checkbox" role="switch" id="is_hot_offer" name="is_hot_offer" value="1">
                                             <label class="form-check-label" for="is_hot_offer">Mark as Hot Offer</label>
                                         </div>
+                                        <div class="form-check form-switch mt-2">
+                                            <input class="form-check-input" type="checkbox" role="switch" id="is_active_ad" name="is_active_ad" value="1">
+                                            <label class="form-check-label" for="is_active_ad">Active Ad</label>
+                                        </div>
+                                        <div class="form-check form-switch mt-2">
+                                            <input class="form-check-input" type="checkbox" role="switch" id="is_joining_tour" name="is_joining_tour" value="1">
+                                            <label class="form-check-label" for="is_joining_tour">Joining Tour</label>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="panel mb-4">

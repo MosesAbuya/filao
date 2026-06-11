@@ -22,6 +22,10 @@
     # Matches /tours/slug (no trailing slash required, but allowed)
     RewriteRule ^tours/([^/]+)/?$ tour-detail.php?slug=$1 [L,QSA]
 
+    # Ad Permalinks
+    # Matches /ad/slug
+    RewriteRule ^ad/([^/]+)/?$ ad-landing.php?slug=$1 [L,QSA]
+
     # Destination Permalinks
     # Matches /destinations/slug
     RewriteRule ^destinations/([^/]+)/?$ destination-detail.php?slug=$1 [L,QSA]

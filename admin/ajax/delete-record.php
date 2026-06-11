@@ -13,7 +13,7 @@ if (!csrfVerify($_POST['csrf_token'] ?? '')) {
     exit;
 }
 
-$allowedTables = ['tours', 'destinations', 'accommodations', 'taxonomies'];
+$allowedTables = ['tours', 'destinations', 'accommodations', 'taxonomies', 'enquiries', 'newsletters'];
 $table = $_POST['table'] ?? '';
 $id = (int)($_POST['id'] ?? 0);
 

@@ -5,6 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="icon" href="assets/favicon_io/favicon.ico">
+  <?php $base_href = ($_SERVER['HTTP_HOST'] === 'localhost' || $_SERVER['HTTP_HOST'] === '127.0.0.1') ? '/filao/' : '/'; ?>
+  <base href="<?= $base_href ?>">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -20,7 +22,7 @@
 <body>
 <?php require_once 'includes/nav.php'; ?>
 
-<section class="fa-page-hero" style="background-image:url('images/Filao/East Africa/Sopa Lodges/dining-by-the-waterhole-in-samburu-sopa-lodge.jpg'); height: 500px; position:relative; background-size:cover; background-position:center;">
+<section class="fa-page-hero" style="background-image:url('images/Filao/East Africa/Sopa Lodges/Mara Sopa pool-and-lodge.jpg'); height: 500px; position:relative; background-size:cover; background-position:center;">
   <div class="overlay" style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.3));"></div>
   <div class="container fa-page-hero-content" style="max-width:1280px;text-align:center;position:relative;z-index:2; height:100%; display:flex; flex-direction:column; justify-content:center; padding-top:80px;">
     <h1 style="font-family:'Cormorant Garant',serif;font-size:clamp(40px,5vw,60px);color:#fff;margin-bottom:15px;">The Filao Difference</h1>
@@ -60,6 +62,35 @@
 
             <blockquote class="mt-4">"Booking with Filao means securing the luxury of total peace of mind. We handle the complex logistics so you can surrender entirely to the magic of the African wild."</blockquote>
         
+    </div>
+  </div>
+</section>
+
+<!-- Company Vehicles Section -->
+<section class="section-pad" style="padding: 80px 0; background: #fff;">
+  <div class="container" style="max-width:1200px;">
+    <div style="text-align:center; margin-bottom: 50px;">
+      <h2 style="font-family:'Cormorant Garant',serif; font-size:42px; color:#1C1712;">Our Safari Vehicles</h2>
+      <p style="font-family:'Inter',sans-serif; font-size:16px; color:#4A4340; max-width:700px; margin:0 auto;">
+        Experience the African wild in absolute comfort and safety. Our custom 4x4 safari Land Cruisers are specially adapted for rugged terrain and prime wildlife viewing, complete with pop-up roofs and large windows.
+      </p>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-4 col-md-6 mb-4">
+        <img src="images/Filao/Company/safari car back.jpeg" alt="Filao Safari Car" class="img-fluid" style="border-radius:12px; width:100%; height:300px; object-fit:cover; box-shadow:0 10px 30px rgba(0,0,0,0.1);">
+      </div>
+      <div class="col-lg-4 col-md-6 mb-4">
+        <img src="images/Filao/Company/tour vehicle back .jpeg" alt="Tour Vehicle" class="img-fluid" style="border-radius:12px; width:100%; height:300px; object-fit:cover; box-shadow:0 10px 30px rgba(0,0,0,0.1);">
+      </div>
+      <div class="col-lg-4 col-md-6 mb-4">
+        <img src="images/Filao/Company/tourists behind safari car.jpeg" alt="Tourists on Safari" class="img-fluid" style="border-radius:12px; width:100%; height:300px; object-fit:cover; box-shadow:0 10px 30px rgba(0,0,0,0.1);">
+      </div>
+      <div class="col-lg-6 col-md-6 mb-4">
+        <img src="images/Filao/Company/safari car with back door open.jpeg" alt="Safari Car Open Door" class="img-fluid" style="border-radius:12px; width:100%; height:350px; object-fit:cover; box-shadow:0 10px 30px rgba(0,0,0,0.1);">
+      </div>
+      <div class="col-lg-6 col-md-6 mb-4">
+        <img src="images/Filao/Company/guy picnic in a park with safaricar.jpeg" alt="Picnic with Safari Car" class="img-fluid" style="border-radius:12px; width:100%; height:350px; object-fit:cover; box-shadow:0 10px 30px rgba(0,0,0,0.1);">
+      </div>
     </div>
   </div>
 </section>

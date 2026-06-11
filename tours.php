@@ -4,6 +4,24 @@ $pdo = getPDO();
 $where = ["t.status='published'"];
 $params = [];
 
+if (isset($_GET['joining']) && $_GET['joining'] == '1') {
+    $where[] = "t.is_joining_tour=1";
+}
+
+if (!empty($_GET['q'])) {
+    $q = "%" . $_GET['q'] . "%";
+    $where[] = "(t.title LIKE ? OR t.excerpt LIKE ?)";
+    $params[] = $q;
+    $params[] = $q;
+}
+
+if (!empty($_GET['dest'])) {
+    $d = "%" . $_GET['dest'] . "%";
+    $where[] = "(t.title LIKE ? OR EXISTS (SELECT 1 FROM itinerary_steps ist JOIN destinations d ON d.id=ist.destination_id WHERE ist.tour_id=t.id AND d.name LIKE ?))";
+    $params[] = $d;
+    $params[] = $d;
+}
+
 if (!empty($_GET['dur']) && is_array($_GET['dur'])) {
     $durConditions = [];
     foreach ($_GET['dur'] as $dur) {
@@ -15,10 +33,16 @@ if (!empty($_GET['dur']) && is_array($_GET['dur'])) {
     if (!empty($durConditions)) $where[] = "(" . implode(" OR ", $durConditions) . ")";
 }
 
-// Minimal placeholder for category filtering logic - ideally needs JOIN with tour_activities/tour_categories
-// For now, if we had a category field, we'd filter here. Let's skip deep category join to keep it simple, 
-// unless we can use `category` mapping if it existed.
-// Wait, tours don't have a simple 'category' field in the schema, they map via `tour_activities`.
+$join = "";
+if (!empty($_GET['cat']) && is_array($_GET['cat'])) {
+    $join = "JOIN activity_tour at ON t.id = at.tour_id JOIN activities a ON at.activity_id = a.id";
+    $catConditions = [];
+    foreach ($_GET['cat'] as $c) {
+        $catConditions[] = "a.slug = ?";
+        $params[] = $c;
+    }
+    if (!empty($catConditions)) $where[] = "(" . implode(" OR ", $catConditions) . ")";
+}
 
 if (!empty($_GET['price']) && is_array($_GET['price'])) {
     $priceConditions = [];
@@ -31,7 +55,7 @@ if (!empty($_GET['price']) && is_array($_GET['price'])) {
 }
 
 $whereSql = implode(" AND ", $where);
-$stmt = $pdo->prepare("SELECT t.id, t.title, t.slug, t.duration_days, t.price_from_usd, t.excerpt, t.featured_image, t.status FROM tours t WHERE $whereSql ORDER BY t.duration_days ASC");
+$stmt = $pdo->prepare("SELECT DISTINCT t.id, t.title, t.slug, t.duration_days, t.price_from_usd, t.excerpt, t.featured_image, t.status FROM tours t $join WHERE $whereSql ORDER BY t.duration_days ASC");
 $stmt->execute($params);
 $tours = $stmt->fetchAll();
 
@@ -81,7 +105,7 @@ $excerpts=[
 <?php require_once 'includes/nav.php'; ?>
 
 <!-- Page Hero -->
-<section class="fa-page-hero" style="background-image:url('images/Filao/East Africa/pexels-droneafrica-13234382.jpg');">
+<section class="fa-page-hero" style="background-image:url('images/Filao/Company/safari car back.jpeg');">
   <div class="overlay"></div>
   <div class="container fa-page-hero-content" style="max-width:1280px;">
     <h1>Our Tours &amp; Safaris</h1>
@@ -102,6 +126,10 @@ $excerpts=[
         <form method="GET" action="tours.php" id="tours-filter-form">
           <div class="filter-sidebar">
             <h5>Filter Tours</h5>
+            <div class="filter-group">
+              <div class="mb-2" style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6B6358;font-family:'Inter',sans-serif;">Joining Tours</div>
+              <label><input type="checkbox" name="joining" value="1" <?= isset($_GET['joining']) && $_GET['joining'] == '1' ? 'checked' : '' ?>> Joining Tours Only</label>
+            </div>
             <div class="filter-group">
               <div class="mb-2" style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6B6358;font-family:'Inter',sans-serif;">Duration</div>
               <label><input type="checkbox" name="dur[]" value="1-3"> 1&ndash;3 Days <span class="filter-count">(2)</span></label>

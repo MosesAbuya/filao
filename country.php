@@ -152,6 +152,7 @@ foreach($destinations as $dest) {
 <script src="js/bootstrap.min.js"></script>
 <script src="assets/js/filao-nav.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="js/start-planning.js"></script>
 <script>
 $(document).ready(function() {
   var dests = <?= json_encode($dests) ?>;

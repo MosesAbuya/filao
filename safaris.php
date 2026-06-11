@@ -4,6 +4,10 @@ $pdo = getPDO();
 $where = ["t.status='published'"];
 $params = [];
 
+if (isset($_GET['joining']) && $_GET['joining'] == '1') {
+    $where[] = "t.is_joining_tour=1";
+}
+
 if (!empty($_GET['dur']) && is_array($_GET['dur'])) {
     $durConditions = [];
     foreach ($_GET['dur'] as $dur) {
@@ -115,6 +119,10 @@ $excerpts=[
               <label><input type="checkbox" name="dur[]" value="4-5"> 4&ndash;5 Days <span class="filter-count">(3)</span></label>
               <label><input type="checkbox" name="dur[]" value="6-7"> 6&ndash;7 Days <span class="filter-count">(1)</span></label>
               <label><input type="checkbox" name="dur[]" value="8+"> 8+ Days <span class="filter-count">(1)</span></label>
+            </div>
+            <div class="filter-group">
+              <div class="mb-2" style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6B6358;font-family:'Inter',sans-serif;">Joining Tours</div>
+              <label><input type="checkbox" name="joining" value="1" <?= isset($_GET['joining']) && $_GET['joining'] == '1' ? 'checked' : '' ?>> Joining Tours Only</label>
             </div>
             <div class="filter-group">
               <div class="mb-2" style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6B6358;font-family:'Inter',sans-serif;">Category</div>

@@ -163,6 +163,17 @@ if ($type === 'start_planning') {
         $msg
     ]);
 
+    if (!empty($input['newsletter_optin'])) {
+        try {
+            $stmtNL = $pdo->prepare('SELECT id FROM newsletters WHERE email = ?');
+            $stmtNL->execute([$email]);
+            if (!$stmtNL->fetch()) {
+                $stmtNL2 = $pdo->prepare('INSERT INTO newsletters (email, created_at) VALUES (?, NOW())');
+                $stmtNL2->execute([$email]);
+            }
+        } catch (Exception $e) {}
+    }
+
     // Send Emails
     $emailMsg = '';
     try {

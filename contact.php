@@ -33,7 +33,7 @@ $pdo = getPDO();
 <body>
 <?php require_once 'includes/nav.php'; ?>
 
-<section class="fa-page-hero" style="background-image:url('images/Filao/East Africa/pexels-zacchaeus-rains-262050732-20523197.jpg');">
+<section class="fa-page-hero" style="background-image:url('images/Filao/Company/tourist behind tour vehicle.jpeg');">
   <div class="overlay"></div>
   <div class="container fa-page-hero-content" style="max-width:1280px;text-align:center;">
     <h1>Get In Touch</h1>
