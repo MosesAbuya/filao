@@ -83,7 +83,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             title=?, slug=?, description=?, excerpt=?, duration_days=?, price_from_usd=?, 
             status=?, featured_image=?, focus_keyphrase=?, seo_title=?, meta_description=?, 
             highlights=?, inclusions=?, exclusions=?, is_hot_offer=?, is_active_ad=?, is_joining_tour=?, 
-            price_1_person=?, price_2_people=?, price_3_people=?, price_4_people=?, price_5_people=?, price_6_people=? WHERE id=?");
+            price_1_pax=?, price_2_pax=?, price_3_pax=?, price_4_pax=?, price_5_pax=?, price_6_pax=?,
+            price_child_1_pax=?, price_child_2_pax=?, price_child_3_pax=?, price_child_4_pax=?, price_child_5_pax=?, price_child_6_pax=? WHERE id=?");
             
         $updateStmt->execute([
             $title, $slug, $_POST['description'] ?? '', $_POST['excerpt'] ?? '', 
@@ -93,12 +94,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             isset($_POST['is_hot_offer']) ? 1 : 0,
             isset($_POST['is_active_ad']) ? 1 : 0,
             isset($_POST['is_joining_tour']) ? 1 : 0,
-            !empty($_POST['price_1_person']) ? (float)$_POST['price_1_person'] : null,
-            !empty($_POST['price_2_people']) ? (float)$_POST['price_2_people'] : null,
-            !empty($_POST['price_3_people']) ? (float)$_POST['price_3_people'] : null,
-            !empty($_POST['price_4_people']) ? (float)$_POST['price_4_people'] : null,
-            !empty($_POST['price_5_people']) ? (float)$_POST['price_5_people'] : null,
-            !empty($_POST['price_6_people']) ? (float)$_POST['price_6_people'] : null,
+            !empty($_POST['price_1_pax']) ? (float)$_POST['price_1_pax'] : null,
+            !empty($_POST['price_2_pax']) ? (float)$_POST['price_2_pax'] : null,
+            !empty($_POST['price_3_pax']) ? (float)$_POST['price_3_pax'] : null,
+            !empty($_POST['price_4_pax']) ? (float)$_POST['price_4_pax'] : null,
+            !empty($_POST['price_5_pax']) ? (float)$_POST['price_5_pax'] : null,
+            !empty($_POST['price_6_pax']) ? (float)$_POST['price_6_pax'] : null,
+            !empty($_POST['price_child_1_pax']) ? (float)$_POST['price_child_1_pax'] : null,
+            !empty($_POST['price_child_2_pax']) ? (float)$_POST['price_child_2_pax'] : null,
+            !empty($_POST['price_child_3_pax']) ? (float)$_POST['price_child_3_pax'] : null,
+            !empty($_POST['price_child_4_pax']) ? (float)$_POST['price_child_4_pax'] : null,
+            !empty($_POST['price_child_5_pax']) ? (float)$_POST['price_child_5_pax'] : null,
+            !empty($_POST['price_child_6_pax']) ? (float)$_POST['price_child_6_pax'] : null,
             $id
         ]);
 
@@ -370,17 +377,32 @@ include 'partials/sidebar.php';
                                         <small class="text-muted d-block mt-1">This is the 'From' price shown on cards.</small>
                                     </div>
                                     <hr>
-                                    <h6 class="mb-3">Detailed Pricing (Per Person)</h6>
-                                    <div class="row g-2">
+                                    <h6 class="mb-3">Detailed Pricing (Adults)</h6>
+                                    <div class="row g-2 mb-3">
                                         <?php for($i=1; $i<=6; $i++): 
-                                            $col = "price_{$i}_person" . ($i>1?'s':'');
+                                            $col = "price_{$i}_pax";
                                             $val = $tour[$col] ?? '';
                                         ?>
                                         <div class="col-6 mb-2">
-                                            <label class="form-label small"><?= $i ?> Person<?= $i>1?'s':'' ?> (USD)</label>
+                                            <label class="form-label small"><?= $i ?> Adult<?= $i>1?'s':'' ?> (USD)</label>
                                             <div class="input-group input-group-sm">
                                                 <span class="input-group-text bg-light">$</span>
                                                 <input type="number" class="form-control" name="<?= $col ?>" step="0.01" min="0" value="<?= sanitize($val) ?>">
+                                            </div>
+                                        </div>
+                                        <?php endfor; ?>
+                                    </div>
+                                    <h6 class="mb-3">Detailed Pricing (Children < 12 yrs)</h6>
+                                    <div class="row g-2">
+                                        <?php for($i=1; $i<=6; $i++): 
+                                            $childCol = "price_child_{$i}_pax";
+                                            $childVal = $tour[$childCol] ?? '';
+                                        ?>
+                                        <div class="col-6 mb-2">
+                                            <label class="form-label small"><?= $i ?> Child<?= $i>1?'ren':'' ?> (USD)</label>
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-text bg-light">$</span>
+                                                <input type="number" class="form-control" name="<?= $childCol ?>" step="0.01" min="0" value="<?= sanitize($childVal) ?>">
                                             </div>
                                         </div>
                                         <?php endfor; ?>

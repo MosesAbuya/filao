@@ -68,7 +68,13 @@ try {
             ['is_hot_offer', 'TINYINT(1) DEFAULT 0'],
             ['is_recommended', 'TINYINT(1) DEFAULT 0'],
             ['recommended_activity', 'VARCHAR(150) DEFAULT NULL'],
-            ['country', 'VARCHAR(100) DEFAULT NULL']
+            ['country', 'VARCHAR(100) DEFAULT NULL'],
+            ['price_child_1_pax', 'DECIMAL(10,2) NULL'],
+            ['price_child_2_pax', 'DECIMAL(10,2) NULL'],
+            ['price_child_3_pax', 'DECIMAL(10,2) NULL'],
+            ['price_child_4_pax', 'DECIMAL(10,2) NULL'],
+            ['price_child_5_pax', 'DECIMAL(10,2) NULL'],
+            ['price_child_6_pax', 'DECIMAL(10,2) NULL']
         ],
         'destinations' => [
             ['region', 'VARCHAR(100) DEFAULT NULL']

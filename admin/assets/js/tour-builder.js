@@ -22,6 +22,18 @@ document.addEventListener('DOMContentLoaded', () => {
         branding: false
     });
 
+    // Initialize existing step descriptions
+    tinymce.init({
+        selector: '.step-desc-editor',
+        plugins: 'link lists',
+        toolbar: 'bold italic | bullist numlist | link | removeformat',
+        height: 200,
+        menubar: false,
+        skin: (document.documentElement.getAttribute('data-theme') === 'dark' ? 'oxide-dark' : 'oxide'),
+        content_css: (document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'),
+        branding: false
+    });
+
     // --- Slug Generator ---
     const titleInput = document.getElementById('title');
     const slugInput = document.getElementById('slug');

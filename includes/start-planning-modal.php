@@ -12,6 +12,16 @@ $modalActs = $pdo_modal->query("SELECT id, name, category FROM activities ORDER 
 $currentYear = (int) date('Y');
 ?>
 
+<!-- intl-tel-input CSS for country dropdown -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.5/css/intlTelInput.css" />
+<style>
+  .iti { width: 100%; display: block; }
+  .iti__flag { background-image: url("https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.5/img/flags.png"); }
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .iti__flag { background-image: url("https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.5/img/flags@2x.png"); }
+  }
+</style>
+
 <!-- =====================================================
      START PLANNING MODAL OVERLAY
      ===================================================== -->
@@ -130,10 +140,15 @@ $currentYear = (int) date('Y');
             month</button>
         </div>
 
+        <div class="sp-exact-date-row" style="margin-top:20px; text-align:center;">
+          <p style="font-size:13px; color:#6B6358; margin-bottom:8px;">Or pick an exact travel date if you know it:</p>
+          <input type="date" id="spExactDate" name="exact_travel_date" class="sp-text-input" style="max-width:250px; margin:0 auto; padding:10px 15px; border-radius:4px; border:1px solid #D5CFC9; outline:none; text-align:center;">
+        </div>
+
         <!-- Duration -->
-        <div class="sp-duration-row">
-          <label class="sp-label" for="spDuration">How many days would you like to travel?</label>
-          <select id="spDuration" name="duration" class="sp-select">
+        <div class="sp-duration-row" style="margin-top:30px; text-align:center; display:flex; flex-direction:column; align-items:center;">
+          <label class="sp-label" for="spDuration" style="margin-bottom:10px;">How many days would you like to travel?</label>
+          <select id="spDuration" name="duration" class="sp-select" style="max-width:250px;">
             <option value="">Select duration</option>
             <?php for ($d = 3; $d <= 21; $d++): ?>
               <option value="<?= $d ?>"><?= $d ?> days</option>
@@ -249,7 +264,7 @@ $currentYear = (int) date('Y');
           </div>
           <div class="sp-field-wrap">
             <label class="sp-label" for="spPhone">Phone / WhatsApp</label>
-            <input type="tel" id="spPhone" class="sp-text-input" placeholder="+254 700 000000">
+            <input type="tel" id="spPhone" class="sp-text-input" placeholder="">
           </div>
           <div class="sp-field-wrap sp-field-full">
             <label class="sp-label" for="spMessage">Anything else we should know?</label>
@@ -286,9 +301,9 @@ $currentYear = (int) date('Y');
           hours.</p>
         <div class="sp-thankyou-info">
           <p>In the meantime, explore our tours or get inspired:</p>
-          <div class="sp-thankyou-links">
-            <a href="/filao/tours" class="tc-cta">Browse All Tours</a>
-            <a href="/filao/destinations" class="sp-link-plain">View Destinations</a>
+          <div class="sp-thankyou-links" style="display:flex; justify-content:center; gap:15px; margin-top:20px; flex-wrap:wrap;">
+            <a href="/filao/tours" class="sp-next-btn" style="text-decoration:none; display:inline-block;">Browse All Tours</a>
+            <a href="/filao/destinations" class="sp-back-btn" style="text-decoration:none; display:inline-block;">View Destinations</a>
           </div>
         </div>
         <button class="sp-back-btn" id="spCloseThankYou" style="margin-top:20px;">Close</button>
@@ -303,6 +318,8 @@ $currentYear = (int) date('Y');
     <input type="hidden" id="spAdultsHidden" value="2">
     <input type="hidden" id="spChildrenHidden" value="0">
     <input type="hidden" id="spBudgetHidden" value="4000">
+  </div>
+</div>
 
-  </div><!-- /.sp-modal-box -->
-</div><!-- /#spModal -->
+<!-- intl-tel-input JS for country dropdown -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.5/js/intlTelInput.min.js"></script>

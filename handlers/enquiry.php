@@ -120,6 +120,56 @@ if ($type === 'contact') {
     exit;
 }
 
+if ($type === 'tour_enquiry') {
+    // ---- TOUR ENQUIRY FORM ----
+    $fname  = clean($input['first_name'] ?? '');
+    $email  = filter_var(trim($input['email'] ?? ''), FILTER_SANITIZE_EMAIL);
+    $tour_id= (int)($input['tour_id'] ?? 0);
+    $tour_title = clean($input['tour_title'] ?? '');
+    $tdate  = clean($input['travel_date'] ?? '');
+    $adults = max(1, (int)($input['adults'] ?? 2));
+    $children = max(0, (int)($input['children'] ?? 0));
+    $msg    = clean($input['message'] ?? '');
+
+    if (!$fname || !$email) {
+        echo json_encode(['success' => false, 'message' => 'Please fill in your name and email.']);
+        exit;
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo json_encode(['success' => false, 'message' => 'Please enter a valid email address.']);
+        exit;
+    }
+
+    $stmt = $pdo->prepare("INSERT INTO enquiries 
+        (type, first_name, email, tour_id, tour_title, travel_month, travel_year, adults, children, message)
+        VALUES ('tour_enquiry', ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->execute([$fname, $email, $tour_id, $tour_title, $tdate, null, $adults, $children, $msg]);
+
+    // Send Emails
+    $emailMsg = '';
+    try {
+        $adminBody = "<h3>New Tour Enquiry</h3>
+                      <p><strong>Name:</strong> $fname</p>
+                      <p><strong>Email:</strong> $email</p>
+                      <p><strong>Tour:</strong> $tour_title</p>
+                      <p><strong>When:</strong> $tdate</p>
+                      <p><strong>Guests:</strong> $adults Adults, $children Children</p>
+                      <p><strong>Message:</strong><br/>$msg</p>";
+        sendSiteEmail($adminEmail, "Filao Admin", "Tour Enquiry: $tour_title", $adminBody);
+
+        $userBody = "<h3>We have received your tour enquiry!</h3>
+                     <p>Hi $fname,</p>
+                     <p>Thank you for enquiring about <strong>$tour_title</strong>. Our safari specialists will reach out to you shortly.</p>
+                     <p>Best Regards,<br>Filao Adventures Team</p>";
+        sendSiteEmail($email, $fname, "We have received your tour enquiry", $userBody);
+    } catch (Exception $e) {
+        $emailMsg = " Note: Email could not be sent due to server configuration.";
+    }
+
+    echo json_encode(['success' => true, 'message' => "Thank you, {$fname}! Your enquiry has been received." . $emailMsg]);
+    exit;
+}
+
 if ($type === 'start_planning') {
     // ---- START PLANNING STEPPER ----
     $fname      = clean($input['first_name'] ?? '');
@@ -174,16 +224,21 @@ if ($type === 'start_planning') {
         } catch (Exception $e) {}
     }
 
+    $exact_date = clean($input['exact_travel_date'] ?? '');
+    
+    // ... skipping some validation lines ...
+
     // Send Emails
     $emailMsg = '';
     try {
+        $whenStr = $exact_date ? $exact_date : "$travel_month $travel_year for $duration";
         $adminBody = "<h3>New Trip Planning Request</h3>
                       <p><strong>Name:</strong> $fname $lname</p>
                       <p><strong>Email:</strong> $email</p>
                       <p><strong>Phone:</strong> $phone</p>
                       <p><strong>Destination:</strong> $dest</p>
                       <p><strong>Tour:</strong> $tour_title</p>
-                      <p><strong>When:</strong> $travel_month $travel_year for $duration</p>
+                      <p><strong>When:</strong> $whenStr</p>
                       <p><strong>Guests:</strong> $adults Adults, $children Children</p>
                       <p><strong>Budget:</strong> \$$budget</p>
                       <p><strong>Activities:</strong> $activities</p>

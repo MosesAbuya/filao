@@ -41,23 +41,25 @@ $heroImg = $img ?: 'images/Filao/East Africa/pexels-droneafrica-15373902.jpg';
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="assets/css/filao-theme.css">
+  <link rel="stylesheet" href="assets/css/filao-theme.css?v=<?= time() ?>">
 </head>
 <body>
 <?php require_once 'includes/nav.php'; ?>
 
-<section class="fa-page-hero" style="background-image:url('<?= htmlspecialchars($heroImg) ?>');padding:140px 0 80px;">
+<section class="td-hero" style="background-image:url('<?= htmlspecialchars($heroImg) ?>');">
   <div class="overlay"></div>
-  <div class="container fa-page-hero-content" style="max-width:1280px;">
+  <div class="td-hero-content">
     <span style="font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#C49018;margin-bottom:12px;display:block;font-family:'Inter',sans-serif;"><?= htmlspecialchars($dest['country']) ?></span>
     <h1><?= htmlspecialchars($dest['name']) ?></h1>
-    <div class="breadcrumb-fa">
-      <a href="index">Home</a>
-      <span class="bc-sep">&#8250;</span>
+  </div>
+  <div class="hero-breadcrumb">
+      <a href="index"><i class="fa fa-home"></i></a>
+      <span class="sep">/</span>
       <a href="destinations">Destinations</a>
-      <span class="bc-sep">&#8250;</span>
-      <span class="bc-current"><?= htmlspecialchars($dest['name']) ?></span>
-    </div>
+      <span class="sep">/</span>
+      <a href="country?name=<?= urlencode($dest['country']) ?>"><?= htmlspecialchars($dest['country']) ?></a>
+      <span class="sep">/</span>
+      <span class="current"><?= htmlspecialchars($dest['name']) ?></span>
   </div>
 </section>
 

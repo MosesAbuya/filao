@@ -12,7 +12,7 @@ $pdo = getPDO();
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="assets/css/filao-theme.css">
+  <link rel="stylesheet" href="assets/css/filao-theme.css?v=<?= time() ?>">
   <style>
     .dest-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px; }
   </style>
@@ -31,29 +31,42 @@ $mapDestinations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // Find hero image if region is selected
 if ($currentRegion && isset($navRegions[$currentRegion])) {
     foreach ($navRegions[$currentRegion] as $c) {
+        if (!empty($c['region_img'])) {
+            $r_img = $c['region_img'];
+            $heroImg = str_starts_with($r_img, 'images/') ? $r_img : 'uploads/' . $r_img;
+            break;
+        }
         if (!empty($c['featured_image'])) {
-            $heroImg = str_starts_with($c['featured_image'], 'destinations/') ? 'uploads/' . $c['featured_image'] : 'uploads/destinations/' . $c['featured_image'];
+            $img = $c['featured_image'];
+            if (str_starts_with($img, 'images/')) {
+                $heroImg = $img;
+            } elseif (str_starts_with($img, 'destinations/') || str_starts_with($img, 'countries/') || str_starts_with($img, 'regions/')) {
+                $heroImg = 'uploads/' . $img;
+            } else {
+                $heroImg = 'uploads/destinations/' . $img;
+            }
             break;
         }
     }
 }
 ?>
 
-<section class="fa-page-hero" style="background-image:url('<?= htmlspecialchars($heroImg) ?>');">
+<!-- Page Hero -->
+<section class="td-hero" style="background-image:url('<?= htmlspecialchars($heroImg) ?>');">
   <div class="overlay"></div>
-  <div class="container fa-page-hero-content" style="max-width:1280px;">
+  <div class="td-hero-content">
     <h1><?= htmlspecialchars($heroTitle) ?></h1>
-    <div class="breadcrumb-fa">
-      <a href="index">Home</a>
-      <span class="bc-sep">&#8250;</span>
+  </div>
+  <div class="hero-breadcrumb">
+      <a href="index"><i class="fa fa-home"></i></a>
+      <span class="sep">/</span>
       <?php if ($currentRegion): ?>
           <a href="destinations">Regions</a>
-          <span class="bc-sep">&#8250;</span>
-          <span class="bc-current"><?= htmlspecialchars($currentRegion) ?></span>
+          <span class="sep">/</span>
+          <span class="current"><?= htmlspecialchars($currentRegion) ?></span>
       <?php else: ?>
-          <span class="bc-current">Regions</span>
+          <span class="current">Regions</span>
       <?php endif; ?>
-    </div>
   </div>
 </section>
 
@@ -79,8 +92,12 @@ if ($currentRegion && isset($navRegions[$currentRegion])) {
           <?php foreach ($navRegions as $regionName => $countriesList): 
               $img = 'images/placeholder.jpg';
               foreach ($countriesList as $c) {
+                  if (!empty($c['region_img'])) {
+                      $img = str_starts_with($c['region_img'], 'images/') ? $c['region_img'] : 'uploads/' . $c['region_img'];
+                      break;
+                  }
                   if (!empty($c['featured_image'])) {
-                      $img = str_starts_with($c['featured_image'], 'destinations/') ? 'uploads/' . $c['featured_image'] : 'uploads/destinations/' . $c['featured_image'];
+                      $img = str_starts_with($c['featured_image'], 'images/') ? $c['featured_image'] : (str_starts_with($c['featured_image'], 'destinations/') ? 'uploads/' . $c['featured_image'] : 'uploads/destinations/' . $c['featured_image']);
                       break;
                   }
               }
@@ -108,7 +125,7 @@ if ($currentRegion && isset($navRegions[$currentRegion])) {
               foreach ($uniqueCountries as $cName => $cImg): 
                   $imgUrl = 'images/placeholder.jpg';
                   if (!empty($cImg)) {
-                      $imgUrl = str_starts_with($cImg, 'destinations/') ? 'uploads/' . $cImg : 'uploads/destinations/' . $cImg;
+                      $imgUrl = str_starts_with($cImg, 'images/') ? $cImg : (str_starts_with($cImg, 'destinations/') ? 'uploads/' . $cImg : 'uploads/destinations/' . $cImg);
                   }
               ?>
                   <a href="country?name=<?= urlencode($cName) ?>" class="fa-dest-card">

@@ -26,6 +26,11 @@
           <a href="https://x.com/FilaoAdventures" aria-label="X (Twitter)" target="_blank" rel="noopener noreferrer"><i class="fa fa-twitter"></i></a>
           <a href="https://www.facebook.com/profile.php?id=100084891550126#" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="fa fa-facebook"></i></a>
           <a href="https://www.instagram.com/filaoadventures/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fa fa-instagram"></i></a>
+          <a href="https://www.tiktok.com/@filaoadventures" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="vertical-align:-2px;">
+              <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/>
+            </svg>
+          </a>
           <a href="https://ke.linkedin.com/jobs/view/travel-consultant-at-filao-adventures-4398464574" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="fa fa-linkedin"></i></a>
           <a href="https://wa.me/254757139239" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer"><i class="fa fa-whatsapp"></i></a>
         </div>
@@ -117,7 +122,7 @@
           <img src="images/Filao/safaribookings.png" alt="Safari Bookings" style="height:40px;opacity:0.9;transition:opacity 0.2s;">
         </a>
         <a href="https://www.tripadvisor.co.za/Attraction_Review-g294207-d24109431-Reviews-FILAO_ADVENTURES-Nairobi.html" target="_blank" rel="noopener noreferrer">
-          <img src="images/Filao/tripadvisor.svg" alt="TripAdvisor" style="height:40px;opacity:0.9;transition:opacity 0.2s;">
+          <img src="images/Filao/tripadvisor.svg" alt="TripAdvisor" style="height:40px;opacity:0.9;transition:opacity 0.2s; filter: brightness(0) invert(1);">
         </a>
       </div>
       <p class="mb-0">

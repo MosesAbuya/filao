@@ -4,36 +4,32 @@ require_once __DIR__ . '/db.php';
 $navPdo = getPDO();
 
 // Tours grouped by destination country from DB
-$navCountriesData = $navPdo->query("
-    SELECT country, MAX(featured_image) as featured_image
-    FROM destinations
-    WHERE country IS NOT NULL AND country != ''
-    GROUP BY country
-    ORDER BY country ASC
+$regionsStmt = $navPdo->query("
+    SELECT r.name as region_name, r.slug as region_slug, r.featured_image as region_img,
+           c.name as country_name, c.slug as country_slug, c.featured_image as country_img
+    FROM regions r
+    JOIN countries c ON r.id = c.region_id
+    ORDER BY r.name, c.name
 ")->fetchAll(PDO::FETCH_ASSOC);
 
 $navRegions = [];
 $navCountries = []; // Just the names for the tour dropdown
-foreach ($navCountriesData as $row) {
-    $cName = trim($row['country']);
+
+foreach ($regionsStmt as $row) {
+    $cName = trim($row['country_name']);
     $navCountries[] = $cName;
-    
-    $region = 'Africa';
-    $cLower = strtolower($cName);
-    if (in_array($cLower, ['maldives', 'sri lanka', 'indonesia', 'bali'])) {
-        $region = 'Asia';
-    } elseif (in_array($cLower, ['dubai', 'uae', 'oman', 'qatar'])) {
-        $region = 'Middle East';
-    } elseif (in_array($cLower, ['seychelles', 'mauritius', 'madagascar'])) {
-        $region = 'Indian Ocean';
-    } elseif (in_array($cLower, ['france', 'paris', 'greece', 'santorini', 'italy'])) {
-        $region = 'Europe';
-    }
+    $region = trim($row['region_name']);
     
     if (!isset($navRegions[$region])) {
         $navRegions[$region] = [];
     }
-    $navRegions[$region][] = $row;
+    
+    // Maintain the old structure for compatibility
+    $navRegions[$region][] = [
+        'country' => $cName,
+        'featured_image' => $row['country_img'],
+        'region_img' => $row['region_img']
+    ];
 }
 $navCountries = array_unique($navCountries);
 
@@ -161,6 +157,11 @@ $navJoiningTours = $navPdo->query("
           style="font-size: 11px; opacity: 0.85; gap: 6px;"><i class="fa fa-whatsapp" style="font-size: 15px;"></i>
           WhatsApp</a>
         <a href="https://www.instagram.com/filaoadventures/" target="_blank" class="text-white" style="opacity: 0.85;"><i class="fa fa-instagram"></i></a>
+        <a href="https://www.tiktok.com/@filaoadventures" target="_blank" class="text-white" style="opacity: 0.85;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" style="vertical-align:-1px;">
+              <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/>
+            </svg>
+        </a>
         <a href="https://x.com/FilaoAdventures" target="_blank" class="text-white mr-3" style="opacity: 0.85;"><i class="fa fa-twitter"></i></a>
         <a href="https://www.facebook.com/profile.php?id=100084891550126#" target="_blank" class="text-white" style="opacity: 0.85;"><i class="fa fa-facebook"></i></a>
         <a href="https://ke.linkedin.com/jobs/view/travel-consultant-at-filao-adventures-4398464574" target="_blank" class="text-white" style="opacity: 0.85;"><i class="fa fa-linkedin"></i></a>
@@ -387,93 +388,6 @@ $navJoiningTours = $navPdo->query("
             </div>
           </li>
 
-          <!-- SAFARI EXPERIENCES -->
-          <li class="has-mega-menu">
-            <a href="safaris" class="nav-top-link">Safari Experiences</a>
-            <div class="fa-megamenu">
-              <button class="mm-close-btn">&times; Close</button>
-              <div class="fa-megamenu-content">
-                <div class="fa-megamenu-inner">
-                  <div class="fa-mm-tabs">
-                    <span class="mm-heading">Safari Experiences</span>
-                    <ul>
-                      <?php $firstSafTheme = true;
-                      foreach ($navSafarisByTheme as $themeName => $themeTours): ?>
-                        <li class="<?= $firstSafTheme ? 'mm-active' : '' ?>">
-                          <a href="#" class="mm-tab-trigger"
-                            data-panel="saf-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $themeName)) ?>"
-                            data-img="<?= (!empty($themeTours[0]['featured_image'])) ? (str_starts_with($themeTours[0]['featured_image'], 'images/') ? $themeTours[0]['featured_image'] : 'uploads/' . $themeTours[0]['featured_image']) : 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg' ?>"
-                            data-caption="<?= htmlspecialchars($themeName) ?>"><?= htmlspecialchars($themeName) ?></a>
-                        </li>
-                        <?php $firstSafTheme = false; endforeach; ?>
-                      <?php if (empty($navSafarisByTheme)): ?>
-                        <li class="mm-active"><a href="#" class="mm-tab-trigger" data-panel="saf-featured"
-                            data-img="images/Filao/East Africa/pexels-balazsimon-15993990.jpg"
-                            data-caption="Featured Safaris">Featured Safaris</a></li>
-                      <?php endif; ?>
-                      <?php if(!empty($navJoiningTours)): ?>
-                        <li class="<?= empty($navSafarisByTheme) ? 'mm-active' : '' ?>">
-                          <a href="#" class="mm-tab-trigger" data-panel="saf-joining"
-                            data-img="<?= (!empty($navJoiningTours[0]['featured_image'])) ? (str_starts_with($navJoiningTours[0]['featured_image'], 'images/') ? $navJoiningTours[0]['featured_image'] : 'uploads/' . $navJoiningTours[0]['featured_image']) : 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg' ?>"
-                            data-caption="Joining Tours">Joining Tours</a>
-                        </li>
-                      <?php endif; ?>
-                      <li><a href="safaris" style="margin-top:12px;border-top:1px solid #E5DDD0;padding-top:12px;">View
-                          All Safaris</a></li>
-                    </ul>
-                  </div>
-                  <div class="fa-mm-links">
-                    <?php if (!empty($navSafarisByTheme)): ?>
-                      <?php $firstSafTheme = true;
-                      foreach ($navSafarisByTheme as $themeName => $themeTours): ?>
-                        <div class="mm-panel" data-id="saf-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $themeName)) ?>"
-                          style="display:<?= $firstSafTheme ? 'block' : 'none' ?>;">
-                          <ul>
-                            <?php foreach ($themeTours as $t): ?>
-                              <li><a href="tours/<?= $t['tour_slug'] ?>" data-img="<?= (!empty($t['featured_image'])) ? (str_starts_with($t['featured_image'], 'images/') ? $t['featured_image'] : 'uploads/' . $t['featured_image']) : 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg' ?>" data-caption="<?= htmlspecialchars($t['title']) ?>"><?= htmlspecialchars($t['title']) ?></a></li>
-                            <?php endforeach; ?>
-                          </ul>
-                        </div>
-                        <?php $firstSafTheme = false; endforeach; ?>
-                    <?php else: ?>
-                      <div class="mm-panel" data-id="saf-featured" style="display:block;">
-                        <ul>
-                          <li><a href="#">More safaris coming soon!</a></li>
-                        </ul>
-                      </div>
-                    <?php endif; ?>
-                    <?php if(!empty($navJoiningTours)): ?>
-                      <div class="mm-panel" data-id="saf-joining" style="display:<?= empty($navSafarisByTheme) ? 'block' : 'none' ?>;">
-                        <ul>
-                          <?php foreach ($navJoiningTours as $t): ?>
-                            <li><a href="tours/<?= $t['slug'] ?>" data-img="<?= (!empty($t['featured_image'])) ? (str_starts_with($t['featured_image'], 'images/') ? $t['featured_image'] : 'uploads/' . $t['featured_image']) : 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg' ?>" data-caption="<?= htmlspecialchars($t['title']) ?>"><?= htmlspecialchars($t['title']) ?></a></li>
-                          <?php endforeach; ?>
-                        </ul>
-                      </div>
-                    <?php endif; ?>
-                  </div>
-                  <div class="fa-mm-image">
-                    <?php
-                    // Get the very first tour's image for the default active tab
-                    $firstImg = 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
-                    $firstCaption = 'Featured Safaris';
-                    if (!empty($navSafarisByTheme)) {
-                      $firstTheme = array_key_first($navSafarisByTheme);
-                      $firstTour = $navSafarisByTheme[$firstTheme][0];
-                      if (!empty($firstTour['featured_image'])) {
-                        $firstImg = str_starts_with($firstTour['featured_image'], 'images/') ? $firstTour['featured_image'] : 'uploads/' . $firstTour['featured_image'];
-                      }
-                      $firstCaption = $firstTheme;
-                    }
-                    ?>
-                    <img id="mm-safari-img" src="<?= htmlspecialchars($firstImg) ?>" alt="Safari Experiences">
-                    <div class="mm-caption" id="mm-safari-caption"><?= htmlspecialchars($firstCaption) ?></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li>
-
           <!-- WE RECOMMEND -->
           <li>
             <a href="#" class="nav-top-link">We Recommend</a>
@@ -498,6 +412,7 @@ $navJoiningTours = $navPdo->query("
                         <li><a href="tours">All Tours</a></li><?php endif; ?>
                       <li><a href="tours" style="margin-top:12px;border-top:1px solid #E5DDD0;padding-top:12px;">View
                           All Tours</a></li>
+                      <li><a href="hot-deals" style="margin-top:12px;border-top:1px solid #E5DDD0;padding-top:12px;">View all hot deals</a></li>
                     </ul>
                   </div>
                   <div class="fa-mm-links">
@@ -635,6 +550,11 @@ $navJoiningTours = $navPdo->query("
       <a href="https://x.com/FilaoAdventures" aria-label="X (Twitter)" target="_blank" rel="noopener noreferrer" style="margin-right:15px;"><i class="fa fa-twitter"></i></a>
       <a href="https://www.facebook.com/profile.php?id=100084891550126#" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="fa fa-facebook"></i></a>
       <a href="https://www.instagram.com/filaoadventures/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fa fa-instagram"></i></a>
+      <a href="https://www.tiktok.com/@filaoadventures" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="vertical-align:-1px;">
+          <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/>
+        </svg>
+      </a>
       <a href="https://ke.linkedin.com/jobs/view/travel-consultant-at-filao-adventures-4398464574" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="fa fa-linkedin"></i></a>
       <a href="https://wa.me/254757139239" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer"><i class="fa fa-whatsapp"></i></a>
     </div>
@@ -675,7 +595,12 @@ $navJoiningTours = $navPdo->query("
           <div class="rmm-socials" style="margin-top:20px;justify-content:center;">
              <a href="https://x.com/FilaoAdventures" target="_blank"><i class="fa fa-twitter"></i></a>
              <a href="https://www.facebook.com/profile.php?id=100084891550126#" target="_blank"><i class="fa fa-facebook"></i></a>
-             <a href="#"><i class="fa fa-instagram"></i></a>
+             <a href="https://www.instagram.com/filaoadventures/" target="_blank"><i class="fa fa-instagram"></i></a>
+             <a href="https://www.tiktok.com/@filaoadventures" target="_blank">
+               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="vertical-align:-1px;">
+                 <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/>
+               </svg>
+             </a>
              <a href="#"><i class="fa fa-youtube"></i></a>
              <a href="https://wa.me/254757139239"><i class="fa fa-whatsapp"></i></a>
           </div>

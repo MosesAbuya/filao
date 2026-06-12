@@ -46,7 +46,7 @@ $pdo = getPDO();
 </section>
 
 <section class="section-pad bg-cream">
-  <div class="container" style="max-width:800px;text-align:center;">
+  <div class="container" style="max-width:1280px;text-align:center;">
     
     <div class="fa-section-heading centered" style="margin:0 auto 48px;">
       <span class="eyebrow">Plan Your Safari</span>
@@ -54,47 +54,62 @@ $pdo = getPDO();
       <p>Whether you're ready to book or just starting to dream, our safari specialists are here to help you design the perfect itinerary.</p>
     </div>
 
-    <div class="contact-info-box" style="text-align:left;max-width:600px;margin:0 auto;background:#fff;padding:40px;border-radius:8px;border:1px solid #E5DDD0;">
-      <h3 style="font-family:'Cormorant Garant',serif;font-size:28px;color:#1C1712;margin-bottom:32px;">Contact Information</h3>
+    <div class="contact-info-grid" style="text-align:left; background:#fff; padding:40px; border-radius:8px; border:1px solid #E5DDD0;">
+      <h3 style="font-family:'Cormorant Garant',serif;font-size:28px;color:#1C1712;margin-bottom:32px;text-align:center;">Contact Information</h3>
       
-      <div class="contact-item">
-        <div class="icon"><i class="fa fa-map-marker"></i></div>
-        <div class="text">
-          <h4>Our Office</h4>
-          <p>Ambank House, Nairobi, Kenya<br>East Africa</p>
+      <div class="row">
+        <div class="col-md-6 mb-4">
+          <div class="contact-item" style="height:100%; padding:24px; border:1px solid #FAF8F4; border-radius:8px; background:#FAF8F4;">
+            <div class="icon"><i class="fa fa-map-marker"></i></div>
+            <div class="text">
+              <h4>Our Office</h4>
+              <p>Ambank House, Nairobi, Kenya<br>East Africa</p>
+            </div>
+          </div>
         </div>
-      </div>
-      
-      <div class="contact-item">
-        <div class="icon"><i class="fa fa-phone"></i></div>
-        <div class="text">
-          <h4>Call Us</h4>
-          <p><a href="tel:+254757139239">+254 757 139239</a></p>
-          <p style="font-size:12px;margin-top:4px;">Mon - Fri: 8am to 6pm (EAT)</p>
+        
+        <div class="col-md-6 mb-4">
+          <div class="contact-item" style="height:100%; padding:24px; border:1px solid #FAF8F4; border-radius:8px; background:#FAF8F4;">
+            <div class="icon"><i class="fa fa-phone"></i></div>
+            <div class="text">
+              <h4>Call Us</h4>
+              <p><a href="tel:+254757139239">+254 757 139239</a></p>
+              <p style="font-size:12px;margin-top:4px;">Mon - Fri: 8am to 6pm (EAT)</p>
+            </div>
+          </div>
         </div>
-      </div>
-      
-      <div class="contact-item">
-        <div class="icon"><i class="fa fa-envelope"></i></div>
-        <div class="text">
-          <h4>Email Us</h4>
-          <p><a href="mailto:info@filaoadventures.co.ke">info@filaoadventures.co.ke</a></p>
+        
+        <div class="col-md-6 mb-4">
+          <div class="contact-item" style="height:100%; padding:24px; border:1px solid #FAF8F4; border-radius:8px; background:#FAF8F4;">
+            <div class="icon"><i class="fa fa-envelope"></i></div>
+            <div class="text">
+              <h4>Email Us</h4>
+              <p><a href="mailto:info@filaoadventures.co.ke">info@filaoadventures.co.ke</a></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+          <div class="contact-item" style="height:100%; padding:24px; border:1px solid #FAF8F4; border-radius:8px; background:#FAF8F4;">
+            <div class="icon"><i class="fa fa-whatsapp"></i></div>
+            <div class="text">
+              <h4>WhatsApp</h4>
+              <p><a href="https://wa.me/254757139239" target="_blank">Chat with a Specialist</a></p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="contact-item">
-        <div class="icon"><i class="fa fa-whatsapp"></i></div>
-        <div class="text">
-          <h4>WhatsApp</h4>
-          <p><a href="https://wa.me/254757139239" target="_blank">Chat with a Specialist</a></p>
-        </div>
-      </div>
-
-      <div style="margin-top:40px;border-top:1px solid #E5DDD0;padding-top:32px;">
+      <div style="margin-top:20px;border-top:1px solid #E5DDD0;padding-top:32px;text-align:center;">
         <h4 style="font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#C49018;margin-bottom:16px;">Connect With Us</h4>
-        <div style="display:flex;gap:12px;">
+        <div style="display:flex;gap:12px;justify-content:center;">
           <a href="https://www.facebook.com/profile.php?id=100084891550126#" style="width:40px;height:40px;background:#fff;border:1px solid #E5DDD0;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#6B6358;transition:all 0.2s;"><i class="fa fa-facebook"></i></a>
           <a href="https://www.instagram.com/filaoadventures/" style="width:40px;height:40px;background:#fff;border:1px solid #E5DDD0;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#6B6358;transition:all 0.2s;"><i class="fa fa-instagram"></i></a>
+          <a href="https://www.tiktok.com/@filaoadventures" style="width:40px;height:40px;background:#fff;border:1px solid #E5DDD0;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#6B6358;transition:all 0.2s;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/>
+            </svg>
+          </a>
           <a href="https://ke.linkedin.com/jobs/view/travel-consultant-at-filao-adventures-4398464574" style="width:40px;height:40px;background:#fff;border:1px solid #E5DDD0;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#6B6358;transition:all 0.2s;"><i class="fa fa-linkedin"></i></a>
           <a href="#" style="width:40px;height:40px;background:#fff;border:1px solid #E5DDD0;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#6B6358;transition:all 0.2s;"><i class="fa fa-youtube"></i></a>
         </div>

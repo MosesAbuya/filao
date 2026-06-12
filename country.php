@@ -8,6 +8,29 @@ if (empty($countryName)) {
     exit;
 }
 
+// Fetch country and region data
+$stmtCountry = $pdo->prepare("SELECT c.featured_image as c_img, r.name as r_name FROM countries c LEFT JOIN regions r ON c.region_id = r.id WHERE c.name = ?");
+$stmtCountry->execute([$countryName]);
+$countryData = $stmtCountry->fetch();
+
+$heroImg = 'images/Filao/East Africa/pexels-droneafrica-15373902.jpg';
+$regionName = 'Africa';
+if ($countryData) {
+    if (!empty($countryData['c_img'])) {
+        $img = $countryData['c_img'];
+        if (str_starts_with($img, 'images/')) {
+            $heroImg = $img;
+        } elseif (str_starts_with($img, 'destinations/') || str_starts_with($img, 'countries/') || str_starts_with($img, 'regions/')) {
+            $heroImg = 'uploads/' . $img;
+        } else {
+            $heroImg = 'uploads/destinations/' . $img;
+        }
+    }
+    if (!empty($countryData['r_name'])) {
+        $regionName = $countryData['r_name'];
+    }
+}
+
 $stmt = $pdo->prepare("SELECT id, name, slug, country, region_type, featured_image, latitude, longitude FROM destinations WHERE country = ? ORDER BY name ASC");
 $stmt->execute([$countryName]);
 $destinations = $stmt->fetchAll();
@@ -16,8 +39,8 @@ $dests = [];
 foreach($destinations as $dest) {
   // Handle image path
   $img = $dest['featured_image'];
-  if (!empty($img) && !str_starts_with($img, 'http') && !str_starts_with($img, 'images/')) {
-      $img = 'uploads/' . $img;
+  if (!empty($img) && !str_starts_with($img, 'http') && !str_starts_with($img, 'images/') && !str_starts_with($img, 'uploads/')) {
+      $img = str_starts_with($img, 'destinations/') ? 'uploads/' . $img : 'uploads/destinations/' . $img;
   }
   if (empty($img)) {
       $img = 'images/Filao/East Africa/pexels-droneafrica-15373902.jpg'; // fallback
@@ -47,7 +70,7 @@ foreach($destinations as $dest) {
   <link rel="stylesheet" href="css/animate.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
   <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="assets/css/filao-theme.css">
+  <link rel="stylesheet" href="assets/css/filao-theme.css?v=<?= time() ?>">
   <style>
     .dest-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px; }
   </style>
@@ -56,17 +79,17 @@ foreach($destinations as $dest) {
 <?php require_once 'includes/nav.php'; ?>
 
 <!-- Page Hero -->
-<section class="fa-page-hero" style="background-image:url('images/Filao/East Africa/pexels-droneafrica-15373902.jpg');">
+<section class="td-hero" style="background-image:url('<?= htmlspecialchars($heroImg) ?>');">
   <div class="overlay"></div>
-  <div class="container fa-page-hero-content" style="max-width:1280px;">
+  <div class="td-hero-content">
     <h1>Destinations in <?= htmlspecialchars($countryName) ?></h1>
-    <div class="breadcrumb-fa">
-      <a href="index">Home</a>
-      <span class="bc-sep">&#8250;</span>
-      <a href="destinations">Destinations</a>
-      <span class="bc-sep">&#8250;</span>
-      <span class="bc-current"><?= htmlspecialchars($countryName) ?></span>
-    </div>
+  </div>
+  <div class="hero-breadcrumb">
+      <a href="index"><i class="fa fa-home"></i></a>
+      <span class="sep">/</span>
+      <a href="destinations?region=<?= urlencode($regionName) ?>"><?= htmlspecialchars($regionName) ?></a>
+      <span class="sep">/</span>
+      <span class="current"><?= htmlspecialchars($countryName) ?></span>
   </div>
 </section>
 

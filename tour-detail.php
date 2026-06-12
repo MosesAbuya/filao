@@ -142,22 +142,22 @@ $nights = $tour['duration_days'] - 1;
           <button class="nav-link active" id="overview-tab" data-toggle="tab" data-target="#overview" type="button" role="tab">Overview</button>
         </li>
         <li class="nav-item">
+          <button class="nav-link" id="inclusions-tab" data-toggle="tab" data-target="#inclusions" type="button" role="tab">Inclusions</button>
+        </li>
+        <li class="nav-item">
           <button class="nav-link" id="itinerary-tab" data-toggle="tab" data-target="#itinerary" type="button" role="tab">Itinerary (<?= count($steps) ?> Days)</button>
         </li>
         <li class="nav-item">
-          <button class="nav-link" id="map-tab" data-toggle="tab" data-target="#map" type="button" role="tab">Route Map</button>
+          <button class="nav-link" id="pricing-tab" data-toggle="tab" data-target="#pricing" type="button" role="tab">Pricing</button>
         </li>
         <li class="nav-item">
           <button class="nav-link" id="accommodations-tab" data-toggle="tab" data-target="#accommodations" type="button" role="tab">Accommodations</button>
         </li>
         <li class="nav-item">
+          <button class="nav-link" id="map-tab" data-toggle="tab" data-target="#map" type="button" role="tab">Maps</button>
+        </li>
+        <li class="nav-item">
           <button class="nav-link" id="gallery-tab" data-toggle="tab" data-target="#gallery" type="button" role="tab">Gallery</button>
-        </li>
-        <li class="nav-item">
-          <button class="nav-link" id="inclusions-tab" data-toggle="tab" data-target="#inclusions" type="button" role="tab">Inclusions</button>
-        </li>
-        <li class="nav-item">
-          <button class="nav-link" id="pricing-tab" data-toggle="tab" data-target="#pricing" type="button" role="tab">Pricing</button>
         </li>
       </ul>
 
@@ -212,8 +212,8 @@ $nights = $tour['duration_days'] - 1;
                       <?php endif; ?>
                     </div>
                     <div class="step-desc">
-                      <?= nl2br(htmlspecialchars($step['step_description'])) ?>
-                    </div>
+                    <?= $step['step_description'] ?>
+                  </div>
                     <?php if($step['step_image']): ?>
                     <img src="uploads/<?= htmlspecialchars($step['step_image']) ?>" alt="Day <?= $step['step_number'] ?>" class="step-img w-100 mt-2">
                     <?php endif; ?>
@@ -353,7 +353,8 @@ $nights = $tour['duration_days'] - 1;
                 <thead style="background:#FAF8F4;">
                   <tr>
                     <th>Group Size</th>
-                    <th>Price Per Person (USD)</th>
+                    <th>Price Per Adult (USD)</th>
+                    <th>Price Per Child (USD)</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -368,27 +369,26 @@ $nights = $tour['duration_days'] - 1;
                   ];
                   $hasPricing = false;
                   foreach($tiers as $num => $label) {
-                      $col = "price_{$num}_person" . ($num > 1 ? 's' : '');
-                      // Note: column names in DB are actually: price_1_person, price_2_people, price_3_people, price_4_people, price_5_people, price_6_people
-                      if ($num > 1) {
-                          $col = "price_{$num}_people";
-                      } else {
-                          $col = "price_{$num}_person";
-                      }
+                      $adultCol = "price_{$num}_pax";
+                      $childCol = "price_child_{$num}_pax";
                       
-                      $p = isset($tour[$col]) ? $tour[$col] : null;
-                      if (!empty($p) && $p > 0) {
+                      $adultP = isset($tour[$adultCol]) ? $tour[$adultCol] : null;
+                      $childP = isset($tour[$childCol]) ? $tour[$childCol] : null;
+                      
+                      if ((!empty($adultP) && $adultP > 0) || (!empty($childP) && $childP > 0)) {
                           $hasPricing = true;
-                          echo "<tr><td><strong>{$label}</strong></td><td>$" . number_format($p) . "</td></tr>";
+                          $aDisp = (!empty($adultP) && $adultP > 0) ? "$" . number_format($adultP) : "-";
+                          $cDisp = (!empty($childP) && $childP > 0) ? "$" . number_format($childP) : "-";
+                          echo "<tr><td><strong>{$label}</strong></td><td>{$aDisp}</td><td>{$cDisp}</td></tr>";
                       }
                   }
                   if (!$hasPricing) {
-                      echo "<tr><td colspan='2'>Please contact us for detailed pricing.</td></tr>";
+                      echo "<tr><td colspan='3'>Please contact us for detailed pricing.</td></tr>";
                   }
                   ?>
                 </tbody>
               </table>
-              <p class="mt-3 text-muted" style="font-size:13px;">* Prices are subject to change based on seasonality and availability. Please request a quote for exact pricing for your travel dates.</p>
+              <p class="mt-3 text-muted" style="font-size:13px;">* Prices are subject to change based on seasonality and availability. Please request a quote for exact pricing for your travel dates. Children are considered under 12 years of age.</p>
             </div>
           </div>
         </div>
@@ -399,7 +399,7 @@ $nights = $tour['duration_days'] - 1;
     <!-- Sidebar -->
     <div class="col-lg-4">
       <div class="fa-enquiry-box">
-        <div class="price-label">Guide Price</div>
+        <div class="price-label">FROM</div>
         <div class="price-main"><?= $price ?></div>
         <div class="price-per">per person sharing &bull; <?= $tour['duration_days'] ?> Days</div>
         
@@ -416,16 +416,21 @@ $nights = $tour['duration_days'] - 1;
             <label class="form-label">Email Address</label>
             <input type="email" name="email" class="form-control" placeholder="jane@example.com" required>
           </div>
+          <div class="form-group mb-3">
+            <label class="form-label">Exact Travel Date</label>
+            <input type="date" name="travel_date" class="form-control" required>
+          </div>
           <div class="row mb-3">
             <div class="col-6 form-group">
-              <label class="form-label">Travel Date</label>
-              <input type="month" name="travel_date" class="form-control">
+              <label class="form-label">Adults</label>
+              <input type="number" name="adults" class="form-control" min="1" value="2" required>
             </div>
             <div class="col-6 form-group">
-              <label class="form-label">Guests</label>
-              <select name="adults" class="form-control">
-                <option value="2">2 Adults</option><option value="1">1 Adult</option><option value="3">3 Adults</option><option value="4">4+ Adults</option>
-              </select>
+              <label class="form-label">Children</label>
+              <input type="number" name="children" class="form-control" min="0" value="0">
+            </div>
+            <div class="col-12 mt-1">
+              <small style="font-size:11px; color:#9E3A25;">* Children are below 12 years.</small>
             </div>
           </div>
           <div class="form-group mb-4">

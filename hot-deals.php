@@ -1,7 +1,7 @@
 <?php
 require_once 'includes/db.php';
 $pdo = getPDO();
-$where = ["t.status='published'"];
+$where = ["t.status='published'", "t.is_hot_offer=1"];
 $params = [];
 
 if (isset($_GET['joining']) && $_GET['joining'] == '1') {
@@ -76,7 +76,7 @@ $excerpts=[
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Safari Tours &amp; Holiday Packages &mdash; Filao Adventures</title>
+  <title>Hot Deals &amp; Special Offers &mdash; Filao Adventures</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Browse Filao Adventures' expertly crafted safari tours, beach holidays and international packages. Find your perfect journey.">
@@ -90,42 +90,195 @@ $excerpts=[
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="assets/css/filao-theme.css">
   <style>
-    .filter-sidebar { background:#fff; padding:28px; border:1px solid #E5DDD0; border-radius:4px; position:sticky;top:160px; }
+    body { background-color: #1C1712; color: #fff; }
+    .filter-sidebar { background:#1C1712; padding:28px; border:1px solid rgba(255,255,255,0.1); border-radius:4px; position:sticky;top:160px; }
     .filter-sidebar h5 { font-family:'Inter',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#C49018;margin-bottom:16px; }
-    .filter-sidebar .filter-group { margin-bottom:20px; padding-bottom:18px; border-bottom:1px solid #EDE8E0; }
-    .filter-sidebar label { display:flex;align-items:center;gap:8px;font-size:13.5px;color:#1C1712;cursor:pointer;padding:3px 0; }
+    .filter-sidebar .filter-group { margin-bottom:20px; padding-bottom:18px; border-bottom:1px solid rgba(255,255,255,0.1); }
+    .filter-sidebar label { display:flex;align-items:center;gap:8px;font-size:13.5px;color:rgba(255,255,255,0.85);cursor:pointer;padding:3px 0; }
     .filter-sidebar input[type=checkbox] { accent-color:#C49018; }
-    .filter-count { font-size:11px;color:#6B6358;margin-left:auto; }
+    .filter-count { font-size:11px;color:rgba(255,255,255,0.5);margin-left:auto; }
     .btn-filter { width:100%;background:#C49018;color:#fff;border:none;padding:11px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;border-radius:3px;font-family:'Inter',sans-serif;margin-bottom:8px; }
-    .btn-filter-clear { display:block;text-align:center;font-size:11px;color:#6B6358;text-decoration:none; }
-    .results-info { font-size:13px;color:#6B6358;margin-bottom:24px;font-family:'Inter',sans-serif; }
+    .btn-filter-clear { display:block;text-align:center;font-size:11px;color:rgba(255,255,255,0.6);text-decoration:none; }
+    .results-info { font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:24px;font-family:'Inter',sans-serif; }
+    .fa-tour-card { background:#251e18; border:1px solid rgba(255,255,255,0.05); }
+    .fa-tour-card .tc-title a { color:#fff; }
+    .fa-tour-card .tc-excerpt { color:rgba(255,255,255,0.7); }
+    .fa-tour-card .tc-footer { border-top:1px solid rgba(255,255,255,0.1) !important; }
+    .fa-tour-card .tc-price { color:rgba(255,255,255,0.8) !important; }
+    .fa-tour-card .tc-price .price-val { color:#fff !important; }
+    .fa-tour-card .tc-route { color:rgba(255,255,255,0.6) !important; }
   </style>
 </head>
 <body>
 <?php require_once 'includes/nav.php'; ?>
 
-<!-- Page Hero -->
-<section class="fa-page-hero" style="background-image:url('images/Filao/Company/safari car back.jpeg');">
-  <div class="overlay"></div>
-  <div class="container fa-page-hero-content" style="max-width:1280px;">
-    <h1>Our Tours &amp; Safaris</h1>
-    <div class="breadcrumb-fa">
-      <a href="index">Home</a>
-      <span class="bc-sep">&#8250;</span>
-      <span class="bc-current">Tours</span>
+<!-- ====== HOT OFFERS CAROUSEL HERO ====== -->
+<?php if (!empty($tours)): ?>
+<section class="hot-sale-section" id="hotSaleSection" style="position: relative; overflow: hidden; background-color: #1C1712; color: #fff; padding: 100px 0; margin-bottom: 0;">
+  <!-- Background Images Container -->
+  <div id="hsBackgrounds" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;">
+    <?php foreach ($tours as $index => $offer): 
+      if ($index >= 6) break; // Limit carousel to top 6 offers
+      $img = $offer['featured_image'] ? 'uploads/' . $offer['featured_image'] : 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
+    ?>
+      <div class="hs-bg hs-bg-<?= $index ?>" style="position: absolute; top:0; left:0; width: 100%; height: 100%; background-image: url('<?= htmlspecialchars($img) ?>'); background-size: cover; background-position: center; opacity: <?= $index === 0 ? 1 : 0 ?>; transition: opacity 0.8s ease;"></div>
+    <?php endforeach; ?>
+    <!-- Gradient Overlay -->
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to right, rgba(28,23,18,0.5) 0%, rgba(28,23,18,0.85) 45%, #1C1712 65%, #1C1712 100%); z-index: 1;"></div>
+  </div>
+
+  <div class="container" style="max-width:1280px; position: relative; z-index: 2;">
+    <div class="row align-items-center">
+      <!-- LHS Content -->
+      <div class="col-lg-5 mb-5 mb-lg-0 pr-lg-5" id="hsContentWrapper">
+        <span style="display:inline-block; color: #E21B1B; font-family:'Inter', sans-serif; font-size: 13px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px;"><i class="fa fa-fire"></i> Hot Sale Deals</span>
+        
+        <div id="hsTextContainer" style="margin-top: 10px; position: relative; min-height: 380px;">
+          <?php foreach ($tours as $index => $offer): 
+            if ($index >= 6) break;
+          ?>
+            <div class="hs-text hs-text-<?= $index ?>" style="position: absolute; top:0; left:0; width: 100%; opacity: <?= $index === 0 ? 1 : 0 ?>; visibility: <?= $index === 0 ? 'visible' : 'hidden' ?>; transition: all 0.5s ease; transform: translateY(<?= $index === 0 ? '0' : '20px' ?>);">
+              <h1 style="font-family:'Cormorant Garant',serif; font-size:48px; font-weight:700; color:#fff; line-height:1.1; margin-bottom: 20px; text-shadow: 0 2px 4px rgba(0,0,0,0.5);"><?= htmlspecialchars($offer['title']) ?></h1>
+              <p style="font-size:16px; color:rgba(255,255,255,0.85); line-height:1.7; margin-bottom: 30px;">
+                <?= htmlspecialchars(substr(strip_tags($offer['excerpt'] ?: "Experience the magic of this destination. Book now to enjoy exclusive discounts on this unforgettable journey and create memories that will last a lifetime."), 0, 150)) ?>...
+              </p>
+              <div class="d-flex align-items-center">
+                <div style="margin-right: 40px;">
+                  <span style="font-size:11px; color:rgba(255,255,255,0.6); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:4px; font-weight:600;">Duration</span>
+                  <span style="font-size:20px; font-weight:700; color:#fff;"><i class="fa fa-clock-o" style="color:#C49018; margin-right:5px;"></i> <?= htmlspecialchars($offer['duration_days']) ?> Days</span>
+                </div>
+                <div>
+                  <span style="font-size:11px; color:rgba(255,255,255,0.6); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:4px; font-weight:600;">Starting From</span>
+                  <span style="font-size:26px; font-weight:700; color:#C49018;">$<?= number_format($offer['price_from_usd']) ?></span>
+                </div>
+              </div>
+            </div>
+          <?php endforeach; ?>
+        </div>
+        
+        <div class="hs-controls d-flex align-items-center" style="position: relative; z-index: 10; margin-top: 20px;">
+          <button id="hsPrev" style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.3); color:#fff; width:48px; height:48px; border-radius:50%; margin-right:15px; cursor:pointer; transition:all 0.3s; z-index:10;"><i class="fa fa-arrow-left"></i></button>
+          <button id="hsNext" style="background:#E21B1B; border:1px solid #E21B1B; color:#fff; width:48px; height:48px; border-radius:50%; cursor:pointer; transition:all 0.3s; z-index:10;"><i class="fa fa-arrow-right"></i></button>
+        </div>
+      </div>
+      
+      <!-- RHS Cards -->
+      <div class="col-lg-7">
+        <div style="position: relative; width: 100%; height: 500px; overflow: hidden; perspective: 1000px;">
+          <?php foreach ($tours as $index => $offer): 
+            if ($index >= 6) break;
+            $img = $offer['featured_image'] ? 'uploads/' . $offer['featured_image'] : 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
+          ?>
+            <div class="hs-card hs-card-<?= $index ?>" data-index="<?= $index ?>" style="position: absolute; top: 50%; left: 0; width: 340px; height: 420px; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.4); transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); cursor:pointer;">
+              <img src="<?= htmlspecialchars($img) ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="">
+              <div style="position: absolute; bottom:0; left:0; width:100%; padding:25px; background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);">
+                <span style="background: #E21B1B; color: #fff; font-size: 11px; font-weight:700; padding: 4px 10px; border-radius: 4px; text-transform:uppercase; margin-bottom: 12px; display:inline-block; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">Hot Deal</span>
+                <h4 style="color:#fff; font-family:'Inter',sans-serif; font-weight:700; font-size:22px; line-height:1.2; margin-bottom:15px; text-shadow: 0 2px 4px rgba(0,0,0,0.6);"><?= htmlspecialchars($offer['title']) ?></h4>
+                <a href="tours/<?= $offer['slug'] ?>" class="btn btn-sm" style="background:#C49018; color:#fff; border-radius:30px; font-weight:600; padding:8px 24px; text-transform:uppercase; font-size:13px; letter-spacing:1px;">View Deal <i class="fa fa-arrow-right ml-1"></i></a>
+              </div>
+            </div>
+          <?php endforeach; ?>
+        </div>
+      </div>
     </div>
   </div>
 </section>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const totalItems = <?= min(6, count($tours)) ?>;
+    if (totalItems === 0) return;
+    
+    let currentIndex = 0;
+    let interval;
+
+    function updateSlider(index) {
+      document.querySelectorAll('.hs-bg').forEach((bg, i) => {
+        bg.style.opacity = (i === index) ? '1' : '0';
+      });
+      
+      document.querySelectorAll('.hs-text').forEach((txt, i) => {
+        if (i === index) {
+          txt.style.opacity = '1';
+          txt.style.visibility = 'visible';
+          txt.style.transform = 'translateY(0)';
+        } else {
+          txt.style.opacity = '0';
+          txt.style.visibility = 'hidden';
+          txt.style.transform = 'translateY(20px)';
+        }
+      });
+
+      document.querySelectorAll('.hs-card').forEach((card, i) => {
+        if (i === index) {
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(-50%) translateX(20px) scale(1)';
+          card.style.zIndex = '3';
+          card.style.pointerEvents = 'auto';
+        } else if (i === (index + 1) % totalItems) {
+          card.style.opacity = '0.5';
+          card.style.transform = 'translateY(-50%) translateX(380px) scale(0.85)';
+          card.style.zIndex = '2';
+          card.style.pointerEvents = 'none';
+        } else {
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(-50%) translateX(450px) scale(0.7)';
+          card.style.zIndex = '1';
+          card.style.pointerEvents = 'none';
+        }
+      });
+    }
+
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % totalItems;
+      updateSlider(currentIndex);
+    }
+
+    function prevSlide() {
+      currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+      updateSlider(currentIndex);
+    }
+
+    const nextBtn = document.getElementById('hsNext');
+    const prevBtn = document.getElementById('hsPrev');
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        nextSlide();
+        resetInterval();
+      });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        prevSlide();
+        resetInterval();
+      });
+    }
+
+    function resetInterval() {
+      clearInterval(interval);
+      interval = setInterval(nextSlide, 6000);
+    }
+
+    updateSlider(0);
+    resetInterval();
+  });
+</script>
+<style>
+  #hsPrev:hover { background: rgba(255,255,255,0.2) !important; }
+  #hsNext:hover { background: #d31a1a !important; }
+</style>
+<?php endif; ?>
 
 <!-- Content -->
-<section class="section-pad bg-cream">
+<section class="section-pad" style="background-color: #1C1712;">
   <div class="container" style="max-width:1280px;">
     <div class="row">
       <!-- Filter Sidebar -->
       <div class="col-lg-3 col-md-4 mb-5 d-none d-md-block">
-        <form method="GET" action="tours.php" id="tours-filter-form">
+        <form method="GET" action="hot-deals.php" id="tours-filter-form">
           <div class="filter-sidebar">
-            <h5>Filter Tours</h5>
+            <h5>Filter Deals</h5>
             <div class="filter-group">
               <div class="mb-2" style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6B6358;font-family:'Inter',sans-serif;">Category</div>
               <label><input type="checkbox" name="cat[]" value="safari"> Safari Tours <span class="filter-count">(5)</span></label>
@@ -151,7 +304,7 @@ $excerpts=[
               <label><input type="checkbox" name="price[]" value="3000+"> $3,000+</label>
             </div>
             <button type="submit" class="btn-filter">Apply Filters</button>
-            <a href="tours" class="btn-filter-clear">Clear All</a>
+            <a href="hot-deals" class="btn-filter-clear">Clear All</a>
           </div>
         </form>
       </div>
@@ -162,7 +315,7 @@ $excerpts=[
           <i class="fa fa-spinner fa-spin fa-3x" style="color:#C49018;"></i>
         </div>
         <div id="tours-content">
-        <p class="results-info">Showing <strong><?= count($tours) ?></strong> tours &mdash; all crafted in Kenya by local experts</p>
+        <p class="results-info">Showing <strong><?= count($tours) ?></strong> hot deals &mdash; all crafted in Kenya by local experts</p>
         <div class="row">
           <?php
           $tcExcerpts=[

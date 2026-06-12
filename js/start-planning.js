@@ -44,6 +44,24 @@
   const formError    = document.getElementById('spFormError');
   const submitBtn    = document.getElementById('spSubmitBtn');
 
+  // ---- Intl Tel Input ----
+  let phoneIti = null;
+  const phoneInput = document.getElementById('spPhone');
+  if (phoneInput && window.intlTelInput) {
+    phoneIti = window.intlTelInput(phoneInput, {
+      initialCountry: "auto",
+      autoPlaceholder: "off",
+      separateDialCode: true,
+      geoIpLookup: function(callback) {
+        fetch("https://ipapi.co/json")
+          .then(function(res) { return res.json(); })
+          .then(function(data) { callback(data.country_code); })
+          .catch(function() { callback("us"); });
+      },
+      utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.5/js/utils.js",
+    });
+  }
+
   // ---- Open Modal ----
   window.openPlanningModal = function (tourId, tourTitle, destName) {
     // Reset state
@@ -60,8 +78,8 @@
       ctxLabel.textContent = tourTitle;
       ctxBanner.style.display = 'flex';
 
-      // Skip step 1 (know where?) and 2 (destination) for tour context
-      goToStep(3);
+      // Skip step 1 (know where?), 2 (destination), and 3 (activities) for tour context
+      goToStep(4);
     } else {
       state.isTourContext = false;
       ctxBanner.style.display = 'none';
@@ -83,8 +101,13 @@
     state.activities = [];
     state.destination = null;
     state.travel_month = null;
+    state.duration = null;
+    state.travelled_before = null;
+    state.referred = null;
     state.tour_id = null;
     state.tour_title = null;
+    
+    // reset UI
     state.adults = 2; state.children = 0; state.budget = 4000;
     adultsVal.textContent = 2; childrenVal.textContent = 0;
     if (budgetSlider) { budgetSlider.value = 4000; budgetDisplay.textContent = '$4,000'; }
@@ -187,8 +210,8 @@
     const btn = e.target.closest('.sp-back-btn');
     if (!btn || btn.id === 'spCloseThankYou') return;
     let prev = parseInt(btn.dataset.prev);
-    // In tour context, skip steps 1 and 2
-    if (state.isTourContext && (prev === 1 || prev === 2)) {
+    // In tour context, skip steps 1, 2 and 3
+    if (state.isTourContext && (prev === 1 || prev === 2 || prev === 3)) {
       closeModal();
       return;
     }
@@ -252,9 +275,15 @@
       const fname = document.getElementById('spFname').value.trim();
       const lname = document.getElementById('spLname').value.trim();
       const email = document.getElementById('spEmail').value.trim();
-      const phone = document.getElementById('spPhone').value.trim();
+      
+      let phone = document.getElementById('spPhone').value.trim();
+      if (phoneIti && phone) {
+        phone = phoneIti.getNumber(); // get full international number
+      }
+      
       const msg   = document.getElementById('spMessage').value.trim();
       const customPurpose = document.getElementById('spCustomPurpose').value.trim();
+      const exactDate = document.getElementById('spExactDate') ? document.getElementById('spExactDate').value : '';
 
       formError.style.display = 'none';
 
@@ -285,6 +314,7 @@
       formData.append('tour_title', state.tour_title || '');
       formData.append('travel_month', state.travel_month || '');
       formData.append('travel_year', state.travel_year || '');
+      formData.append('exact_travel_date', exactDate);
       formData.append('duration', state.duration || '');
       formData.append('adults', state.adults);
       formData.append('children', state.children);

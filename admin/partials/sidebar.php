@@ -39,6 +39,16 @@ $user = currentUser();
             <span class="nav-text">Destinations</span>
         </a>
 
+        <a href="regions.php" class="nav-link <?= in_array($currentPage, ['regions.php', 'create-region.php', 'edit-region.php']) ? 'active' : '' ?>">
+            <span class="nav-icon"><i class="bi bi-globe"></i></span>
+            <span class="nav-text">Regions</span>
+        </a>
+
+        <a href="countries.php" class="nav-link <?= in_array($currentPage, ['countries.php', 'create-country.php', 'edit-country.php']) ? 'active' : '' ?>">
+            <span class="nav-icon"><i class="bi bi-flag-fill"></i></span>
+            <span class="nav-text">Countries</span>
+        </a>
+
         <a href="activities.php" class="nav-link <?= in_array($currentPage, ['activities.php', 'create-activity.php', 'edit-activity.php']) ? 'active' : '' ?>">
             <span class="nav-icon"><i class="bi bi-bicycle"></i></span>
             <span class="nav-text">Activities</span>

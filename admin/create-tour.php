@@ -38,8 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("INSERT INTO tours 
             (title, slug, description, excerpt, duration_days, price_from_usd, status, featured_image, 
             focus_keyphrase, seo_title, meta_description, highlights, inclusions, exclusions,
-            is_hot_offer, price_1_person, price_2_people, price_3_people, price_4_people, price_5_people, price_6_people) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            is_hot_offer, is_active_ad, is_joining_tour, price_1_pax, price_2_pax, price_3_pax, price_4_pax, price_5_pax, price_6_pax,
+            price_child_1_pax, price_child_2_pax, price_child_3_pax, price_child_4_pax, price_child_5_pax, price_child_6_pax) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             
         $stmt->execute([
             $title, $slug, $_POST['description'] ?? '', $_POST['excerpt'] ?? '', 
@@ -47,12 +48,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_POST['focus_keyphrase'] ?? '', $_POST['seo_title'] ?? '', $_POST['meta_description'] ?? '',
             $_POST['highlights'] ?? '', $_POST['inclusions'] ?? '', $_POST['exclusions'] ?? '',
             isset($_POST['is_hot_offer']) ? 1 : 0,
-            !empty($_POST['price_1_person']) ? (float)$_POST['price_1_person'] : null,
-            !empty($_POST['price_2_people']) ? (float)$_POST['price_2_people'] : null,
-            !empty($_POST['price_3_people']) ? (float)$_POST['price_3_people'] : null,
-            !empty($_POST['price_4_people']) ? (float)$_POST['price_4_people'] : null,
-            !empty($_POST['price_5_people']) ? (float)$_POST['price_5_people'] : null,
-            !empty($_POST['price_6_people']) ? (float)$_POST['price_6_people'] : null
+            isset($_POST['is_active_ad']) ? 1 : 0,
+            isset($_POST['is_joining_tour']) ? 1 : 0,
+            !empty($_POST['price_1_pax']) ? (float)$_POST['price_1_pax'] : null,
+            !empty($_POST['price_2_pax']) ? (float)$_POST['price_2_pax'] : null,
+            !empty($_POST['price_3_pax']) ? (float)$_POST['price_3_pax'] : null,
+            !empty($_POST['price_4_pax']) ? (float)$_POST['price_4_pax'] : null,
+            !empty($_POST['price_5_pax']) ? (float)$_POST['price_5_pax'] : null,
+            !empty($_POST['price_6_pax']) ? (float)$_POST['price_6_pax'] : null,
+            !empty($_POST['price_child_1_pax']) ? (float)$_POST['price_child_1_pax'] : null,
+            !empty($_POST['price_child_2_pax']) ? (float)$_POST['price_child_2_pax'] : null,
+            !empty($_POST['price_child_3_pax']) ? (float)$_POST['price_child_3_pax'] : null,
+            !empty($_POST['price_child_4_pax']) ? (float)$_POST['price_child_4_pax'] : null,
+            !empty($_POST['price_child_5_pax']) ? (float)$_POST['price_child_5_pax'] : null,
+            !empty($_POST['price_child_6_pax']) ? (float)$_POST['price_child_6_pax'] : null
         ]);
         
         $tourId = $pdo->lastInsertId();
@@ -302,14 +311,26 @@ include 'partials/sidebar.php';
                                         <small class="text-muted d-block mt-1">This is the 'From' price shown on cards.</small>
                                     </div>
                                     <hr>
-                                    <h6 class="mb-3">Detailed Pricing (Per Person)</h6>
+                                    <h6 class="mb-3">Detailed Pricing (Adults)</h6>
+                                    <div class="row g-2 mb-3">
+                                        <?php for($i=1; $i<=6; $i++): ?>
+                                        <div class="col-6 mb-2">
+                                            <label class="form-label small"><?= $i ?> Adult<?= $i>1?'s':'' ?> (USD)</label>
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-text bg-light">$</span>
+                                                <input type="number" class="form-control" name="price_<?= $i ?>_pax" step="0.01" min="0">
+                                            </div>
+                                        </div>
+                                        <?php endfor; ?>
+                                    </div>
+                                    <h6 class="mb-3">Detailed Pricing (Children < 12 yrs)</h6>
                                     <div class="row g-2">
                                         <?php for($i=1; $i<=6; $i++): ?>
                                         <div class="col-6 mb-2">
-                                            <label class="form-label small"><?= $i ?> Person<?= $i>1?'s':'' ?> (USD)</label>
+                                            <label class="form-label small"><?= $i ?> Child<?= $i>1?'ren':'' ?> (USD)</label>
                                             <div class="input-group input-group-sm">
                                                 <span class="input-group-text bg-light">$</span>
-                                                <input type="number" class="form-control" name="price_<?= $i ?>_person<?= $i>1?'s':'' ?>" step="0.01" min="0">
+                                                <input type="number" class="form-control" name="price_child_<?= $i ?>_pax" step="0.01" min="0">
                                             </div>
                                         </div>
                                         <?php endfor; ?>
