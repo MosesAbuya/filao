@@ -125,7 +125,7 @@ if ($currentRegion && isset($navRegions[$currentRegion])) {
               foreach ($uniqueCountries as $cName => $cImg): 
                   $imgUrl = 'images/placeholder.jpg';
                   if (!empty($cImg)) {
-                      $imgUrl = str_starts_with($cImg, 'images/') ? $cImg : (str_starts_with($cImg, 'destinations/') ? 'uploads/' . $cImg : 'uploads/destinations/' . $cImg);
+                      $imgUrl = str_starts_with($cImg, 'images/') ? $cImg : 'uploads/' . $cImg;
                   }
               ?>
                   <a href="country?name=<?= urlencode($cName) ?>" class="fa-dest-card">

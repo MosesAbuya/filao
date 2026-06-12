@@ -71,7 +71,7 @@ $heroImg = $img ?: 'images/Filao/East Africa/pexels-droneafrica-15373902.jpg';
           <h2 style="font-family:'Cormorant Garant',serif;font-size:32px;color:#1C1712;margin-bottom:24px;">About <?= htmlspecialchars($dest['name']) ?></h2>
           <div style="font-size:15.5px;color:#4A4340;line-height:1.8;">
             <?php if($dest['description']): ?>
-              <?= nl2br(htmlspecialchars($dest['description'])) ?>
+              <?= $dest['description'] ?>
             <?php else: ?>
               <p><?= htmlspecialchars($dest['name']) ?> is one of <?= htmlspecialchars($dest['country']) ?>'s premier travel destinations. Whether you are looking for spectacular wildlife encounters, stunning landscapes, or pure relaxation, this region offers an unforgettable experience. At Filao Adventures, we craft tailor-made journeys that allow you to explore <?= htmlspecialchars($dest['name']) ?> at your own pace, staying at the finest hand-picked lodges and camps.</p>
               <p>Speak to one of our safari experts to start designing your perfect itinerary.</p>

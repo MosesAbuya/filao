@@ -203,10 +203,10 @@ $navJoiningTours = $navPdo->query("
                       $firstCat = '';
                       foreach ($navRegions as $regionName => $countriesList):
                         // Get an image for the region
-                        $rawImg = $countriesList[0]['featured_image'];
+                        $rawImg = $countriesList[0]['region_img'];
                         $img = 'images/Filao/East Africa/pexels-kelly-17291020.jpg';
                         if (!empty($rawImg)) {
-                            $img = str_starts_with($rawImg, 'destinations/') ? 'uploads/' . $rawImg : 'uploads/destinations/' . $rawImg;
+                            $img = str_starts_with($rawImg, 'images/') ? $rawImg : 'uploads/' . $rawImg;
                         }
                         if ($firstReg) {
                           $firstImg = $img;
@@ -245,7 +245,7 @@ $navJoiningTours = $navPdo->query("
                         foreach ($uniqueCountries as $cName => $cImg):
                           $imgUrl = 'images/Filao/East Africa/pexels-kelly-17291020.jpg';
                           if (!empty($cImg)) {
-                              $imgUrl = str_starts_with($cImg, 'destinations/') ? 'uploads/' . $cImg : 'uploads/destinations/' . $cImg;
+                              $imgUrl = str_starts_with($cImg, 'images/') ? $cImg : 'uploads/' . $cImg;
                           }
                         ?>
                         <li><a href="country?name=<?= urlencode($cName) ?>" data-img="<?= htmlspecialchars($imgUrl) ?>" data-caption="<?= htmlspecialchars($cName) ?>"><?= htmlspecialchars($cName) ?></a></li>
