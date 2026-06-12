@@ -9,6 +9,9 @@ $stmt = $pdo->prepare("SELECT * FROM destinations WHERE id = ?");
 $stmt->execute([$id]);
 $dest = $stmt->fetch();
 
+$allRegions = $pdo->query("SELECT name FROM regions ORDER BY name")->fetchAll(PDO::FETCH_COLUMN);
+$allCountries = $pdo->query("SELECT name FROM countries ORDER BY name")->fetchAll(PDO::FETCH_COLUMN);
+
 if (!$dest) redirect('destinations.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -75,11 +78,21 @@ include 'partials/sidebar.php';
                             <div class="row g-3 mb-3">
                                 <div class="col-md-4">
                                     <label class="form-label">Region</label>
-                                    <input type="text" class="form-control" name="region" value="<?= sanitize($dest['region'] ?? '') ?>">
+                                    <select class="form-select" name="region">
+                                        <option value="">Select a region</option>
+                                        <?php foreach ($allRegions as $rName): ?>
+                                            <option value="<?= htmlspecialchars($rName) ?>" <?= ($dest['region'] == $rName) ? 'selected' : '' ?>><?= htmlspecialchars($rName) ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label">Country</label>
-                                    <input type="text" class="form-control" name="country" required value="<?= sanitize($dest['country']) ?>">
+                                    <select class="form-select" name="country" required>
+                                        <option value="">Select a country</option>
+                                        <?php foreach ($allCountries as $cName): ?>
+                                            <option value="<?= htmlspecialchars($cName) ?>" <?= ($dest['country'] == $cName) ? 'selected' : '' ?>><?= htmlspecialchars($cName) ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label">Region Type</label>

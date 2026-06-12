@@ -1,0 +1,139 @@
+Array
+(
+    [0] => Array
+        (
+            [id] => 1
+            [name] => Maasai Mara National Reserve
+            [country] => Kenya
+            [region_type] => National Reserve
+        )
+
+    [1] => Array
+        (
+            [id] => 2
+            [name] => Amboseli National Park
+            [country] => Kenya
+            [region_type] => National Park
+        )
+
+    [2] => Array
+        (
+            [id] => 3
+            [name] => Tsavo East National Park
+            [country] => Kenya
+            [region_type] => National Park
+        )
+
+    [3] => Array
+        (
+            [id] => 4
+            [name] => Lake Nakuru National Park
+            [country] => Kenya
+            [region_type] => National Park
+        )
+
+    [4] => Array
+        (
+            [id] => 5
+            [name] => Serengeti National Park
+            [country] => Tanzania
+            [region_type] => National Park
+        )
+
+    [5] => Array
+        (
+            [id] => 6
+            [name] => Ngorongoro Crater
+            [country] => Tanzania
+            [region_type] => Conservation Area
+        )
+
+    [6] => Array
+        (
+            [id] => 7
+            [name] => Zanzibar Island
+            [country] => Tanzania
+            [region_type] => Island
+        )
+
+    [7] => Array
+        (
+            [id] => 8
+            [name] => Diani Beach
+            [country] => Kenya
+            [region_type] => Beach
+        )
+
+    [8] => Array
+        (
+            [id] => 9
+            [name] => Nairobi
+            [country] => Kenya
+            [region_type] => City
+        )
+
+    [9] => Array
+        (
+            [id] => 10
+            [name] => Mombasa Old Town
+            [country] => Kenya
+            [region_type] => City
+        )
+
+    [10] => Array
+        (
+            [id] => 11
+            [name] => Bali
+            [country] => Indonesia
+            [region_type] => Island
+        )
+
+    [11] => Array
+        (
+            [id] => 12
+            [name] => Dubai
+            [country] => UAE
+            [region_type] => City
+        )
+
+    [12] => Array
+        (
+            [id] => 13
+            [name] => Indian Ocean
+            [country] => Various
+            [region_type] => Island
+        )
+
+    [13] => Array
+        (
+            [id] => 14
+            [name] => Italy
+            [country] => Italy
+            [region_type] => Country
+        )
+
+    [14] => Array
+        (
+            [id] => 15
+            [name] => Paris
+            [country] => France
+            [region_type] => City
+        )
+
+    [15] => Array
+        (
+            [id] => 16
+            [name] => Santorini
+            [country] => Greece
+            [region_type] => Island
+        )
+
+    [16] => Array
+        (
+            [id] => 17
+            [name] => Thailand
+            [country] => Thailand
+            [region_type] => Country
+        )
+
+)

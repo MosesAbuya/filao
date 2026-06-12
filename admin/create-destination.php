@@ -1,6 +1,11 @@
 <?php
 require_once __DIR__ . '/auth_guard.php';
 
+$pdo = getPDO();
+
+$allRegions = $pdo->query("SELECT name FROM regions ORDER BY name")->fetchAll(PDO::FETCH_COLUMN);
+$allCountries = $pdo->query("SELECT name FROM countries ORDER BY name")->fetchAll(PDO::FETCH_COLUMN);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!csrfVerify($_POST['csrf_token'] ?? '')) {
         setFlash('error', 'Invalid security token.');
@@ -67,11 +72,21 @@ include 'partials/sidebar.php';
                             <div class="row g-3 mb-3">
                                 <div class="col-md-4">
                                     <label class="form-label">Region</label>
-                                    <input type="text" class="form-control" name="region" placeholder="e.g. East Africa">
+                                    <select class="form-select" name="region">
+                                        <option value="">Select a region</option>
+                                        <?php foreach ($allRegions as $rName): ?>
+                                            <option value="<?= htmlspecialchars($rName) ?>"><?= htmlspecialchars($rName) ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label">Country</label>
-                                    <input type="text" class="form-control" name="country" required placeholder="e.g. Kenya">
+                                    <select class="form-select" name="country" required>
+                                        <option value="">Select a country</option>
+                                        <?php foreach ($allCountries as $cName): ?>
+                                            <option value="<?= htmlspecialchars($cName) ?>"><?= htmlspecialchars($cName) ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label">Region Type</label>
