@@ -76,7 +76,7 @@
       </div>
       <div class="col-md-4 mb-4 text-center">
         <div style="width:80px;height:80px;background:#FAF8F4;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;border:1px solid #E5DDD0;">
-          <i class="fa fa-infinity" style="font-size:32px;color:#9E3A25;"></i>
+          <i class="fa fa-star-o" style="font-size:32px;color:#9E3A25;"></i>
         </div>
         <h3 style="font-family:'Cormorant Garant',serif;font-size:24px;color:#1C1712;margin-bottom:16px;">Personalized Service</h3>
         <p style="font-size:14.5px;color:#6B6358;line-height:1.7;">Your journey, your way. We listen carefully to your requirements and build itineraries that exceed your expectations.</p>

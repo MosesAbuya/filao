@@ -14,10 +14,12 @@ $regionsStmt = $navPdo->query("
 
 $navRegions = [];
 $navCountries = []; // Just the names for the tour dropdown
+$navCountriesImages = []; // Country images
 
 foreach ($regionsStmt as $row) {
     $cName = trim($row['country_name']);
     $navCountries[] = $cName;
+    $navCountriesImages[$cName] = $row['country_img'];
     $region = trim($row['region_name']);
     
     if (!isset($navRegions[$region])) {
@@ -348,9 +350,16 @@ $navJoiningTours = $navPdo->query("
                       <?php $firstCountry = true;
                       foreach ($navToursByCountry as $country => $cTours): ?>
                         <li class="<?= $firstCountry ? 'mm-active' : '' ?>">
+                          <?php 
+                          $cImgRaw = $navCountriesImages[$country] ?? '';
+                          $cImgUrl = 'images/Filao/East Africa/pexels-droneafrica-13234382.jpg';
+                          if (!empty($cImgRaw)) {
+                              $cImgUrl = str_starts_with($cImgRaw, 'images/') ? $cImgRaw : 'uploads/' . $cImgRaw;
+                          }
+                          ?>
                           <a href="#" class="mm-tab-trigger"
                             data-panel="tour-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $country)) ?>"
-                            data-img="images/Filao/East Africa/pexels-droneafrica-13234382.jpg"
+                            data-img="<?= htmlspecialchars($cImgUrl) ?>"
                             data-caption="<?= htmlspecialchars($country) ?> Safaris"><?= htmlspecialchars($country) ?>
                           </a>
                         </li>
@@ -379,7 +388,14 @@ $navJoiningTours = $navPdo->query("
                       <?php $firstCountry = false; endforeach; ?>
                   </div>
                   <div class="fa-mm-image">
-                    <img id="mm-tour-img" src="images/Filao/East Africa/pexels-balazsimon-15994023.jpg"
+                    <?php 
+                    $firstImgRaw = !empty($navCountries) ? ($navCountriesImages[$navCountries[0]] ?? '') : '';
+                    $firstImgUrl = 'images/Filao/East Africa/pexels-balazsimon-15994023.jpg';
+                    if (!empty($firstImgRaw)) {
+                        $firstImgUrl = str_starts_with($firstImgRaw, 'images/') ? $firstImgRaw : 'uploads/' . $firstImgRaw;
+                    }
+                    ?>
+                    <img id="mm-tour-img" src="<?= htmlspecialchars($firstImgUrl) ?>"
                       alt="Safari Tours">
                     <div class="mm-caption" id="mm-tour-caption">Explore Our Safari Tours</div>
                   </div>
