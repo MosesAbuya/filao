@@ -76,11 +76,7 @@ include 'partials/sidebar.php';
             <td><?= date('d M Y', strtotime($blog['created_at'])) ?></td>
             <td class="text-end">
               <a href="edit-blog.php?id=<?= $blog['id'] ?>" class="btn btn-light btn-sm me-1"><i class="bi bi-pencil"></i></a>
-              <form method="post" style="display:inline;" onsubmit="return confirm('Delete this post?')">
-                <input type="hidden" name="action" value="delete">
-                <input type="hidden" name="id" value="<?= $blog['id'] ?>">
-                <button class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i></button>
-              </form>
+              <button type="button" class="btn btn-outline-danger btn-sm" onclick="deleteRecord('blogs', <?= $blog['id'] ?>)" title="Delete"><i class="bi bi-trash"></i></button>
             </td>
           </tr>
           <?php endforeach; ?>
@@ -95,4 +91,31 @@ include 'partials/sidebar.php';
 <?php include 'partials/footer.php'; ?>
 </div>
 <?php include 'partials/scripts.php'; ?>
+<script>
+    function deleteRecord(table, id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This action cannot be undone.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('ajax/delete-record.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `table=${table}&id=${id}&csrf_token=<?= csrfGenerate() ?>`
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            window.location.reload();
+                        } else {
+                            Swal.fire('Error', data.message, 'error');
+                        }
+                    });
+            }
+        })
+    }
+</script>
 </body></html>
