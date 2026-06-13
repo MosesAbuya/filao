@@ -252,4 +252,49 @@ document.addEventListener('DOMContentLoaded', () => {
         metaDesc.dispatchEvent(new Event('input'));
     }
 
+    // --- Form Validation across Tabs ---
+    const saveBtn = document.getElementById('saveBtn');
+    const tourForm = document.getElementById('tourForm');
+
+    if (saveBtn && tourForm) {
+        saveBtn.addEventListener('click', function(e) {
+            // If the form itself has standard invalid elements
+            if (!tourForm.checkValidity()) {
+                e.preventDefault();
+                
+                // Find the first invalid element
+                const firstInvalid = tourForm.querySelector(':invalid');
+                if (firstInvalid) {
+                    // Check if it is inside a tab pane
+                    const tabPane = firstInvalid.closest('.tab-pane');
+                    if (tabPane) {
+                        const tabId = tabPane.id;
+                        // Find the nav button for this tab pane
+                        const tabLink = document.querySelector(`[data-bs-target="#${tabId}"]`) || document.querySelector(`[href="#${tabId}"]`);
+                        if (tabLink) {
+                            // Switch to that tab
+                            const tab = new bootstrap.Tab(tabLink);
+                            tab.show();
+                        }
+                    }
+                    
+                    // Show a nice alert then focus
+                    if (typeof Swal !== 'undefined') {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Missing Information',
+                            text: 'Please fill out all required fields. We have highlighted the missing field for you.',
+                            confirmButtonColor: '#C49018'
+                        }).then(() => {
+                            firstInvalid.focus();
+                        });
+                    } else {
+                        alert('Please fill out all required fields. We have highlighted the missing field for you.');
+                        firstInvalid.focus();
+                    }
+                }
+            }
+        });
+    }
+
 });
