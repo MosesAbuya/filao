@@ -171,35 +171,37 @@ $excerpts=[
             "Join a small-group game drive through the grasslands of the Masai Mara â€” Africa's premier big cat territory.",
             "Combine two of Kenya's most rewarding parks: the flamingo-lined shores of Lake Nakuru and the big cat paradise of the Masai Mara.",
             "The ultimate Kenya safari â€” seven days through the Masai Mara, Lake Nakuru, and Amboseli with Kilimanjaro as your backdrop.",
+            "The ultimate Kenya safari — seven days through the Masai Mara, Lake Nakuru, and Amboseli with Kilimanjaro as your backdrop.",
             "A comprehensive East African adventure through Kenya's most celebrated wildlife destinations.",
           ];
           foreach($tours as $idx => $tour):
-            $img = $tour['featured_image'] ? 'uploads/'.$tour['featured_image'] : 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
+            $img = !empty($tour['featured_image']) ? 'uploads/'.$tour['featured_image'] : 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
             $route = getTourRouteT($pdo, $tour['id']);
-            $excerpt = $tour['excerpt'] ?: ($tcExcerpts[$idx] ?? 'An expertly guided safari through Kenya\'s most spectacular landscapes.');
-            $nights = $tour['duration_days'] - 1;
+            $excerpt = !empty($tour['excerpt']) ? $tour['excerpt'] : ($tcExcerpts[$idx] ?? 'An expertly guided safari through Kenya\'s most spectacular landscapes.');
+            $nights = max(1, (int)($tour['duration_days'] ?? 1)) - 1;
           ?>
           <div class="col-md-6 mb-5 d-flex">
             <div class="fa-tour-card w-100">
               <div class="tc-image-wrap">
-                <img src="<?= htmlspecialchars($img) ?>" alt="<?= htmlspecialchars($tour['title']) ?>" class="tc-image" loading="lazy">
-                <div class="tc-price-badge <?= $tour['price_from_usd'] ? '' : 'contact' ?>">
-                  <?= $tour['price_from_usd'] ? '$'.number_format($tour['price_from_usd']).'/person' : 'Enquire' ?>
+                <img src="<?= htmlspecialchars($img) ?>" alt="<?= htmlspecialchars($tour['title'] ?? '') ?>" class="tc-image" loading="lazy">
+                <div class="tc-price-badge <?= !empty($tour['price_from_usd']) ? '' : 'contact' ?>">
+                  <?= !empty($tour['price_from_usd']) ? '$'.number_format($tour['price_from_usd']).'/person' : 'Enquire' ?>
                 </div>
                 <div class="tc-duration-badge"><?= $nights ?> Nights</div>
               </div>
-              <div class="tc-body">
+              <div class="tc-content">
                 <div class="mb-3"><span class="fa-hero-eyebrow" style="font-size:10px;padding:4px 8px;">KENYA &bull; SAFARI</span></div>
-                <div class="tc-title"><a href="tours/<?= $tour['slug'] ?>"><?= htmlspecialchars($tour['title']) ?></a></div>
+                <div class="tc-title"><a href="tours/<?= $tour['slug'] ?? '' ?>"><?= htmlspecialchars($tour['title'] ?? '') ?></a></div>
                 <?php if($route): ?>
                 <div class="tc-route" style="margin-bottom:12px;font-size:13px;color:#6B6358;"><i class="fa fa-map-marker mr-1" style="color:#C49018;"></i><?= htmlspecialchars($route) ?></div>
                 <?php endif; ?>
-                <div class="tc-excerpt"><?= htmlspecialchars(substr(strip_tags($excerpt),0,130)) ?>...</div>
+                <p class="tc-desc" style="font-size:14px;color:#6B6358;"><?= htmlspecialchars($excerpt) ?></p>
+                
                 <div class="tc-footer" style="margin-top:15px; border-top:1px solid #E5DDD0; padding-top:15px; display:flex; align-items:center; justify-content:space-between;">
                   <div class="tc-price" style="font-size:13px; color:#4A4340; font-weight:600;">
-                    From <span class="price-val" style="font-size:16px; color:#1C1712;">$<?= number_format($tour['price_from_usd'] ?: 1200) ?></span> Per person
+                    From <span class="price-val" style="font-size:16px; color:#1C1712;">$<?= number_format(!empty($tour['price_from_usd']) ? $tour['price_from_usd'] : 1200) ?></span> Per person
                   </div>
-                  <a href="tours/<?= $tour['slug'] ?>" class="tc-cta" style="padding:10px 20px; font-size:11px; white-space:nowrap; visibility:visible; opacity:1;">View Itinerary</a>
+                  <a href="tours/<?= $tour['slug'] ?? '' ?>" class="tc-cta" style="padding:10px 20px; font-size:11px; white-space:nowrap; visibility:visible; opacity:1;">View Itinerary</a>
                 </div>
               </div>
             </div>

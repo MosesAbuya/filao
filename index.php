@@ -466,25 +466,25 @@ function getTourRoute($pdo, $tourId)
           "A comprehensive East African adventure through Kenya's most celebrated wildlife destinations.",
         ];
         foreach ($tours as $idx => $tour):
-          $img = $tour['featured_image'] ? 'uploads/' . $tour['featured_image'] : 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
+          $img = !empty($tour['featured_image']) ? 'uploads/' . $tour['featured_image'] : 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
           $route = getTourRoute($pdo, $tour['id']);
-          $excerpt = $tour['excerpt'] ?: ($tourExcerpts[$idx] ?? 'An expertly guided safari through Kenya\'s most spectacular landscapes and wildlife destinations.');
-          $nights = $tour['duration_days'] - 1;
-          $price = $tour['price_from_usd'] ? '$' . number_format($tour['price_from_usd']) : 'Contact Us';
+          $excerpt = !empty($tour['excerpt']) ? $tour['excerpt'] : ($tourExcerpts[$idx] ?? 'An expertly guided safari through Kenya\'s most spectacular landscapes and wildlife destinations.');
+          $nights = max(1, (int)($tour['duration_days'] ?? 1)) - 1;
+          $price = !empty($tour['price_from_usd']) ? '$' . number_format($tour['price_from_usd']) : 'Contact Us';
           ?>
           <div class="col-lg-4 col-md-6 mb-5 d-flex">
             <div class="fa-tour-card w-100">
               <div class="tc-image-wrap">
-                <img src="<?= htmlspecialchars($img) ?>" alt="<?= htmlspecialchars($tour['title']) ?>" class="tc-image"
+                <img src="<?= htmlspecialchars($img) ?>" alt="<?= htmlspecialchars($tour['title'] ?? '') ?>" class="tc-image"
                   loading="lazy">
-                <div class="tc-price-badge <?= $tour['price_from_usd'] ? '' : 'contact' ?>">
-                  <?= $tour['price_from_usd'] ? '$' . number_format($tour['price_from_usd']) . '/person' : 'Enquire' ?>
+                <div class="tc-price-badge <?= !empty($tour['price_from_usd']) ? '' : 'contact' ?>">
+                  <?= !empty($tour['price_from_usd']) ? '$' . number_format($tour['price_from_usd']) . '/person' : 'Enquire' ?>
                 </div>
                 <div class="tc-duration-badge"><?= $nights ?> Nights</div>
               </div>
               <div class="tc-body">
                 <div class="tc-country">Kenya &bull; Safari</div>
-                <div class="tc-title"><a href="tours/<?= $tour['slug'] ?>"><?= htmlspecialchars($tour['title']) ?></a>
+                <div class="tc-title"><a href="tours/<?= $tour['slug'] ?? '' ?>"><?= htmlspecialchars($tour['title'] ?? '') ?></a>
                 </div>
                 <?php if ($route): ?>
                   <div class="tc-route"><i class="fa fa-map-marker"></i><?= htmlspecialchars($route) ?></div>
@@ -492,7 +492,7 @@ function getTourRoute($pdo, $tourId)
                 <div class="tc-excerpt"><?= htmlspecialchars(substr(strip_tags($excerpt), 0, 130)) ?>...</div>
                 <div class="tc-footer">
                   <div class="tc-price-text">From <strong><?= $price ?></strong></div>
-                  <a href="tours/<?= $tour['slug'] ?>" class="tc-cta" style="padding:10px 24px; font-size:11px;">View
+                  <a href="tours/<?= $tour['slug'] ?? '' ?>" class="tc-cta" style="padding:10px 24px; font-size:11px;">View
                     Itinerary</a>
                 </div>
               </div>

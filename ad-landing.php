@@ -21,9 +21,9 @@ $gallery = $pdo->prepare('SELECT * FROM tour_images WHERE tour_id=? ORDER BY id 
 $gallery->execute([$id]);
 $gallery = $gallery->fetchAll();
 
-$heroImg = $tour['featured_image'] ? 'uploads/'.$tour['featured_image'] : 'images/Filao/East Africa/pexels-droneafrica-13234382.jpg';
-$price = $tour['price_from_usd'] ? '$'.number_format($tour['price_from_usd']) : 'Contact Us';
-$nights = $tour['duration_days'] - 1;
+$heroImg = !empty($tour['featured_image']) ? 'uploads/'.$tour['featured_image'] : 'images/Filao/East Africa/pexels-droneafrica-13234382.jpg';
+$price = !empty($tour['price_from_usd']) ? '$'.number_format($tour['price_from_usd']) : 'Contact Us';
+$nights = max(1, (int)($tour['duration_days'] ?? 1)) - 1;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -209,9 +209,9 @@ $nights = $tour['duration_days'] - 1;
       <div class="ad-badge"><i class="fa fa-bolt"></i> Exclusive Safari Deal</div>
       <h1 class="ad-title"><?= htmlspecialchars($tour['title']) ?></h1>
       <div class="ad-meta">
-        <div class="ad-meta-item"><i class="fa fa-clock-o"></i> <?= $tour['duration_days'] ?> Days</div>
-        <div class="ad-meta-item"><i class="fa fa-map-marker"></i> <?= htmlspecialchars($tour['country'] ?: 'East Africa') ?></div>
-        <?php if($tour['price_from_usd']): ?>
+        <div class="ad-meta-item"><i class="fa fa-clock-o"></i> <?= $tour['duration_days'] ?? 1 ?> Days</div>
+        <div class="ad-meta-item"><i class="fa fa-map-marker"></i> <?= htmlspecialchars($tour['country'] ?? 'East Africa') ?></div>
+        <?php if(!empty($tour['price_from_usd'])): ?>
         <div class="ad-meta-item"><i class="fa fa-tag"></i> From $<?= number_format($tour['price_from_usd']) ?> pp</div>
         <?php endif; ?>
       </div>
@@ -229,11 +229,11 @@ $nights = $tour['duration_days'] - 1;
     <div class="ad-overview-card">
       <div class="ad-overview-text">
         <h2>Experience the Extraordinary</h2>
-        <?= $tour['description'] ?: '<p>'.nl2br(htmlspecialchars($tour['excerpt'])).'</p>' ?>
+        <?= !empty($tour['description']) ? $tour['description'] : '<p>'.nl2br(htmlspecialchars($tour['excerpt'] ?? '')).'</p>' ?>
       </div>
       <div class="ad-overview-highlights">
         <h3><i class="fa fa-star"></i> Tour Highlights</h3>
-        <?php if($tour['highlights']): ?>
+        <?php if(!empty($tour['highlights'])): ?>
           <?= $tour['highlights'] ?>
         <?php else: ?>
           <ul>
@@ -363,11 +363,11 @@ $nights = $tour['duration_days'] - 1;
           <div class="inc-exc-grid">
             <div class="inc-box">
               <h4><i class="fa fa-check-circle"></i> What's Included</h4>
-              <?= $tour['inclusions'] ?: '<ul><li>All park entrance fees</li><li>Full board accommodation</li><li>Exclusive 4x4 Safari Land Cruiser</li><li>Professional guide</li><li>Airport transfers</li></ul>' ?>
+              <?= !empty($tour['inclusions']) ? $tour['inclusions'] : '<ul><li>All park entrance fees</li><li>Full board accommodation</li><li>Exclusive 4x4 Safari Land Cruiser</li><li>Professional guide</li><li>Airport transfers</li></ul>' ?>
             </div>
             <div class="exc-box">
               <h4><i class="fa fa-times-circle"></i> Not Included</h4>
-              <?= $tour['exclusions'] ?: '<ul><li>International flights</li><li>Travel insurance</li><li>Tips and gratuities</li><li>Personal items</li></ul>' ?>
+              <?= !empty($tour['exclusions']) ? $tour['exclusions'] : '<ul><li>International flights</li><li>Travel insurance</li><li>Tips and gratuities</li><li>Personal items</li></ul>' ?>
             </div>
           </div>
 

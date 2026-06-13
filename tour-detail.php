@@ -373,13 +373,13 @@ $nights = max(1, (int)($tour['duration_days'] ?? 1)) - 1;
                       $adultCol = "price_{$num}_pax";
                       $childCol = "price_child_{$num}_pax";
                       
-                      $adultP = isset($tour[$adultCol]) ? $tour[$adultCol] : null;
-                      $childP = isset($tour[$childCol]) ? $tour[$childCol] : null;
+                      $adultP = $tour[$adultCol] ?? null;
+                      $childP = $tour[$childCol] ?? null;
                       
-                      if ((!empty($adultP) && $adultP > 0) || (!empty($childP) && $childP > 0)) {
+                      if (((float)$adultP > 0) || ((float)$childP > 0)) {
                           $hasPricing = true;
-                          $aDisp = (!empty($adultP) && $adultP > 0) ? "$" . number_format($adultP) : "-";
-                          $cDisp = (!empty($childP) && $childP > 0) ? "$" . number_format($childP) : "-";
+                          $aDisp = ((float)$adultP > 0) ? "$" . number_format((float)$adultP) : "-";
+                          $cDisp = ((float)$childP > 0) ? "$" . number_format((float)$childP) : "-";
                           echo "<tr><td><strong>{$label}</strong></td><td>{$aDisp}</td><td>{$cDisp}</td></tr>";
                       }
                   }
@@ -402,7 +402,7 @@ $nights = max(1, (int)($tour['duration_days'] ?? 1)) - 1;
       <div class="fa-enquiry-box">
         <div class="price-label">FROM</div>
         <div class="price-main"><?= $price ?></div>
-        <div class="price-per">per person sharing &bull; <?= $tour['duration_days'] ?> Days</div>
+        <div class="price-per">per person sharing &bull; <?= $tour['duration_days'] ?? 1 ?> Days</div>
         
         <div id="tourEnquiryFeedback" class="alert" style="display:none;font-size:13px;padding:12px;"></div>
         <form id="tourEnquiryForm" action="#" method="POST" class="mt-4">
