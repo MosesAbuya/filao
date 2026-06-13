@@ -49,10 +49,15 @@
 }
 
 /* ── Base Overrides ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Inter', sans-serif;
   color: var(--fa-text);
   background: var(--fa-cream);
+  overflow-x: hidden;
 }
 h1, h2, h3, h4, h5 {
   font-family: 'Cormorant Garant', Georgia, serif;
