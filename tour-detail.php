@@ -418,6 +418,10 @@ $nights = $tour['duration_days'] - 1;
             <input type="email" name="email" class="form-control" placeholder="jane@example.com" required>
           </div>
           <div class="form-group mb-3">
+            <label class="form-label">Phone / WhatsApp</label>
+            <input type="tel" id="tourPhone" class="form-control" placeholder="" style="width:100%;">
+          </div>
+          <div class="form-group mb-3">
             <label class="form-label">Exact Travel Date</label>
             <input type="date" name="travel_date" class="form-control" required>
           </div>
@@ -541,6 +545,20 @@ $(document).ready(function() {
   }
 
   // Tour Enquiry AJAX Form
+  var tourPhoneInput = document.getElementById('tourPhone');
+  var tourPhoneIti = null;
+  if (tourPhoneInput && window.intlTelInput) {
+    tourPhoneIti = window.intlTelInput(tourPhoneInput, {
+      initialCountry: "auto",
+      autoPlaceholder: "off",
+      separateDialCode: true,
+      geoIpLookup: function(callback) {
+        fetch("https://ipapi.co/json").then(r => r.json()).then(d => callback(d.country_code)).catch(() => callback("us"));
+      },
+      utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.5/js/utils.js"
+    });
+  }
+
   $('#tourEnquiryForm').on('submit', function(e) {
     e.preventDefault();
     var form = this;
@@ -552,6 +570,11 @@ $(document).ready(function() {
     
     var data = new FormData(form);
     
+    // Add full international phone number
+    if (tourPhoneIti && tourPhoneInput.value.trim() !== '') {
+      data.append('phone', tourPhoneIti.getNumber());
+    }
+
     var basePath = window.location.hostname === 'localhost' ? '/filao' : '';
     fetch(basePath + '/handlers/enquiry.php', { method: 'POST', body: data })
       .then(r => {

@@ -133,13 +133,25 @@ if ($type === 'contact') {
                       <p><strong>Message:</strong><br/>$msg</p>";
         sendSiteEmail($adminEmail, "Filao Admin", "New Contact Enquiry: $subject", $adminBody);
 
-        $userBody = "<h3>Thank you for reaching out!</h3>
-                     <p>Hi $fname,</p>
-                     <p>We have received your message. Our safari specialists will review it and get back to you shortly.</p>
-                     <p>Best Regards,<br>Filao Adventures Team</p>";
+        $userBody = "
+            <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;'>
+                <div style='text-align: center; padding: 20px 0;'>
+                    <h2 style='color: #C49018; margin-bottom: 5px;'>Hello {$fname},</h2>
+                    <h3 style='margin-top: 0; color: #555;'>Thank you for reaching out to Filao Adventures!</h3>
+                </div>
+                <div style='background-color: #f9f9f9; padding: 25px; border-radius: 8px; font-size: 15px; line-height: 1.6;'>
+                    <p>We have successfully received your message.</p>
+                    <p>One of our safari specialists is reviewing your inquiry and will get back to you shortly with a personalized response.</p>
+                    <p>If you have any urgent questions, feel free to reply directly to this email or contact us via WhatsApp.</p>
+                </div>
+                <div style='text-align: center; padding-top: 30px; font-size: 14px; color: #777;'>
+                    <p>Best Regards,<br><strong style='color: #333;'>Filao Adventures Team</strong></p>
+                    <p><a href='https://filaoadventures.co.ke' style='color: #C49018; text-decoration: none;'>www.filaoadventures.co.ke</a></p>
+                </div>
+            </div>";
         sendSiteEmail($email, "$fname $lname", "We have received your enquiry", $userBody);
     } catch (\Exception $e) {
-        $emailMsg = " [MAIL DEBUG: " . $e->getMessage() . "]";
+        $emailMsg = "";
     }
 
     echo json_encode(['success' => true, 'message' => "Thank you, {$fname}! Your enquiry has been received." . $emailMsg]);
@@ -166,11 +178,13 @@ if ($type === 'tour_enquiry') {
         exit;
     }
 
+    $phone  = clean($input['phone'] ?? '');
+
     try {
         $stmt = $pdo->prepare("INSERT INTO enquiries 
-            (type, first_name, email, tour_id, tour_title, travel_month, travel_year, adults, children, message)
-            VALUES ('tour_enquiry', ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$fname, $email, $tour_id, $tour_title, $tdate, null, $adults, $children, $msg]);
+            (type, first_name, email, phone, tour_id, tour_title, travel_month, travel_year, adults, children, message)
+            VALUES ('tour_enquiry', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$fname, $email, $phone, $tour_id, $tour_title, $tdate, null, $adults, $children, $msg]);
     } catch (PDOException $e) {
         echo json_encode(['success' => false, 'message' => 'DB Error (tour_enquiry): ' . $e->getMessage()]);
         exit;
@@ -184,17 +198,30 @@ if ($type === 'tour_enquiry') {
                       <p><strong>Email:</strong> $email</p>
                       <p><strong>Tour:</strong> $tour_title</p>
                       <p><strong>When:</strong> $tdate</p>
+                      <p><strong>Phone:</strong> $phone</p>
                       <p><strong>Guests:</strong> $adults Adults, $children Children</p>
                       <p><strong>Message:</strong><br/>$msg</p>";
         sendSiteEmail($adminEmail, "Filao Admin", "Tour Enquiry: $tour_title", $adminBody);
 
-        $userBody = "<h3>We have received your tour enquiry!</h3>
-                     <p>Hi $fname,</p>
-                     <p>Thank you for enquiring about <strong>$tour_title</strong>. Our safari specialists will reach out to you shortly.</p>
-                     <p>Best Regards,<br>Filao Adventures Team</p>";
-        sendSiteEmail($email, $fname, "We have received your tour enquiry", $userBody);
+        $userBody = "
+            <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;'>
+                <div style='text-align: center; padding: 20px 0;'>
+                    <h2 style='color: #C49018; margin-bottom: 5px;'>Hello {$fname},</h2>
+                    <h3 style='margin-top: 0; color: #555;'>We've received your tour enquiry!</h3>
+                </div>
+                <div style='background-color: #f9f9f9; padding: 25px; border-radius: 8px; font-size: 15px; line-height: 1.6;'>
+                    <p>Thank you for your interest in the <strong>{$tour_title}</strong>.</p>
+                    <p>Our safari specialists have received your request and are checking availability and details for your travel dates.</p>
+                    <p>We will reach out to you shortly with more information and to help you take the next steps in planning this adventure.</p>
+                </div>
+                <div style='text-align: center; padding-top: 30px; font-size: 14px; color: #777;'>
+                    <p>Best Regards,<br><strong style='color: #333;'>Filao Adventures Team</strong></p>
+                    <p><a href='https://filaoadventures.co.ke' style='color: #C49018; text-decoration: none;'>www.filaoadventures.co.ke</a></p>
+                </div>
+            </div>";
+        sendSiteEmail($email, $fname, "We have received your tour enquiry - {$tour_title}", $userBody);
     } catch (\Exception $e) {
-        $emailMsg = " [MAIL DEBUG: " . $e->getMessage() . "]";
+        $emailMsg = "";
     }
 
     echo json_encode(['success' => true, 'message' => "Thank you, {$fname}! Your enquiry has been received." . $emailMsg]);
@@ -281,13 +308,25 @@ if ($type === 'start_planning') {
                       <p><strong>Message:</strong><br/>$msg</p>";
         sendSiteEmail($adminEmail, "Filao Admin", "New Trip Planning Request from $fname $lname", $adminBody);
 
-        $userBody = "<h3>We're crafting your perfect journey!</h3>
-                     <p>Hi $fname,</p>
-                     <p>Thank you for submitting your trip planning request. Our safari specialists will review your details and reach out to you within 24 hours.</p>
-                     <p>Best Regards,<br>Filao Adventures Team</p>";
+        $userBody = "
+            <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;'>
+                <div style='text-align: center; padding: 20px 0;'>
+                    <h2 style='color: #C49018; margin-bottom: 5px;'>Hello {$fname},</h2>
+                    <h3 style='margin-top: 0; color: #555;'>We're crafting your perfect journey!</h3>
+                </div>
+                <div style='background-color: #f9f9f9; padding: 25px; border-radius: 8px; font-size: 15px; line-height: 1.6;'>
+                    <p>Thank you for submitting your detailed trip planning request.</p>
+                    <p>We are thrilled to start designing your dream safari. Our specialists are reviewing your preferences and will reach out to you within 24 hours with a personalized itinerary proposal.</p>
+                    <p>In the meantime, feel free to explore more inspiration on our website.</p>
+                </div>
+                <div style='text-align: center; padding-top: 30px; font-size: 14px; color: #777;'>
+                    <p>Best Regards,<br><strong style='color: #333;'>Filao Adventures Team</strong></p>
+                    <p><a href='https://filaoadventures.co.ke' style='color: #C49018; text-decoration: none;'>www.filaoadventures.co.ke</a></p>
+                </div>
+            </div>";
         sendSiteEmail($email, "$fname $lname", "We've received your safari plan", $userBody);
     } catch (\Exception $e) {
-        $emailMsg = " [MAIL DEBUG: " . $e->getMessage() . "]";
+        $emailMsg = "";
     }
 
     echo json_encode(['success' => true, 'message' => "Thank you, {$fname}! We've received your safari plan. Our specialist will reach out to you within 24 hours." . $emailMsg]);

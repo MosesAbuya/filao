@@ -44,6 +44,7 @@ function sendSiteEmail($toEmail, $toName, $subject, $body, $isHtml = true) {
 
     $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
     try {
+        $mail->CharSet = 'UTF-8';
         $mail->isSMTP();
         $mail->Host       = $host;
         $mail->SMTPAuth   = true;
