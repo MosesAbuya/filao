@@ -138,8 +138,8 @@ if ($type === 'contact') {
                      <p>We have received your message. Our safari specialists will review it and get back to you shortly.</p>
                      <p>Best Regards,<br>Filao Adventures Team</p>";
         sendSiteEmail($email, "$fname $lname", "We have received your enquiry", $userBody);
-    } catch (Exception $e) {
-        $emailMsg = " Note: Email could not be sent due to server configuration.";
+    } catch (\Exception $e) {
+        $emailMsg = "";
     }
 
     echo json_encode(['success' => true, 'message' => "Thank you, {$fname}! Your enquiry has been received." . $emailMsg]);
@@ -193,8 +193,8 @@ if ($type === 'tour_enquiry') {
                      <p>Thank you for enquiring about <strong>$tour_title</strong>. Our safari specialists will reach out to you shortly.</p>
                      <p>Best Regards,<br>Filao Adventures Team</p>";
         sendSiteEmail($email, $fname, "We have received your tour enquiry", $userBody);
-    } catch (Exception $e) {
-        $emailMsg = " Note: Email could not be sent due to server configuration.";
+    } catch (\Exception $e) {
+        $emailMsg = "";
     }
 
     echo json_encode(['success' => true, 'message' => "Thank you, {$fname}! Your enquiry has been received." . $emailMsg]);
@@ -286,8 +286,8 @@ if ($type === 'start_planning') {
                      <p>Thank you for submitting your trip planning request. Our safari specialists will review your details and reach out to you within 24 hours.</p>
                      <p>Best Regards,<br>Filao Adventures Team</p>";
         sendSiteEmail($email, "$fname $lname", "We've received your safari plan", $userBody);
-    } catch (Exception $e) {
-        $emailMsg = " Note: Email could not be sent due to server configuration.";
+    } catch (\Exception $e) {
+        $emailMsg = "";
     }
 
     echo json_encode(['success' => true, 'message' => "Thank you, {$fname}! We've received your safari plan. Our specialist will reach out to you within 24 hours." . $emailMsg]);
