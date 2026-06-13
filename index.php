@@ -157,10 +157,11 @@ function getTourRoute($pdo, $tourId)
               .fa-hero-search-btn-col { flex: 0 0 auto; padding: 0 4px; }
               @media (max-width: 768px) {
                 .fa-hero-search-row { flex-wrap: wrap; }
-                .fa-hero-search-field { flex: 0 0 50%; border-bottom: 1px solid rgba(0,0,0,0.08); padding: 10px; }
-                .fa-hero-search-field:nth-child(2) { border-right: none; }
-                .fa-hero-search-field:nth-child(3) { border-bottom: none; }
-                .fa-hero-search-btn-col { flex: 0 0 50%; padding: 10px; }
+                .fa-hero-search-field { padding: 10px; border-bottom: 1px solid rgba(0,0,0,0.08); }
+                .fa-hero-search-field:nth-child(1) { flex: 0 0 100%; border-right: none !important; }
+                .fa-hero-search-field:nth-child(2) { flex: 0 0 50%; border-right: 1px solid rgba(0,0,0,0.08) !important; border-bottom: none; }
+                .fa-hero-search-field:nth-child(3) { flex: 0 0 50%; border-right: none !important; border-bottom: none; }
+                .fa-hero-search-btn-col { flex: 0 0 100%; padding: 10px; border-top: 1px solid rgba(0,0,0,0.08); }
                 .fa-hero-search-btn-col button { width: 100%; justify-content: center; padding: 12px !important; }
               }
             </style>

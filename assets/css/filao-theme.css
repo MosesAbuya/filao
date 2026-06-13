@@ -53,6 +53,10 @@
   box-sizing: border-box;
 }
 
+html, body {
+  overflow-x: hidden;
+}
+
 body {
   font-family: 'Inter', sans-serif;
   color: var(--fa-text);
@@ -1231,6 +1235,8 @@ body.no-scroll { overflow: hidden; padding-right: 17px; }
   /* Hide Desktop Row 1 entirely */
   .fa-logo-row { display: none !important; }
   
+  .fa-site-header { overflow-x: hidden; max-width: 100vw; }
+
   /* Make Row 2 solid and fixed as main mobile header */
   .fa-nav-row { background: #fff !important; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
   .fa-site-header.scrolled .fa-nav-row { box-shadow: 0 4px 28px rgba(0,0,0,.10); }
