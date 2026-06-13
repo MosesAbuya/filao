@@ -74,6 +74,7 @@ $nights = $tour['duration_days'] - 1;
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="assets/css/filao-theme.css">
   <style>
+    @keyframes slideInRight { from { transform:translateX(100%); opacity:0; } to { transform:translateX(0); opacity:1; } }
     .td-hero { position:relative;height:600px;background-size:cover;background-position:center;border-bottom:3px solid #C49018; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:0 20px; }
     .td-hero .overlay { position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.5) 100%); z-index:1; }
     .td-hero-content { position:relative; z-index:2; max-width:1000px; }
@@ -553,14 +554,30 @@ $(document).ready(function() {
     
     var basePath = window.location.hostname === 'localhost' ? '/filao' : '';
     fetch(basePath + '/handlers/enquiry.php', { method: 'POST', body: data })
-      .then(r => r.json())
-      .then(res => {
+      .then(r => {
+        if (!r.ok) {
+          return r.text().then(t => { throw new Error('HTTP ' + r.status + ': ' + t.substring(0, 300)); });
+        }
+        return r.text();
+      })
+      .then(txt => {
+        try { var res = JSON.parse(txt); } catch(e) { throw new Error('Invalid JSON: ' + txt.substring(0, 300)); }
         if(res.success) {
-          feedback.removeClass('alert-danger').addClass('alert-success')
-            .css({background:'rgba(98,140,82,0.1)', borderColor:'#628C52', color:'#4e7040'})
-            .html('<i class="fa fa-check-circle mr-2"></i> ' + res.message).show();
+          feedback.hide();
           form.reset();
-          btn.html('<i class="fa fa-check mr-2"></i> Sent!');
+          btn.html('Send Enquiry').prop('disabled', false);
+          // Success toast popup
+          var toast = $('<div class="fa-toast-success"><i class="fa fa-check-circle"></i> ' + res.message + '</div>');
+          toast.css({
+            position:'fixed', top:'30px', right:'30px', zIndex:99999,
+            background:'linear-gradient(135deg,#628C52,#4e7040)', color:'#fff',
+            padding:'18px 28px', borderRadius:'12px', fontFamily:"'Inter',sans-serif",
+            fontSize:'14px', boxShadow:'0 8px 32px rgba(98,140,82,0.35)',
+            display:'flex', alignItems:'center', gap:'10px', maxWidth:'420px',
+            animation:'slideInRight 0.4s ease'
+          });
+          $('body').append(toast);
+          setTimeout(function(){ toast.fadeOut(400, function(){ toast.remove(); }); }, 5000);
         } else {
           feedback.removeClass('alert-success').addClass('alert-danger')
             .css({background:'rgba(180,30,30,0.07)', borderColor:'rgba(180,30,30,0.3)', color:'#b41e1e'})
@@ -571,7 +588,7 @@ $(document).ready(function() {
       .catch(err => {
         feedback.removeClass('alert-success').addClass('alert-danger')
           .css({background:'rgba(180,30,30,0.07)', borderColor:'rgba(180,30,30,0.3)', color:'#b41e1e'})
-          .html('<i class="fa fa-exclamation-circle mr-2"></i> Network error. Please try again.').show();
+          .html('<i class="fa fa-exclamation-circle mr-2"></i> Error: ' + err.message).show();
         btn.prop('disabled', false).html('Send Enquiry');
       });
   });

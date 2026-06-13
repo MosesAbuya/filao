@@ -492,8 +492,14 @@ $(document).ready(function() {
     
     var basePath = window.location.hostname === 'localhost' ? '/filao' : '';
     fetch(basePath + '/handlers/enquiry.php', { method: 'POST', body: data })
-      .then(r => r.json())
-      .then(res => {
+      .then(r => {
+        if (!r.ok) {
+          return r.text().then(t => { throw new Error('HTTP ' + r.status + ': ' + t.substring(0, 300)); });
+        }
+        return r.text();
+      })
+      .then(txt => {
+        try { var res = JSON.parse(txt); } catch(e) { throw new Error('Invalid JSON: ' + txt.substring(0, 300)); }
         if(res.success) {
           feedback.removeClass('alert-danger').addClass('alert-success')
             .css({background:'rgba(46, 90, 39, 0.1)', border:'1px solid rgba(46, 90, 39, 0.2)', color:'#2E5A27'})
@@ -510,7 +516,7 @@ $(document).ready(function() {
       .catch(err => {
         feedback.removeClass('alert-success').addClass('alert-danger')
           .css({background:'rgba(217, 37, 37, 0.1)', border:'1px solid rgba(217, 37, 37, 0.2)', color:'#D92525'})
-          .html('<i class="fa fa-exclamation-circle mr-2"></i> Network error. Please try again.').show();
+          .html('<i class="fa fa-exclamation-circle mr-2"></i> Error: ' + err.message).show();
         btn.prop('disabled', false).html('Request Quote Now');
       });
   });

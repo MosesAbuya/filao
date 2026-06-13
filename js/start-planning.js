@@ -332,8 +332,15 @@
         method: 'POST',
         body: formData
       })
-      .then(r => r.json())
-      .then(data => {
+      .then(r => {
+        if (!r.ok) {
+          return r.text().then(t => { throw new Error('HTTP ' + r.status + ': ' + t.substring(0, 300)); });
+        }
+        return r.text();
+      })
+      .then(txt => {
+        let data;
+        try { data = JSON.parse(txt); } catch(e) { throw new Error('Invalid JSON: ' + txt.substring(0, 300)); }
         if (data.success) {
           document.getElementById('spThankYouMsg').textContent = data.message;
           goToStep(9);
@@ -344,8 +351,8 @@
           submitBtn.innerHTML = '<i class="fa fa-paper-plane mr-2"></i> Send My Safari Plan';
         }
       })
-      .catch(() => {
-        formError.textContent = 'Network error. Please check your connection and try again.';
+      .catch((err) => {
+        formError.textContent = 'Error: ' + err.message;
         formError.style.display = 'block';
         submitBtn.disabled = false;
         submitBtn.innerHTML = '<i class="fa fa-paper-plane mr-2"></i> Send My Safari Plan';
