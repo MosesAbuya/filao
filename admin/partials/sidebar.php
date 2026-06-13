@@ -27,6 +27,11 @@ $user = currentUser();
             <span class="nav-text">Inquiries</span>
         </a>
 
+        <a href="newsletters.php" class="nav-link <?= $currentPage === 'newsletters.php' ? 'active' : '' ?>">
+            <span class="nav-icon"><i class="bi bi-envelope-paper-fill"></i></span>
+            <span class="nav-text">Newsletters</span>
+        </a>
+
         <div class="nav-group-label">Catalog</div>
         
         <a href="tours.php" class="nav-link <?= in_array($currentPage, ['tours.php', 'create-tour.php', 'edit-tour.php']) ? 'active' : '' ?>">

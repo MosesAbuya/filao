@@ -150,7 +150,8 @@ document.addEventListener('DOMContentLoaded', function() {
             nlFeedback.style.display = 'none';
             
             const formData = new FormData(nlForm);
-            fetch('/filao/handlers/newsletter.php', {
+            var basePath = window.location.hostname === 'localhost' ? '/filao' : '';
+            fetch(basePath + '/handlers/newsletter.php', {
                 method: 'POST',
                 body: formData
             })

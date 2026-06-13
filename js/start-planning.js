@@ -327,7 +327,8 @@
       }
       state.activities.forEach(a => formData.append('activities[]', a));
 
-      fetch('/filao/handlers/enquiry.php', {
+      const basePath = window.location.hostname === 'localhost' ? '/filao' : '';
+      fetch(basePath + '/handlers/enquiry.php', {
         method: 'POST',
         body: formData
       })

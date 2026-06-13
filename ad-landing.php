@@ -490,7 +490,8 @@ $(document).ready(function() {
     
     var data = new FormData(form);
     
-    fetch('/filao/handlers/enquiry.php', { method: 'POST', body: data })
+    var basePath = window.location.hostname === 'localhost' ? '/filao' : '';
+    fetch(basePath + '/handlers/enquiry.php', { method: 'POST', body: data })
       .then(r => r.json())
       .then(res => {
         if(res.success) {
