@@ -151,15 +151,28 @@ function getTourRoute($pdo, $tourId)
         <div class="col-lg-10 col-xl-9 text-center mx-auto">
           
           <form action="tours" method="GET" class="fa-hero-search" style="opacity: 1; margin: 0 auto; max-width: 900px; text-align: left; background: #ffffff; border-radius: 8px; padding: 6px; position: relative; z-index: 10; box-shadow: 0 25px 50px rgba(0,0,0,0.25);">
-            <div style="display:flex; align-items:center; flex-wrap:nowrap; width: 100%;">
+            <style>
+              .fa-hero-search-row { display: flex; align-items: center; flex-wrap: nowrap; width: 100%; }
+              .fa-hero-search-field { padding: 10px 20px; border-right: 1px solid rgba(0,0,0,0.08); }
+              .fa-hero-search-btn-col { flex: 0 0 auto; padding: 0 4px; }
+              @media (max-width: 768px) {
+                .fa-hero-search-row { flex-wrap: wrap; }
+                .fa-hero-search-field { flex: 0 0 50%; border-bottom: 1px solid rgba(0,0,0,0.08); padding: 10px; }
+                .fa-hero-search-field:nth-child(2) { border-right: none; }
+                .fa-hero-search-field:nth-child(3) { border-bottom: none; }
+                .fa-hero-search-btn-col { flex: 0 0 50%; padding: 10px; }
+                .fa-hero-search-btn-col button { width: 100%; justify-content: center; padding: 12px !important; }
+              }
+            </style>
+            <div class="fa-hero-search-row">
               
-              <div class="fa-search-field" style="flex: 2; position: relative; padding: 10px 20px; border-right: 1px solid rgba(0,0,0,0.08);">
+              <div class="fa-search-field fa-hero-search-field" style="flex: 2; position: relative;">
                 <label for="hero-live-search" style="color: #6B6358; font-size:10px; font-weight:700; letter-spacing: 0.1em; text-transform:uppercase; margin-bottom:2px; display:block;">DESTINATION</label>
                 <input type="text" name="dest" id="hero-live-search" placeholder="Where do you want to go?" style="width: 100%; padding: 4px 0; border: none; outline: none; background:transparent; font-size:15px; color:#1C1712;">
                 <div id="hero-search-results" class="ajax-search-results-dropdown d-none" style="position: absolute; top: 100%; left: 0; width: 100%; background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 4px; z-index: 100; max-height: 300px; overflow-y: auto; text-align: left;"></div>
               </div>
               
-              <div class="fa-search-field" style="flex: 1.5; padding: 10px 20px; border-right: 1px solid rgba(0,0,0,0.08);">
+              <div class="fa-search-field fa-hero-search-field" style="flex: 1.5;">
                 <label style="color: #6B6358; font-size:10px; font-weight:700; letter-spacing: 0.1em; text-transform:uppercase; margin-bottom:2px; display:block;">TRAVEL MONTH</label>
                 <select name="month" style="width: 100%; padding: 4px 0; border: none; outline: none; background:transparent; font-size:15px; color:#1C1712; cursor:pointer; -webkit-appearance:none; -moz-appearance:none; appearance:none; background-image:url('data:image/svg+xml;utf8,<svg fill=%22%231C1712%22 height=%2224%22 viewBox=%220 0 24 24%22 width=%2224%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M7 10l5 5 5-5z%22/><path d=%22M0 0h24v24H0z%22 fill=%22none%22/></svg>'); background-repeat:no-repeat; background-position-x:100%; background-position-y:5px;">
                   <option value="">Any Month</option>
@@ -178,7 +191,7 @@ function getTourRoute($pdo, $tourId)
                 </select>
               </div>
 
-              <div class="fa-search-field" style="flex: 1.5; padding: 10px 20px;">
+              <div class="fa-search-field fa-hero-search-field" style="flex: 1.5; border-right: none;">
                 <label style="color: #6B6358; font-size:10px; font-weight:700; letter-spacing: 0.1em; text-transform:uppercase; margin-bottom:2px; display:block;">GUESTS</label>
                 <select name="guests" style="width: 100%; padding: 4px 0; border: none; outline: none; background:transparent; font-size:15px; color:#1C1712; cursor:pointer; -webkit-appearance:none; -moz-appearance:none; appearance:none; background-image:url('data:image/svg+xml;utf8,<svg fill=%22%231C1712%22 height=%2224%22 viewBox=%220 0 24 24%22 width=%2224%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M7 10l5 5 5-5z%22/><path d=%22M0 0h24v24H0z%22 fill=%22none%22/></svg>'); background-repeat:no-repeat; background-position-x:100%; background-position-y:5px;">
                   <option value="1">1 Adult</option>
@@ -189,7 +202,7 @@ function getTourRoute($pdo, $tourId)
                 </select>
               </div>
 
-              <div style="flex: 0 0 auto; padding: 0 4px;">
+              <div class="fa-hero-search-btn-col">
                 <button type="submit" class="btn" style="background:#628C52; color:#fff; padding:15px 24px; font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; border-radius:4px; border:none; display:flex; align-items:center; cursor:pointer;"><i class="fa fa-search" style="margin-right:8px; font-size:14px;"></i> SEARCH TOURS</button>
               </div>
               
