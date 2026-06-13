@@ -49,9 +49,9 @@ if (count($waypoints) > 0 && stripos($waypoints[count($waypoints)-1]['name'], 'N
 
 $waypointsJson = json_encode($waypoints);
 $routeStr = implode(' &rarr; ', array_unique($destNames));
-$heroImg = $tour['featured_image'] ? 'uploads/'.$tour['featured_image'] : 'images/Filao/East Africa/pexels-droneafrica-13234382.jpg';
-$price = $tour['price_from_usd'] ? '$'.number_format($tour['price_from_usd']) : 'Contact Us';
-$nights = $tour['duration_days'] - 1;
+$heroImg = !empty($tour['featured_image']) ? 'uploads/'.$tour['featured_image'] : 'images/Filao/East Africa/pexels-droneafrica-13234382.jpg';
+$price = !empty($tour['price_from_usd']) ? '$'.number_format($tour['price_from_usd']) : 'Contact Us';
+$nights = max(1, (int)($tour['duration_days'] ?? 1)) - 1;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -117,19 +117,19 @@ $nights = $tour['duration_days'] - 1;
 <body>
 <?php require_once 'includes/nav.php'; ?>
 
-<section class="td-hero" style="background-image:url('<?= htmlspecialchars($heroImg) ?>');">
+<section class="td-hero" style="background-image:url('<?= htmlspecialchars($heroImg ?? '') ?>');">
   <div class="overlay"></div>
   <div class="td-hero-content">
-    <h1><?= htmlspecialchars($tour['title']) ?></h1>
-    <p class="duration"><?= $tour['duration_days'] ?> days in <?= htmlspecialchars($tour['country'] ?? 'East Africa') ?></p>
-    <a href="#" class="btn-hero" data-open-planner="true" data-tour-id="<?= $tour['id'] ?>" data-tour-title="<?= htmlspecialchars($tour['title']) ?>">Start Planning Now</a>
+    <h1><?= htmlspecialchars($tour['title'] ?? '') ?></h1>
+    <p class="duration"><?= htmlspecialchars($tour['duration_days'] ?? '1') ?> days in <?= htmlspecialchars($tour['country'] ?? 'East Africa') ?></p>
+    <a href="#" class="btn-hero" data-open-planner="true" data-tour-id="<?= $tour['id'] ?? '' ?>" data-tour-title="<?= htmlspecialchars($tour['title'] ?? '') ?>">Start Planning Now</a>
   </div>
   <div class="hero-breadcrumb">
     <a href="index"><i class="fa fa-home"></i></a>
     <span class="sep">/</span>
     <a href="tours">Tours</a>
     <span class="sep">/</span>
-    <span class="current"><?= htmlspecialchars($tour['title']) ?></span>
+    <span class="current"><?= htmlspecialchars($tour['title'] ?? '') ?></span>
   </div>
 </section>
 
@@ -168,10 +168,10 @@ $nights = $tour['duration_days'] - 1;
           <div class="td-content-box">
             <h3>About This Safari</h3>
             <div style="font-size:15px;line-height:1.75;color:#4A4340;">
-              <?= $tour['description'] ?: '<p>'.nl2br(htmlspecialchars($tour['excerpt'])).'</p>' ?>
+              <?= !empty($tour['description']) ? $tour['description'] : '<p>'.nl2br(htmlspecialchars($tour['excerpt'] ?? '')).'</p>' ?>
             </div>
             
-            <?php if($tour['highlights']): ?>
+            <?php if(!empty($tour['highlights'])): ?>
             <h3 class="mt-5">Journey Highlights</h3>
             <div style="font-size:15px;line-height:1.75;color:#4A4340;">
               <?= $tour['highlights'] ?>
@@ -329,16 +329,16 @@ $nights = $tour['duration_days'] - 1;
         <div class="tab-pane fade" id="inclusions" role="tabpanel">
           <div class="td-content-box">
             <div class="row">
-              <div class="col-md-6">
-                <h3 style="color:#628C52;border-bottom-color:#628C52;"><i class="fa fa-check-circle mr-2"></i> What's Included</h3>
-                <div style="font-size:14.5px;color:#4A4340;line-height:1.75;">
-                  <?= $tour['inclusions'] ?: '<ul><li>All park entrance fees and taxes</li><li>Full board accommodation as per itinerary</li><li>Exclusive use of 4x4 Safari Land Cruiser</li><li>Professional English-speaking driver/guide</li><li>Airport transfers</li><li>Drinking water during game drives</li><li>Flying Doctors emergency evacuation cover</li></ul>' ?>
+              <div class="col-md-6 mb-4 mb-md-0">
+                <h3 class="mb-4" style="color:#4A6B53;"><i class="fa fa-check-circle mr-2"></i> What's Included</h3>
+                <div class="inc-list">
+                  <?= !empty($tour['inclusions']) ? $tour['inclusions'] : '<ul><li>All park entrance fees and taxes</li><li>Full board accommodation as per itinerary</li><li>Exclusive use of 4x4 Safari Land Cruiser</li><li>Professional English-speaking driver/guide</li><li>Airport transfers</li><li>Drinking water during game drives</li><li>Flying Doctors emergency evacuation cover</li></ul>' ?>
                 </div>
               </div>
-              <div class="col-md-6 mt-5 mt-md-0">
-                <h3 style="color:#9E3A25;border-bottom-color:#9E3A25;"><i class="fa fa-times-circle mr-2"></i> What's Excluded</h3>
-                <div style="font-size:14.5px;color:#4A4340;line-height:1.75;">
-                  <?= $tour['exclusions'] ?: '<ul><li>International flights and visa fees</li><li>Travel insurance (highly recommended)</li><li>Tips and gratuities for guides/staff</li><li>Items of a personal nature (laundry, drinks, phone calls)</li><li>Optional activities (e.g., hot air balloon safari)</li></ul>' ?>
+              <div class="col-md-6">
+                <h3 class="mb-4" style="color:#A14332;"><i class="fa fa-times-circle mr-2"></i> What's Excluded</h3>
+                <div class="inc-list">
+                  <?= !empty($tour['exclusions']) ? $tour['exclusions'] : '<ul><li>International flights and visa fees</li><li>Travel insurance (highly recommended)</li><li>Tips and gratuities for guides/staff</li><li>Items of a personal nature (laundry, drinks, phone calls)</li><li>Optional activities (e.g., hot air balloon safari)</li></ul>' ?>
                 </div>
               </div>
             </div>

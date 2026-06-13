@@ -138,15 +138,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="row g-3">
                         <div class="col-md-8">
                             <label class="form-label">Step Title / Heading</label>
-                            <input type="text" class="form-control" name="steps[${stepCount}][title]" placeholder="e.g. Arrival in Nairobi & Transfer" required>
+                            <input type="text" class="form-control" name="steps[${stepCount}][title]" placeholder="e.g. Arrival in Nairobi & Transfer">
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Nights Stay</label>
-                            <input type="number" class="form-control" name="steps[${stepCount}][nights]" value="1" min="0" required>
+                            <input type="number" class="form-control" name="steps[${stepCount}][nights]" value="1" min="0">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Destination</label>
-                            <select class="form-select" name="steps[${stepCount}][destination_id]" required>
+                            <select class="form-select" name="steps[${stepCount}][destination_id]">
                                 <option value="">Select Destination...</option>
                                 ${destOptions}
                             </select>

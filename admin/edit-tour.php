@@ -259,7 +259,7 @@ include 'partials/sidebar.php';
                                 <div class="panel mb-4">
                                     <div class="mb-4">
                                         <label for="title" class="form-label">Tour Title <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control form-control-lg font-serif" id="title" name="title" required value="<?= sanitize($tour['title']) ?>">
+                                        <input type="text" class="form-control form-control-lg font-serif" id="title" name="title" value="<?= sanitize($tour['title']) ?>">
                                     </div>
                                     <div class="mb-4">
                                         <label class="form-label">Permanent Link (Slug)</label>
@@ -366,13 +366,13 @@ include 'partials/sidebar.php';
                                     <div class="panel-header"><h2>Pricing & Logistics</h2></div>
                                     <div class="mb-3">
                                         <label class="form-label">Duration (Days)</label>
-                                        <input type="number" class="form-control" name="duration_days" min="1" value="<?= $tour['duration_days'] ?>" required>
+                                        <input type="number" class="form-control" name="duration_days" min="1" value="<?= $tour['duration_days'] ?>">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Starting Price (USD)</label>
                                         <div class="input-group">
                                             <span class="input-group-text bg-light">$</span>
-                                            <input type="number" class="form-control" name="price_from_usd" step="0.01" min="0" value="<?= $tour['price_from_usd'] ?>" required>
+                                            <input type="number" class="form-control" name="price_from_usd" step="0.01" min="0" value="<?= $tour['price_from_usd'] ?>">
                                         </div>
                                         <small class="text-muted d-block mt-1">This is the 'From' price shown on cards.</small>
                                     </div>
@@ -457,15 +457,15 @@ include 'partials/sidebar.php';
                                         <div class="row g-3">
                                             <div class="col-md-8">
                                                 <label class="form-label">Step Title / Heading</label>
-                                                <input type="text" class="form-control" name="steps[<?= $index ?>][title]" value="<?= sanitize($step['step_title']) ?>" required>
+                                                <input type="text" class="form-control" name="steps[<?= $index ?>][title]" value="<?= sanitize($step['step_title']) ?>">
                                             </div>
                                             <div class="col-md-4">
                                                 <label class="form-label">Nights Stay</label>
-                                                <input type="number" class="form-control" name="steps[<?= $index ?>][nights]" value="<?= $step['nights_count'] ?>" min="0" required>
+                                                <input type="number" class="form-control" name="steps[<?= $index ?>][nights]" value="<?= $step['nights_count'] ?>" min="0">
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="form-label">Destination</label>
-                                                <select class="form-select" name="steps[<?= $index ?>][destination_id]" required>
+                                                <select class="form-select" name="steps[<?= $index ?>][destination_id]">
                                                     <option value="">Select Destination...</option>
                                                     <?php foreach($destinations as $d): ?>
                                                         <option value="<?= $d['id'] ?>" <?= $d['id'] == $step['destination_id'] ? 'selected' : '' ?>><?= sanitize($d['name']) ?></option>
@@ -491,7 +491,7 @@ include 'partials/sidebar.php';
                                             </div>
                                             <div class="col-12">
                                                 <label class="tinymce-label">Daily Description <span class="text-danger">*</span></label>
-                                                <textarea class="form-control step-desc-editor" name="steps[<?= $index ?>][description]" rows="4" required><?= sanitize($step['step_description']) ?></textarea>
+                                                <textarea class="form-control step-desc-editor" name="steps[<?= $index ?>][description]" rows="4"><?= sanitize($step['step_description']) ?></textarea>
                                             </div>
                                             <div class="col-12 mt-3">
                                                 <label class="form-label"><i class="bi bi-image"></i> Step Image (Optional)</label>

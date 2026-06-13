@@ -191,7 +191,7 @@ include 'partials/sidebar.php';
                                 <div class="panel mb-4">
                                     <div class="mb-4">
                                         <label for="title" class="form-label">Tour Title <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control form-control-lg font-serif" id="title" name="title" required placeholder="e.g. 7-Day Great Migration Safari">
+                                        <input type="text" class="form-control form-control-lg font-serif" id="title" name="title" placeholder="e.g. 7-Day Great Migration Safari">
                                     </div>
                                     <div class="mb-4">
                                         <label class="form-label">Permanent Link (Slug)</label>
@@ -300,13 +300,13 @@ include 'partials/sidebar.php';
                                     <div class="panel-header"><h2>Pricing & Logistics</h2></div>
                                     <div class="mb-3">
                                         <label class="form-label">Duration (Days)</label>
-                                        <input type="number" class="form-control" name="duration_days" min="1" value="1" required>
+                                        <input type="number" class="form-control" name="duration_days" min="1" value="1">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Starting Price (USD)</label>
                                         <div class="input-group">
                                             <span class="input-group-text bg-light">$</span>
-                                            <input type="number" class="form-control" name="price_from_usd" step="0.01" min="0" value="0.00" required>
+                                            <input type="number" class="form-control" name="price_from_usd" step="0.01" min="0" value="0.00">
                                         </div>
                                         <small class="text-muted d-block mt-1">This is the 'From' price shown on cards.</small>
                                     </div>
