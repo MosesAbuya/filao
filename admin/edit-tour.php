@@ -172,6 +172,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 
             foreach ($_POST['steps'] as $index => $step) {
+                if (empty($step['destination_id'])) {
+                    throw new Exception("Please select a destination for all itinerary steps.");
+                }
                 $stepImage = $oldImages[$index + 1] ?? null;
                 
                 if (!empty($_FILES['steps']['name'][$index]['image'])) {
@@ -465,7 +468,7 @@ include 'partials/sidebar.php';
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="form-label">Destination</label>
-                                                <select class="form-select" name="steps[<?= $index ?>][destination_id]">
+                                                <select class="form-select" name="steps[<?= $index ?>][destination_id]" required>
                                                     <option value="">Select Destination...</option>
                                                     <?php foreach($destinations as $d): ?>
                                                         <option value="<?= $d['id'] ?>" <?= $d['id'] == $step['destination_id'] ? 'selected' : '' ?>><?= sanitize($d['name']) ?></option>

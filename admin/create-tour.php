@@ -106,6 +106,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 
             foreach ($_POST['steps'] as $index => $step) {
+                if (empty($step['destination_id'])) {
+                    throw new Exception("Please select a destination for all itinerary steps.");
+                }
                 $stepImage = null;
                 if (!empty($_FILES['steps']['name'][$index]['image'])) {
                     // Manual file upload logic for steps array

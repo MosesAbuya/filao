@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Destination</label>
-                            <select class="form-select" name="steps[${stepCount}][destination_id]">
+                            <select class="form-select" name="steps[${stepCount}][destination_id]" required>
                                 <option value="">Select Destination...</option>
                                 ${destOptions}
                             </select>
