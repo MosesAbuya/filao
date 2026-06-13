@@ -337,6 +337,79 @@ $navJoiningTours = $navPdo->query("
             </div>
           </li>
 
+          <!-- SAFARI EXPERIENCES -->
+          <li>
+            <a href="safaris" class="nav-top-link">Safari Experiences</a>
+            <div class="fa-megamenu">
+              <button class="mm-close-btn">&times; Close</button>
+              <div class="fa-megamenu-content">
+                <div class="fa-megamenu-inner">
+                  <div class="fa-mm-tabs">
+                    <span class="mm-heading">Safari Themes</span>
+                    <ul>
+                      <?php $firstTheme = true;
+                      $firstImg = '';
+                      $firstCat = '';
+                      foreach ($navSafarisByTheme as $themeName => $themeTours):
+                        $img = $themeTours[0]['featured_image'];
+                        if (!empty($img) && !str_starts_with($img, 'http') && !str_starts_with($img, 'images/')) {
+                          $img = 'uploads/' . $img;
+                        }
+                        $img = $img ?: 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
+                        if ($firstTheme) {
+                          $firstImg = $img;
+                          $firstCat = $themeName;
+                        }
+                        $panelId = 'safari-theme-' . strtolower(preg_replace('/[^a-z0-9]/i', '-', $themeName));
+                        ?>
+                        <li class="<?= $firstTheme ? 'mm-active' : '' ?>">
+                          <a href="#" class="mm-tab-trigger" data-panel="<?= $panelId ?>"
+                            data-img="<?= htmlspecialchars($img) ?>" data-caption="<?= htmlspecialchars($themeName) ?>">
+                            <?= htmlspecialchars($themeName) ?>
+                          </a>
+                        </li>
+                        <?php $firstTheme = false; endforeach; ?>
+                      <li><a href="safaris" style="margin-top:12px;border-top:1px solid #E5DDD0;padding-top:12px;">View All Safaris</a></li>
+                    </ul>
+                  </div>
+                  <div class="fa-mm-links">
+                    <?php if (empty($navSafarisByTheme)): ?>
+                      <div class="mm-panel" style="display:block;">
+                        <p style="color:#6B6358;font-size:14px;padding:20px 0;">No safari experiences available at the moment.</p>
+                      </div>
+                    <?php else:
+                      $firstTheme = true;
+                      foreach ($navSafarisByTheme as $themeName => $themeTours):
+                        $panelId = 'safari-theme-' . strtolower(preg_replace('/[^a-z0-9]/i', '-', $themeName));
+                        ?>
+                        <div class="mm-panel" data-id="<?= $panelId ?>"
+                          style="display:<?= $firstTheme ? 'block' : 'none' ?>;">
+                          <ul>
+                            <?php foreach ($themeTours as $tour): 
+                              $cImg = $tour['featured_image'];
+                              if (!empty($cImg) && !str_starts_with($cImg, 'http') && !str_starts_with($cImg, 'images/')) $cImg = 'uploads/' . $cImg;
+                              $cImg = $cImg ?: 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
+                            ?>
+                              <li><a
+                                  href="tours/<?= htmlspecialchars($tour['tour_slug']) ?>"
+                                  data-img="<?= htmlspecialchars($cImg) ?>"
+                                  data-caption="<?= htmlspecialchars($tour['title']) ?>"><?= htmlspecialchars($tour['title']) ?></a>
+                              </li>
+                            <?php endforeach; ?>
+                          </ul>
+                        </div>
+                        <?php $firstTheme = false; endforeach; 
+                    endif; ?>
+                  </div>
+                  <div class="fa-mm-image">
+                    <img id="mm-safari-img" src="<?= htmlspecialchars($firstImg) ?>" alt="Safari Experiences">
+                    <div class="mm-caption" id="mm-safari-caption"><?= htmlspecialchars($firstCat) ?></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+
           <!-- TOURS -->
           <li>
             <a href="tours" class="nav-top-link">Tours</a>

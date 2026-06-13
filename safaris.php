@@ -124,13 +124,6 @@ $excerpts=[
               <div class="mb-2" style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6B6358;font-family:'Inter',sans-serif;">Joining Tours</div>
               <label><input type="checkbox" name="joining" value="1" <?= isset($_GET['joining']) && $_GET['joining'] == '1' ? 'checked' : '' ?>> Joining Tours Only</label>
             </div>
-            <div class="filter-group">
-              <div class="mb-2" style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6B6358;font-family:'Inter',sans-serif;">Category</div>
-              <label><input type="checkbox" name="cat[]" value="safari"> Safari Tours <span class="filter-count">(5)</span></label>
-              <label><input type="checkbox" name="cat[]" value="beach"> Beach Holidays <span class="filter-count">(2)</span></label>
-              <label><input type="checkbox" name="cat[]" value="city"> City Tours <span class="filter-count">(1)</span></label>
-              <label><input type="checkbox" name="cat[]" value="international"> International <span class="filter-count">(3)</span></label>
-            </div>
             <div class="filter-group" style="border-bottom:none;">
               <div class="mb-2" style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6B6358;font-family:'Inter',sans-serif;">Budget</div>
               <label><input type="checkbox" name="price[]" value="500-1500"> $500 &ndash; $1,500</label>
