@@ -66,6 +66,27 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS enquiries (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 
+// Silent upgrades for older live DB schemas
+$cols = [
+    "last_name VARCHAR(120) NOT NULL DEFAULT ''",
+    "destination VARCHAR(255) DEFAULT NULL",
+    "tour_id INT DEFAULT NULL",
+    "tour_title VARCHAR(255) DEFAULT NULL",
+    "travel_month VARCHAR(30) DEFAULT NULL",
+    "travel_year YEAR DEFAULT NULL",
+    "duration_days VARCHAR(30) DEFAULT NULL",
+    "budget_usd INT DEFAULT NULL",
+    "activities TEXT DEFAULT NULL",
+    "trip_purpose TEXT DEFAULT NULL",
+    "travelled_before ENUM('yes','no') DEFAULT NULL",
+    "referred ENUM('yes','no') DEFAULT NULL"
+];
+foreach($cols as $col) {
+    try {
+        $pdo->exec("ALTER TABLE enquiries ADD COLUMN $col");
+    } catch(PDOException $e) {}
+}
+
 if ($type === 'contact') {
     // ---- CONTACT FORM ----
     $fname  = clean($input['fname'] ?? $input['first_name'] ?? '');
@@ -91,10 +112,15 @@ if ($type === 'contact') {
     $travel_month = $tdate ? date('F', strtotime($tdate . '-01')) : null;
     $travel_year  = $tdate ? date('Y', strtotime($tdate . '-01')) : null;
 
-    $stmt = $pdo->prepare("INSERT INTO enquiries 
-        (type, first_name, last_name, email, phone, destination, travel_month, travel_year, adults, children, message)
-        VALUES ('contact', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->execute([$fname, $lname, $email, $phone, $dest, $travel_month, $travel_year, $adults, $children, $msg]);
+    try {
+        $stmt = $pdo->prepare("INSERT INTO enquiries 
+            (type, first_name, last_name, email, phone, destination, travel_month, travel_year, adults, children, message)
+            VALUES ('contact', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$fname, $lname, $email, $phone, $dest, $travel_month, $travel_year, $adults, $children, $msg]);
+    } catch (PDOException $e) {
+        echo json_encode(['success' => false, 'message' => 'DB Error (contact): ' . $e->getMessage()]);
+        exit;
+    }
 
     // Send Emails
     $emailMsg = '';
@@ -140,10 +166,15 @@ if ($type === 'tour_enquiry') {
         exit;
     }
 
-    $stmt = $pdo->prepare("INSERT INTO enquiries 
-        (type, first_name, email, tour_id, tour_title, travel_month, travel_year, adults, children, message)
-        VALUES ('tour_enquiry', ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->execute([$fname, $email, $tour_id, $tour_title, $tdate, null, $adults, $children, $msg]);
+    try {
+        $stmt = $pdo->prepare("INSERT INTO enquiries 
+            (type, first_name, email, tour_id, tour_title, travel_month, travel_year, adults, children, message)
+            VALUES ('tour_enquiry', ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$fname, $email, $tour_id, $tour_title, $tdate, null, $adults, $children, $msg]);
+    } catch (PDOException $e) {
+        echo json_encode(['success' => false, 'message' => 'DB Error (tour_enquiry): ' . $e->getMessage()]);
+        exit;
+    }
 
     // Send Emails
     $emailMsg = '';
@@ -200,18 +231,23 @@ if ($type === 'start_planning') {
         exit;
     }
 
-    $stmt = $pdo->prepare("INSERT INTO enquiries 
-        (type, first_name, last_name, email, phone, destination, tour_id, tour_title,
-         travel_month, travel_year, duration_days, adults, children, budget_usd,
-         activities, trip_purpose, travelled_before, referred, message)
-        VALUES ('start_planning', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->execute([
-        $fname, $lname, $email, $phone, $dest, $tour_id, $tour_title,
-        $travel_month, $travel_year, $duration, $adults, $children, $budget,
-        $activities, $purpose,
-        $travelled ?: null, $referred ?: null,
-        $msg
-    ]);
+    try {
+        $stmt = $pdo->prepare("INSERT INTO enquiries 
+            (type, first_name, last_name, email, phone, destination, tour_id, tour_title,
+             travel_month, travel_year, duration_days, adults, children, budget_usd,
+             activities, trip_purpose, travelled_before, referred, message)
+            VALUES ('start_planning', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([
+            $fname, $lname, $email, $phone, $dest, $tour_id, $tour_title,
+            $travel_month, $travel_year, $duration, $adults, $children, $budget,
+            $activities, $purpose,
+            $travelled ?: null, $referred ?: null,
+            $msg
+        ]);
+    } catch (PDOException $e) {
+        echo json_encode(['success' => false, 'message' => 'DB Error (start_planning): ' . $e->getMessage()]);
+        exit;
+    }
 
     if (!empty($input['newsletter_optin'])) {
         try {

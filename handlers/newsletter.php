@@ -18,6 +18,12 @@ if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
 try {
     $pdo = getPDO();
     
+    $pdo->exec("CREATE TABLE IF NOT EXISTS newsletters (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        email VARCHAR(255) NOT NULL UNIQUE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
     // Check if email already exists
     $stmt = $pdo->prepare('SELECT id FROM newsletters WHERE email = ?');
     $stmt->execute([$email]);

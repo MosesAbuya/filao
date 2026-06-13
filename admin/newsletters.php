@@ -2,6 +2,13 @@
 require_once __DIR__ . '/auth_guard.php';
 
 $pdo = getPDO();
+
+$pdo->exec("CREATE TABLE IF NOT EXISTS newsletters (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
 $subscribers = $pdo->query("SELECT * FROM newsletters ORDER BY created_at DESC")->fetchAll();
 
 $pageTitle = 'Newsletter Subscribers';
