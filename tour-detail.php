@@ -28,7 +28,9 @@ $waypoints = [];
 $destNames = [];
 $startCoords = ['lat' => -1.2921, 'lng' => 36.8219, 'name' => 'Nairobi'];
 
-// Check if tour has a start_destination_id
+$startCoords = ['lat' => -1.2921, 'lng' => 36.8219, 'name' => 'Nairobi'];
+$endCoords = $startCoords;
+
 if (!empty($tour['start_destination_id'])) {
     $startDestStmt = $pdo->prepare('SELECT name, latitude, longitude FROM destinations WHERE id=?');
     $startDestStmt->execute([$tour['start_destination_id']]);
@@ -38,6 +40,20 @@ if (!empty($tour['start_destination_id'])) {
             'lat' => (float)$startDest['latitude'], 
             'lng' => (float)$startDest['longitude'], 
             'name' => $startDest['name']
+        ];
+        $endCoords = $startCoords; // Default end to start
+    }
+}
+
+if (!empty($tour['end_destination_id'])) {
+    $endDestStmt = $pdo->prepare('SELECT name, latitude, longitude FROM destinations WHERE id=?');
+    $endDestStmt->execute([$tour['end_destination_id']]);
+    $endDest = $endDestStmt->fetch();
+    if ($endDest) {
+        $endCoords = [
+            'lat' => (float)$endDest['latitude'], 
+            'lng' => (float)$endDest['longitude'], 
+            'name' => $endDest['name']
         ];
     }
 }
@@ -55,13 +71,28 @@ if (count($waypoints) > 0 && stripos($waypoints[0]['name'], $startCoords['name']
     $firstPoint['name'] = $startCoords['name'] . ' (Start)';
     $firstPoint['day'] = 1;
     array_unshift($waypoints, $firstPoint);
+} else if (count($waypoints) === 0) {
+    $firstPoint = $startCoords;
+    $firstPoint['name'] = $startCoords['name'] . ' (Start)';
+    $firstPoint['day'] = 1;
+    $waypoints[] = $firstPoint;
 }
-// Ensure start point is the last waypoint
-if (count($waypoints) > 0 && stripos($waypoints[count($waypoints)-1]['name'], $startCoords['name']) === false) {
-    $endPoint = $startCoords;
-    $endPoint['name'] = $startCoords['name'] . ' (End)';
+
+// Ensure end point is the last waypoint
+if (count($waypoints) > 0 && stripos($waypoints[count($waypoints)-1]['name'], $endCoords['name']) === false) {
+    $endPoint = $endCoords;
+    $endPoint['name'] = $endCoords['name'] . ' (End)';
     $endPoint['day'] = end($waypoints)['day'] + 1;
     $waypoints[] = $endPoint;
+}
+
+// Check for collision
+if (count($waypoints) > 1) {
+    $first = $waypoints[0];
+    $last = $waypoints[count($waypoints)-1];
+    if ($first['lat'] === $last['lat'] && $first['lng'] === $last['lng']) {
+        $waypoints[count($waypoints)-1]['is_end_overlay'] = true;
+    }
 }
 
 $tourCountries = [];
@@ -544,7 +575,7 @@ $(document).ready(function() {
           // Forward Journey
           if (forwardCoords.length > 1) {
               var forwardPolyline = L.polyline(forwardCoords, {
-                  color: '#C49018', weight: 4, opacity: 0.9, lineJoin: 'round'
+                  color: '#C49018', weight: 3, opacity: 0.8, lineJoin: 'round'
               }).addTo(map);
 
               L.polylineDecorator(forwardPolyline, {
@@ -564,11 +595,19 @@ $(document).ready(function() {
                   { offset: '50%', repeat: 0, symbol: L.Symbol.arrowHead({pixelSize: 12, polygon: false, pathOptions: {stroke: true, color: '#8B6A14', weight: 3}}) }
               ]
           }).addTo(map);
-          
-          map.fitBounds(L.latLngBounds(coords).pad(0.2));
+      }
+
+      if (coords.length > 0) {
+          let bounds = L.latLngBounds(coords);
+          if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+              map.setView(bounds.getCenter(), 10);
+          } else {
+              map.fitBounds(bounds.pad(0.2));
+          }
       }
 
       waypoints.forEach(function(wp, idx) {
+        if (wp.is_end_overlay) return; // Skip marker for end overlay
         var iconHtml = '<div style="background:#C49018;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:Inter,sans-serif;font-size:12px;font-weight:700;border:2px solid #fff;box-shadow:0 3px 10px rgba(0,0,0,0.3);">' + (idx+1) + '</div>';
         var icon = L.divIcon({ className: '', html: iconHtml, iconSize: [28, 28], iconAnchor: [14, 14] });
         L.marker([wp.lat, wp.lng], {icon: icon}).addTo(map)
