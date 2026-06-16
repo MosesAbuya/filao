@@ -605,6 +605,7 @@ function getTourRoute($pdo, $tourId)
                 <div class="tc-duration-badge"><?= $nights ?> Nights</div>
               </div>
               <div class="tc-body">
+                <div class="tc-country"><?= getTourCountries($pdo, $tour['id']) ?></div>
                 <div class="tc-title"><a
                     href="tours/<?= $tour['slug'] ?? '' ?>"><?= htmlspecialchars($tour['title'] ?? '') ?></a>
                 </div>

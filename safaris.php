@@ -155,6 +155,7 @@ function getTourRouteT($pdo,$id){
                 <div class="tc-duration-badge"><?= $nights ?> Nights</div>
               </div>
               <div class="tc-body">
+                <div class="tc-country"><?= getTourCountries($pdo, $tour['id']) ?></div>
                 <div class="tc-title"><a href="tours/<?= $tour['slug'] ?? '' ?>"><?= htmlspecialchars($tour['title'] ?? '') ?></a></div>
                 <?php if($route): ?>
                 <div class="tc-route" style="margin-bottom:12px;font-size:13px;color:#6B6358;"><i class="fa fa-map-marker mr-1" style="color:#C49018;"></i><?= $route ?></div>

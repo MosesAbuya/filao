@@ -16,9 +16,18 @@ if (!empty($_GET['q'])) {
         EXISTS (
             SELECT 1 FROM itinerary_steps ist 
             JOIN destinations d ON d.id=ist.destination_id 
-            WHERE ist.tour_id=t.id AND (d.name LIKE ? OR d.country LIKE ?)
+            LEFT JOIN countries c ON d.country = c.name
+            LEFT JOIN regions r ON c.region_id = r.id
+            WHERE ist.tour_id=t.id AND (
+                d.name LIKE ? OR 
+                d.country LIKE ? OR
+                d.region LIKE ? OR
+                r.name LIKE ?
+            )
         )
     )";
+    $params[] = $q;
+    $params[] = $q;
     $params[] = $q;
     $params[] = $q;
     $params[] = $q;
@@ -27,7 +36,20 @@ if (!empty($_GET['q'])) {
 
 if (!empty($_GET['dest'])) {
     $d = "%" . $_GET['dest'] . "%";
-    $where[] = "(t.title LIKE ? OR EXISTS (SELECT 1 FROM itinerary_steps ist JOIN destinations d ON d.id=ist.destination_id WHERE ist.tour_id=t.id AND (d.name LIKE ? OR d.country LIKE ?)))";
+    $where[] = "(t.title LIKE ? OR EXISTS (
+        SELECT 1 FROM itinerary_steps ist 
+        JOIN destinations d ON d.id=ist.destination_id 
+        LEFT JOIN countries c ON d.country = c.name
+        LEFT JOIN regions r ON c.region_id = r.id
+        WHERE ist.tour_id=t.id AND (
+            d.name LIKE ? OR 
+            d.country LIKE ? OR
+            d.region LIKE ? OR
+            r.name LIKE ?
+        )
+    ))";
+    $params[] = $d;
+    $params[] = $d;
     $params[] = $d;
     $params[] = $d;
     $params[] = $d;
@@ -186,6 +208,7 @@ function getTourRouteT($pdo,$id){
                 <div class="tc-duration-badge"><?= $nights ?> Nights</div>
               </div>
               <div class="tc-body">
+                <div class="tc-country"><?= getTourCountries($pdo, $tour['id']) ?></div>
                 <div class="tc-title"><a href="tours/<?= $tour['slug'] ?? '' ?>"><?= htmlspecialchars($tour['title'] ?? '') ?></a></div>
                 <?php if($route): ?>
                 <div class="tc-route" style="margin-bottom:12px;font-size:13px;color:#6B6358;"><i class="fa fa-map-marker mr-1" style="color:#C49018;"></i><?= $route ?></div>

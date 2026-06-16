@@ -26,20 +26,24 @@ foreach ($destinations as $d) {
     ];
 }
 
-// 2. Search Tours (title, excerpt, or linked destination name/country)
+// 2. Search Tours (title, excerpt, or linked destination name/country/region)
 $stmt = $pdo->prepare("
     SELECT DISTINCT t.title, t.slug, 'Tour' as type, t.featured_image 
     FROM tours t
     LEFT JOIN itinerary_steps ist ON ist.tour_id = t.id
     LEFT JOIN destinations d ON d.id = ist.destination_id
+    LEFT JOIN countries c ON d.country = c.name
+    LEFT JOIN regions r ON c.region_id = r.id
     WHERE t.status='published' AND (
         t.title LIKE ? OR 
         t.excerpt LIKE ? OR 
         d.name LIKE ? OR 
-        d.country LIKE ?
+        d.country LIKE ? OR
+        d.region LIKE ? OR
+        r.name LIKE ?
     ) LIMIT 5
 ");
-$stmt->execute([$searchTerm, $searchTerm, $searchTerm, $searchTerm]);
+$stmt->execute([$searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm]);
 $tours = $stmt->fetchAll(PDO::FETCH_ASSOC);
 foreach ($tours as $t) {
     $results[] = [
