@@ -10,14 +10,25 @@ if (isset($_GET['joining']) && $_GET['joining'] == '1') {
 
 if (!empty($_GET['q'])) {
     $q = "%" . $_GET['q'] . "%";
-    $where[] = "(t.title LIKE ? OR t.excerpt LIKE ?)";
+    $where[] = "(
+        t.title LIKE ? OR 
+        t.excerpt LIKE ? OR 
+        EXISTS (
+            SELECT 1 FROM itinerary_steps ist 
+            JOIN destinations d ON d.id=ist.destination_id 
+            WHERE ist.tour_id=t.id AND (d.name LIKE ? OR d.country LIKE ?)
+        )
+    )";
+    $params[] = $q;
+    $params[] = $q;
     $params[] = $q;
     $params[] = $q;
 }
 
 if (!empty($_GET['dest'])) {
     $d = "%" . $_GET['dest'] . "%";
-    $where[] = "(t.title LIKE ? OR EXISTS (SELECT 1 FROM itinerary_steps ist JOIN destinations d ON d.id=ist.destination_id WHERE ist.tour_id=t.id AND d.name LIKE ?))";
+    $where[] = "(t.title LIKE ? OR EXISTS (SELECT 1 FROM itinerary_steps ist JOIN destinations d ON d.id=ist.destination_id WHERE ist.tour_id=t.id AND (d.name LIKE ? OR d.country LIKE ?)))";
+    $params[] = $d;
     $params[] = $d;
     $params[] = $d;
 }
@@ -55,23 +66,17 @@ if (!empty($_GET['price']) && is_array($_GET['price'])) {
 }
 
 $whereSql = implode(" AND ", $where);
-$stmt = $pdo->prepare("SELECT DISTINCT t.id, t.title, t.slug, t.duration_days, t.price_from_usd, t.excerpt, t.featured_image, t.status FROM tours t $join WHERE $whereSql ORDER BY t.duration_days ASC");
+$stmt = $pdo->prepare("SELECT DISTINCT t.id, t.title, t.slug, t.duration_days, t.price_from_usd, t.excerpt, t.description, t.featured_image, t.status FROM tours t $join WHERE $whereSql ORDER BY t.duration_days ASC");
 $stmt->execute($params);
 $tours = $stmt->fetchAll();
 
 function getTourRouteT($pdo,$id){
   $s=$pdo->prepare("SELECT d.name FROM itinerary_steps ist JOIN destinations d ON d.id=ist.destination_id WHERE ist.tour_id=? ORDER BY ist.step_number ASC");
   $s->execute([$id]);
-  return implode(' â†’ ',$s->fetchAll(PDO::FETCH_COLUMN));
+  $names = $s->fetchAll(PDO::FETCH_COLUMN);
+  $names = array_map('htmlspecialchars', $names);
+  return implode(' &rarr; ', $names);
 }
-$excerpts=[
-  "An expertly guided safari through Kenya's most spectacular landscapes.",
-  "Traverse the legendary Amboseli with vast elephant herds and Kilimanjaro views.",
-  "Witness the big cats and wildebeest of the Masai Mara on this classic safari.",
-  "Two of Kenya's most iconic parks â€” Lake Nakuru and the Masai Mara.",
-  "The ultimate Kenya safari spanning the Mara, Nakuru, and Amboseli.",
-  "A comprehensive East African adventure through Kenya's finest parks.",
-];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -165,19 +170,10 @@ $excerpts=[
         <p class="results-info">Showing <strong><?= count($tours) ?></strong> tours &mdash; all crafted in Kenya by local experts</p>
         <div class="row">
           <?php
-          $tcExcerpts=[
-            "Traverse southern Kenya's most iconic wildlife corridors â€” encountering elephants beneath Kilimanjaro and big cats in the red dust of Tsavo.",
-            "Experience the legendary Amboseli with its vast elephant herds against the backdrop of Africa's highest peak, Mt. Kilimanjaro.",
-            "Join a small-group game drive through the grasslands of the Masai Mara â€” Africa's premier big cat territory.",
-            "Combine two of Kenya's most rewarding parks: the flamingo-lined shores of Lake Nakuru and the big cat paradise of the Masai Mara.",
-            "The ultimate Kenya safari â€” seven days through the Masai Mara, Lake Nakuru, and Amboseli with Kilimanjaro as your backdrop.",
-            "The ultimate Kenya safari — seven days through the Masai Mara, Lake Nakuru, and Amboseli with Kilimanjaro as your backdrop.",
-            "A comprehensive East African adventure through Kenya's most celebrated wildlife destinations.",
-          ];
           foreach($tours as $idx => $tour):
             $img = !empty($tour['featured_image']) ? 'uploads/'.$tour['featured_image'] : 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
             $route = getTourRouteT($pdo, $tour['id']);
-            $excerpt = !empty($tour['excerpt']) ? $tour['excerpt'] : ($tcExcerpts[$idx] ?? 'An expertly guided safari through Kenya\'s most spectacular landscapes.');
+            $excerpt = !empty($tour['excerpt']) ? $tour['excerpt'] : (!empty($tour['description']) ? $tour['description'] : '');
             $nights = max(1, (int)($tour['duration_days'] ?? 1)) - 1;
           ?>
           <div class="col-md-6 mb-5 d-flex">
@@ -189,13 +185,12 @@ $excerpts=[
                 </div>
                 <div class="tc-duration-badge"><?= $nights ?> Nights</div>
               </div>
-              <div class="tc-content">
-                <div class="mb-3"><span class="fa-hero-eyebrow" style="font-size:10px;padding:4px 8px;">KENYA &bull; SAFARI</span></div>
+              <div class="tc-body">
                 <div class="tc-title"><a href="tours/<?= $tour['slug'] ?? '' ?>"><?= htmlspecialchars($tour['title'] ?? '') ?></a></div>
                 <?php if($route): ?>
-                <div class="tc-route" style="margin-bottom:12px;font-size:13px;color:#6B6358;"><i class="fa fa-map-marker mr-1" style="color:#C49018;"></i><?= htmlspecialchars($route) ?></div>
+                <div class="tc-route" style="margin-bottom:12px;font-size:13px;color:#6B6358;"><i class="fa fa-map-marker mr-1" style="color:#C49018;"></i><?= $route ?></div>
                 <?php endif; ?>
-                <p class="tc-desc" style="font-size:14px;color:#6B6358;"><?= htmlspecialchars($excerpt) ?></p>
+                <div class="tc-excerpt" style="font-size:14px;color:#6B6358;"><?= htmlspecialchars(mb_substr(strip_tags($excerpt),0,130)) ?>...</div>
                 
                 <div class="tc-footer" style="margin-top:15px; border-top:1px solid #E5DDD0; padding-top:15px; display:flex; align-items:center; justify-content:space-between;">
                   <div class="tc-price" style="font-size:13px; color:#4A4340; font-weight:600;">

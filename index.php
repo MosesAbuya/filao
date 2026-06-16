@@ -3,12 +3,12 @@ require_once 'includes/db.php';
 $pdo = getPDO();
 
 // Fetch published tours
-$tours = $pdo->query("SELECT id, title, slug, duration_days, price_from_usd, excerpt, featured_image, status FROM tours WHERE status='published' ORDER BY id ASC LIMIT 6")->fetchAll();
+$tours = $pdo->query("SELECT id, title, slug, duration_days, price_from_usd, excerpt, description, featured_image, status FROM tours WHERE status='published' ORDER BY id ASC LIMIT 6")->fetchAll();
 
 // Fetch hot offers
 $hotOffers = [];
 try {
-  $hotOffers = $pdo->query("SELECT id, title, slug, duration_days, price_from_usd, excerpt, featured_image FROM tours WHERE status='published' AND is_hot_offer = 1 ORDER BY id DESC LIMIT 4")->fetchAll();
+  $hotOffers = $pdo->query("SELECT id, title, slug, duration_days, price_from_usd, excerpt, description, featured_image FROM tours WHERE status='published' AND is_hot_offer = 1 ORDER BY id DESC LIMIT 4")->fetchAll();
 } catch (Exception $e) {
 }
 
@@ -32,7 +32,8 @@ function getTourRoute($pdo, $tourId)
   $stmt = $pdo->prepare("SELECT d.name FROM itinerary_steps ist JOIN destinations d ON d.id=ist.destination_id WHERE ist.tour_id=? ORDER BY ist.step_number ASC");
   $stmt->execute([$tourId]);
   $names = $stmt->fetchAll(PDO::FETCH_COLUMN);
-  return implode(' → ', $names);
+  $names = array_map('htmlspecialchars', $names);
+  return implode(' &rarr; ', $names);
 }
 ?>
 <!DOCTYPE html>
@@ -586,18 +587,10 @@ function getTourRoute($pdo, $tourId)
       </div>
       <div class="row">
         <?php
-        $tourExcerpts = [
-          "Traverse southern Kenya's most iconic wildlife corridors   encountering elephants beneath Kilimanjaro and big cats in the red dust of Tsavo.",
-          "Experience the legendary Amboseli with its vast elephant herds against the backdrop of Africa's highest peak, Mt. Kilimanjaro.",
-          "Join a small-group game drive through the grasslands of the Masai Mara   Africa's premier big cat territory and wildebeest home.",
-          "Combine two of Kenya's most rewarding parks: the flamingo-lined shores of Lake Nakuru and the big cat paradise of the Masai Mara.",
-          "The ultimate Kenya safari   seven days through the Masai Mara, Lake Nakuru, and Amboseli with Kilimanjaro as your backdrop.",
-          "A comprehensive East African adventure through Kenya's most celebrated wildlife destinations.",
-        ];
         foreach ($tours as $idx => $tour):
           $img = !empty($tour['featured_image']) ? 'uploads/' . $tour['featured_image'] : 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
           $route = getTourRoute($pdo, $tour['id']);
-          $excerpt = !empty($tour['excerpt']) ? $tour['excerpt'] : ($tourExcerpts[$idx] ?? 'An expertly guided safari through Kenya\'s most spectacular landscapes and wildlife destinations.');
+          $excerpt = !empty($tour['excerpt']) ? $tour['excerpt'] : (!empty($tour['description']) ? $tour['description'] : '');
           $nights = max(1, (int) ($tour['duration_days'] ?? 1)) - 1;
           $price = !empty($tour['price_from_usd']) ? '$' . number_format($tour['price_from_usd']) : 'Contact Us';
           ?>
@@ -612,14 +605,13 @@ function getTourRoute($pdo, $tourId)
                 <div class="tc-duration-badge"><?= $nights ?> Nights</div>
               </div>
               <div class="tc-body">
-                <div class="tc-country">Kenya &bull; Safari</div>
                 <div class="tc-title"><a
                     href="tours/<?= $tour['slug'] ?? '' ?>"><?= htmlspecialchars($tour['title'] ?? '') ?></a>
                 </div>
                 <?php if ($route): ?>
-                  <div class="tc-route"><i class="fa fa-map-marker"></i><?= htmlspecialchars($route) ?></div>
+                  <div class="tc-route"><i class="fa fa-map-marker"></i><?= $route ?></div>
                 <?php endif; ?>
-                <div class="tc-excerpt"><?= htmlspecialchars(substr(strip_tags($excerpt), 0, 130)) ?>...</div>
+                <div class="tc-excerpt"><?= htmlspecialchars(mb_substr(strip_tags($excerpt), 0, 130)) ?>...</div>
                 <div class="tc-footer">
                   <div class="tc-price-text">From <strong><?= $price ?></strong></div>
                   <a href="tours/<?= $tour['slug'] ?? '' ?>" class="tc-cta"
