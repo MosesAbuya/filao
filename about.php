@@ -128,7 +128,7 @@
     <div class="row justify-content-center mt-5">
       <div class="col-lg-10">
         <div style="background: rgba(255,255,255,0.7); padding: 40px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.02);">
-          <div id="featurable-ca357a07-9cb6-4644-8d3e-18eac19a55c6" data-featurable-async></div><script src="https://featurable.com/assets/bundle.js" defer charset="UTF-8"></script> 
+          <div id="featurable-16f22807-3fe2-4d25-8b1d-f18fe679684a" data-featurable-async ></div><script src="https://featurable.com/assets/bundle.js" defer charset="UTF-8"></script> 
         </div>
       </div>
     </div>

@@ -23,7 +23,7 @@
         <p class="fa-footer-desc">Your premier safari and luxury travel partner. Crafting unforgettable journeys across
           Africa and beyond since 2020.</p>
         <div class="social-links" style="margin-bottom:24px;">
-          <a href="https://x.com/FilaoAdventures" aria-label="X (Twitter)" target="_blank" rel="noopener noreferrer"><i class="fa fa-twitter"></i></a>
+          <a href="https://x.com/FilaoAdventures" aria-label="X (Twitter)" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.254 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
           <a href="https://www.facebook.com/profile.php?id=100084891550126#" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="fa fa-facebook"></i></a>
           <a href="https://www.instagram.com/filaoadventures/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fa fa-instagram"></i></a>
           <a href="https://www.tiktok.com/@filaoadventures" aria-label="TikTok" target="_blank" rel="noopener noreferrer">

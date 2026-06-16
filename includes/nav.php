@@ -36,7 +36,7 @@ foreach ($regionsStmt as $row) {
 $navCountries = array_unique($navCountries);
 
 $navToursByCountry = [];
-foreach ($navCountries as $country) {
+foreach ($navCountries as $navCountry) {
   $rows = $navPdo->prepare("
         SELECT DISTINCT t.id, t.title, t.slug, t.featured_image
         FROM tours t
@@ -45,10 +45,10 @@ foreach ($navCountries as $country) {
         WHERE d.country = ? AND t.status='published'
         ORDER BY t.title ASC LIMIT 6
     ");
-  $rows->execute([$country]);
+  $rows->execute([$navCountry]);
   $toursList = $rows->fetchAll();
   if (count($toursList) > 0) {
-      $navToursByCountry[$country] = $toursList;
+      $navToursByCountry[$navCountry] = $toursList;
   }
 }
 
@@ -124,11 +124,31 @@ foreach ($navSafarisThemes as $st) {
 
 // Joining Tours
 $navJoiningTours = $navPdo->query("
-    SELECT id, title, slug, featured_image
+    SELECT id, title, slug as tour_slug, featured_image
     FROM tours
     WHERE is_joining_tour=1 AND status='published'
     ORDER BY title ASC
 ")->fetchAll();
+
+if (!empty($navJoiningTours)) {
+    $navSafarisByTheme['Joining Tours'] = $navJoiningTours;
+}
+
+// Multi-Country Tours
+$navMultiCountryTours = $navPdo->query("
+    SELECT t.id, t.title, t.slug as tour_slug, t.featured_image
+    FROM tours t
+    JOIN itinerary_steps ist ON t.id = ist.tour_id
+    JOIN destinations d ON d.id = ist.destination_id
+    WHERE t.status='published'
+    GROUP BY t.id
+    HAVING COUNT(DISTINCT d.country) > 1
+    ORDER BY t.title ASC
+")->fetchAll();
+
+if (!empty($navMultiCountryTours)) {
+    $navSafarisByTheme['Multi-Country'] = $navMultiCountryTours;
+}
 ?>
 <!-- ====== MAIN HEADER ====== -->
 <header class="fa-site-header" id="faNavbar">
@@ -153,18 +173,15 @@ $navJoiningTours = $navPdo->query("
 
       <!-- Right: Socials -->
       <div class="fa-logo-side fa-logo-right text-white d-none d-lg-flex justify-content-end"
-        style="font-size: 14px; gap: 20px;">
-        <a href="https://wa.me/254757139239" target="_blank"
-          class="text-white text-decoration-none d-flex align-items-center"
-          style="font-size: 11px; opacity: 0.85; gap: 6px;"><i class="fa fa-whatsapp" style="font-size: 15px;"></i>
-          WhatsApp</a>
+        style="font-size: 14px; gap: 20px; align-items: center;">
+        <a href="https://wa.me/254757139239" target="_blank" class="text-white" style="opacity: 0.85;"><i class="fa fa-whatsapp" style="font-size: 16px;"></i></a>
         <a href="https://www.instagram.com/filaoadventures/" target="_blank" class="text-white" style="opacity: 0.85;"><i class="fa fa-instagram"></i></a>
         <a href="https://www.tiktok.com/@filaoadventures" target="_blank" class="text-white" style="opacity: 0.85;">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" style="vertical-align:-1px;">
               <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/>
             </svg>
         </a>
-        <a href="https://x.com/FilaoAdventures" target="_blank" class="text-white mr-3" style="opacity: 0.85;"><i class="fa fa-twitter"></i></a>
+        <a href="https://x.com/FilaoAdventures" target="_blank" class="text-white" style="opacity: 0.85;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.254 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
         <a href="https://www.facebook.com/profile.php?id=100084891550126#" target="_blank" class="text-white" style="opacity: 0.85;"><i class="fa fa-facebook"></i></a>
         <a href="https://ke.linkedin.com/jobs/view/travel-consultant-at-filao-adventures-4398464574" target="_blank" class="text-white" style="opacity: 0.85;"><i class="fa fa-linkedin"></i></a>
       </div>
@@ -268,69 +285,67 @@ $navJoiningTours = $navPdo->query("
             </div>
           </li>
 
-          <!-- ACTIVITIES -->
+          <!-- TOURS -->
           <li>
-            <a href="activities" class="nav-top-link">Activities</a>
+            <a href="tours" class="nav-top-link">Tours</a>
             <div class="fa-megamenu">
               <button class="mm-close-btn">&times; Close</button>
               <div class="fa-megamenu-content">
                 <div class="fa-megamenu-inner">
                   <div class="fa-mm-tabs">
-                    <span class="mm-heading">Safari Activities</span>
+                    <span class="mm-heading">Tours by Country</span>
                     <ul>
-                      <?php $firstAct = true;
-                      $firstImg = '';
-                      $firstCat = '';
-                      foreach ($navActByCategory as $category => $cActs):
-                        $img = $cActs[0]['featured_image'];
-                        if (!empty($img) && !str_starts_with($img, 'http') && !str_starts_with($img, 'images/')) {
-                          $img = 'uploads/' . $img;
-                        }
-                        $img = $img ?: 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
-                        if ($firstAct) {
-                          $firstImg = $img;
-                          $firstCat = $category;
-                        }
-                        $panelId = 'act-' . strtolower(preg_replace('/[^a-z0-9]/i', '-', $category));
-                        ?>
-                        <li class="<?= $firstAct ? 'mm-active' : '' ?>">
-                          <a href="#" class="mm-tab-trigger" data-panel="<?= $panelId ?>"
-                            data-img="<?= htmlspecialchars($img) ?>" data-caption="<?= htmlspecialchars($category) ?>">
-                            <?= htmlspecialchars($category) ?>
+                      <?php $firstCountry = true;
+                      foreach ($navToursByCountry as $navCountry => $cTours): ?>
+                        <li class="<?= $firstCountry ? 'mm-active' : '' ?>">
+                          <?php 
+                          $cImgRaw = $navCountriesImages[$navCountry] ?? '';
+                          $cImgUrl = 'images/Filao/East Africa/pexels-droneafrica-13234382.jpg';
+                          if (!empty($cImgRaw)) {
+                              $cImgUrl = str_starts_with($cImgRaw, 'images/') ? $cImgRaw : 'uploads/' . $cImgRaw;
+                          }
+                          ?>
+                          <a href="#" class="mm-tab-trigger"
+                            data-panel="tour-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $navCountry)) ?>"
+                            data-img="<?= htmlspecialchars($cImgUrl) ?>"
+                            data-caption="<?= htmlspecialchars($navCountry) ?> Safaris"><?= htmlspecialchars($navCountry) ?>
                           </a>
                         </li>
-                        <?php $firstAct = false; endforeach; ?>
-                      <li><a href="activities"
-                          style="margin-top:12px;border-top:1px solid #E5DDD0;padding-top:12px;">View All Activities</a>
-                      </li>
+                        <?php $firstCountry = false; endforeach; ?>
+                      <li><a href="tours" style="margin-top:12px;border-top:1px solid #E5DDD0;padding-top:12px;">View
+                          All Tours</a></li>
                     </ul>
                   </div>
                   <div class="fa-mm-links">
-                    <?php $firstAct = true;
-                    foreach ($navActByCategory as $category => $cActs):
-                      $panelId = 'act-' . strtolower(preg_replace('/[^a-z0-9]/i', '-', $category));
-                      ?>
-                      <div class="mm-panel" data-id="<?= $panelId ?>"
-                        style="display:<?= $firstAct ? 'block' : 'none' ?>;">
+                    <?php $firstCountry = true;
+                    foreach ($navToursByCountry as $navCountry => $cTours): ?>
+                      <div class="mm-panel" data-id="tour-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $navCountry)) ?>"
+                        style="display:<?= $firstCountry ? 'block' : 'none' ?>">
                         <ul>
-                          <?php foreach ($cActs as $navActLoop): 
-                            $cImg = $navActLoop['featured_image'];
+                          <?php foreach ($cTours as $t): 
+                            $cImg = $t['featured_image'];
                             if (!empty($cImg) && !str_starts_with($cImg, 'http') && !str_starts_with($cImg, 'images/')) $cImg = 'uploads/' . $cImg;
-                            $cImg = $cImg ?: 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
+                            $cImg = $cImg ?: 'images/Filao/East Africa/pexels-balazsimon-15994023.jpg';
                           ?>
-                            <li><a
-                                href="activities/<?= htmlspecialchars($navActLoop['slug']) ?>"
+                            <li><a href="tours/<?= $t['slug'] ?>"
                                 data-img="<?= htmlspecialchars($cImg) ?>"
-                                data-caption="<?= htmlspecialchars($navActLoop['name']) ?>"><?= htmlspecialchars($navActLoop['name']) ?></a>
-                            </li>
+                                data-caption="<?= htmlspecialchars($t['title']) ?>"><?= htmlspecialchars($t['title']) ?></a></li>
                           <?php endforeach; ?>
                         </ul>
                       </div>
-                      <?php $firstAct = false; endforeach; ?>
+                      <?php $firstCountry = false; endforeach; ?>
                   </div>
                   <div class="fa-mm-image">
-                    <img id="mm-act-img" src="<?= htmlspecialchars($firstImg) ?>" alt="Activities">
-                    <div class="mm-caption" id="mm-act-caption"><?= htmlspecialchars($firstCat) ?></div>
+                    <?php 
+                    $firstImgRaw = !empty($navCountries) ? ($navCountriesImages[$navCountries[0]] ?? '') : '';
+                    $firstImgUrl = 'images/Filao/East Africa/pexels-balazsimon-15994023.jpg';
+                    if (!empty($firstImgRaw)) {
+                        $firstImgUrl = str_starts_with($firstImgRaw, 'images/') ? $firstImgRaw : 'uploads/' . $firstImgRaw;
+                    }
+                    ?>
+                    <img id="mm-tour-img" src="<?= htmlspecialchars($firstImgUrl) ?>"
+                      alt="Safari Tours">
+                    <div class="mm-caption" id="mm-tour-caption">Explore Our Safari Tours</div>
                   </div>
                 </div>
               </div>
@@ -345,7 +360,7 @@ $navJoiningTours = $navPdo->query("
               <div class="fa-megamenu-content">
                 <div class="fa-megamenu-inner">
                   <div class="fa-mm-tabs">
-                    <span class="mm-heading">Safari Themes</span>
+                    <span class="mm-heading">Safari Experiences</span>
                     <ul>
                       <?php $firstTheme = true;
                       $firstImg = '';
@@ -385,15 +400,15 @@ $navJoiningTours = $navPdo->query("
                         <div class="mm-panel" data-id="<?= $panelId ?>"
                           style="display:<?= $firstTheme ? 'block' : 'none' ?>;">
                           <ul>
-                            <?php foreach ($themeTours as $tour): 
-                              $cImg = $tour['featured_image'];
+                            <?php foreach ($themeTours as $navTour): 
+                              $cImg = $navTour['featured_image'];
                               if (!empty($cImg) && !str_starts_with($cImg, 'http') && !str_starts_with($cImg, 'images/')) $cImg = 'uploads/' . $cImg;
                               $cImg = $cImg ?: 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
                             ?>
                               <li><a
-                                  href="tours/<?= htmlspecialchars($tour['tour_slug']) ?>"
+                                  href="tours/<?= htmlspecialchars($navTour['tour_slug']) ?>"
                                   data-img="<?= htmlspecialchars($cImg) ?>"
-                                  data-caption="<?= htmlspecialchars($tour['title']) ?>"><?= htmlspecialchars($tour['title']) ?></a>
+                                  data-caption="<?= htmlspecialchars($navTour['title']) ?>"><?= htmlspecialchars($navTour['title']) ?></a>
                               </li>
                             <?php endforeach; ?>
                           </ul>
@@ -410,67 +425,69 @@ $navJoiningTours = $navPdo->query("
             </div>
           </li>
 
-          <!-- TOURS -->
+          <!-- ACTIVITIES -->
           <li>
-            <a href="tours" class="nav-top-link">Tours</a>
+            <a href="activities" class="nav-top-link">Activities</a>
             <div class="fa-megamenu">
               <button class="mm-close-btn">&times; Close</button>
               <div class="fa-megamenu-content">
                 <div class="fa-megamenu-inner">
                   <div class="fa-mm-tabs">
-                    <span class="mm-heading">Tours by Country</span>
+                    <span class="mm-heading">Safari Activities</span>
                     <ul>
-                      <?php $firstCountry = true;
-                      foreach ($navToursByCountry as $country => $cTours): ?>
-                        <li class="<?= $firstCountry ? 'mm-active' : '' ?>">
-                          <?php 
-                          $cImgRaw = $navCountriesImages[$country] ?? '';
-                          $cImgUrl = 'images/Filao/East Africa/pexels-droneafrica-13234382.jpg';
-                          if (!empty($cImgRaw)) {
-                              $cImgUrl = str_starts_with($cImgRaw, 'images/') ? $cImgRaw : 'uploads/' . $cImgRaw;
-                          }
-                          ?>
-                          <a href="#" class="mm-tab-trigger"
-                            data-panel="tour-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $country)) ?>"
-                            data-img="<?= htmlspecialchars($cImgUrl) ?>"
-                            data-caption="<?= htmlspecialchars($country) ?> Safaris"><?= htmlspecialchars($country) ?>
+                      <?php $firstAct = true;
+                      $firstImg = '';
+                      $firstCat = '';
+                      foreach ($navActByCategory as $navCatName => $cActs):
+                        $img = $cActs[0]['featured_image'];
+                        if (!empty($img) && !str_starts_with($img, 'http') && !str_starts_with($img, 'images/')) {
+                          $img = 'uploads/' . $img;
+                        }
+                        $img = $img ?: 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
+                        if ($firstAct) {
+                          $firstImg = $img;
+                          $firstCat = $navCatName;
+                        }
+                        $panelId = 'act-' . strtolower(preg_replace('/[^a-z0-9]/i', '-', $navCatName));
+                        ?>
+                        <li class="<?= $firstAct ? 'mm-active' : '' ?>">
+                          <a href="#" class="mm-tab-trigger" data-panel="<?= $panelId ?>"
+                            data-img="<?= htmlspecialchars($img) ?>" data-caption="<?= htmlspecialchars($navCatName) ?>">
+                            <?= htmlspecialchars($navCatName) ?>
                           </a>
                         </li>
-                        <?php $firstCountry = false; endforeach; ?>
-                      <li><a href="tours" style="margin-top:12px;border-top:1px solid #E5DDD0;padding-top:12px;">View
-                          All Tours</a></li>
+                        <?php $firstAct = false; endforeach; ?>
+                      <li><a href="activities"
+                          style="margin-top:12px;border-top:1px solid #E5DDD0;padding-top:12px;">View All Activities</a>
+                      </li>
                     </ul>
                   </div>
                   <div class="fa-mm-links">
-                    <?php $firstCountry = true;
-                    foreach ($navToursByCountry as $country => $cTours): ?>
-                      <div class="mm-panel" data-id="tour-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $country)) ?>"
-                        style="display:<?= $firstCountry ? 'block' : 'none' ?>">
+                    <?php $firstAct = true;
+                    foreach ($navActByCategory as $navCatName => $cActs):
+                      $panelId = 'act-' . strtolower(preg_replace('/[^a-z0-9]/i', '-', $navCatName));
+                      ?>
+                      <div class="mm-panel" data-id="<?= $panelId ?>"
+                        style="display:<?= $firstAct ? 'block' : 'none' ?>;">
                         <ul>
-                          <?php foreach ($cTours as $t): 
-                            $cImg = $t['featured_image'];
+                          <?php foreach ($cActs as $navActLoop): 
+                            $cImg = $navActLoop['featured_image'];
                             if (!empty($cImg) && !str_starts_with($cImg, 'http') && !str_starts_with($cImg, 'images/')) $cImg = 'uploads/' . $cImg;
-                            $cImg = $cImg ?: 'images/Filao/East Africa/pexels-balazsimon-15994023.jpg';
+                            $cImg = $cImg ?: 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
                           ?>
-                            <li><a href="tours/<?= $t['slug'] ?>"
+                            <li><a
+                                href="activities/<?= htmlspecialchars($navActLoop['slug']) ?>"
                                 data-img="<?= htmlspecialchars($cImg) ?>"
-                                data-caption="<?= htmlspecialchars($t['title']) ?>"><?= htmlspecialchars($t['title']) ?></a></li>
+                                data-caption="<?= htmlspecialchars($navActLoop['name']) ?>"><?= htmlspecialchars($navActLoop['name']) ?></a>
+                            </li>
                           <?php endforeach; ?>
                         </ul>
                       </div>
-                      <?php $firstCountry = false; endforeach; ?>
+                      <?php $firstAct = false; endforeach; ?>
                   </div>
                   <div class="fa-mm-image">
-                    <?php 
-                    $firstImgRaw = !empty($navCountries) ? ($navCountriesImages[$navCountries[0]] ?? '') : '';
-                    $firstImgUrl = 'images/Filao/East Africa/pexels-balazsimon-15994023.jpg';
-                    if (!empty($firstImgRaw)) {
-                        $firstImgUrl = str_starts_with($firstImgRaw, 'images/') ? $firstImgRaw : 'uploads/' . $firstImgRaw;
-                    }
-                    ?>
-                    <img id="mm-tour-img" src="<?= htmlspecialchars($firstImgUrl) ?>"
-                      alt="Safari Tours">
-                    <div class="mm-caption" id="mm-tour-caption">Explore Our Safari Tours</div>
+                    <img id="mm-act-img" src="<?= htmlspecialchars($firstImg) ?>" alt="Activities">
+                    <div class="mm-caption" id="mm-act-caption"><?= htmlspecialchars($firstCat) ?></div>
                   </div>
                 </div>
               </div>
@@ -488,12 +505,12 @@ $navJoiningTours = $navPdo->query("
                     <span class="mm-heading">By Activity</span>
                     <ul>
                       <?php $firstAct = true;
-                      foreach ($navRecByActivity as $activity => $recTours): ?>
+                      foreach ($navRecByActivity as $navActivityName => $recTours): ?>
                         <li class="<?= $firstAct ? 'mm-active' : '' ?>">
                           <a href="#" class="mm-tab-trigger"
-                            data-panel="rec-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $activity)) ?>"
+                            data-panel="rec-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $navActivityName)) ?>"
                             data-img="images/Filao/East Africa/pexels-balazsimon-15993990.jpg"
-                            data-caption="<?= htmlspecialchars($activity) ?> Tours"><?= htmlspecialchars($activity) ?>
+                            data-caption="<?= htmlspecialchars($navActivityName) ?> Tours"><?= htmlspecialchars($navActivityName) ?>
                           </a>
                         </li>
                         <?php $firstAct = false; endforeach; ?>
@@ -512,8 +529,8 @@ $navJoiningTours = $navPdo->query("
                       </div>
                     <?php else:
                       $firstAct = true;
-                      foreach ($navRecByActivity as $activity => $recTours): ?>
-                        <div class="mm-panel" data-id="rec-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $activity)) ?>"
+                      foreach ($navRecByActivity as $navActivityName => $recTours): ?>
+                        <div class="mm-panel" data-id="rec-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $navActivityName)) ?>"
                           style="display:<?= $firstAct ? 'block' : 'none' ?>">
                           <ul>
                             <?php foreach ($recTours as $rt): ?>
@@ -636,7 +653,7 @@ $navJoiningTours = $navPdo->query("
 
   <div class="hb-footer">
     <div class="hb-socials">
-      <a href="https://x.com/FilaoAdventures" aria-label="X (Twitter)" target="_blank" rel="noopener noreferrer" style="margin-right:15px;"><i class="fa fa-twitter"></i></a>
+      <a href="https://x.com/FilaoAdventures" aria-label="X (Twitter)" target="_blank" rel="noopener noreferrer" style="margin-right:15px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.254 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
       <a href="https://www.facebook.com/profile.php?id=100084891550126#" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="fa fa-facebook"></i></a>
       <a href="https://www.instagram.com/filaoadventures/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fa fa-instagram"></i></a>
       <a href="https://www.tiktok.com/@filaoadventures" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
@@ -666,8 +683,8 @@ $navJoiningTours = $navPdo->query("
     <!-- Main Panel (Level 0) -->
     <div class="rmm-panel rmm-panel-main rmm-active" id="rmm-panel-main">
       <ul class="rmm-links rmm-bg-white">
-        <li><a href="#" class="rmm-trigger" data-target="rmm-panel-tours">TOURS <i class="fa fa-angle-right"></i></a></li>
         <li><a href="#" class="rmm-trigger" data-target="rmm-panel-destinations">DESTINATIONS <i class="fa fa-angle-right"></i></a></li>
+        <li><a href="#" class="rmm-trigger" data-target="rmm-panel-tours">TOURS <i class="fa fa-angle-right"></i></a></li>
         <li><a href="#" class="rmm-trigger" data-target="rmm-panel-safaris">SAFARI EXPERIENCES <i class="fa fa-angle-right"></i></a></li>
         <li><a href="#" class="rmm-trigger" data-target="rmm-panel-activities">ACTIVITIES <i class="fa fa-angle-right"></i></a></li>
         <li><a href="#" class="rmm-trigger" data-target="rmm-panel-recommend">WE RECOMMEND <i class="fa fa-angle-right"></i></a></li>
@@ -682,7 +699,7 @@ $navJoiningTours = $navPdo->query("
           <p><i class="fa fa-phone" style="margin-right:8px;color:#C49018;"></i> <a href="tel:+254757139239" style="color:#000;text-decoration:none;font-weight:600;">+254 757 139239</a></p>
           <p><i class="fa fa-envelope" style="margin-right:8px;color:#C49018;"></i> <a href="mailto:info@filaoadventures.co.ke" style="color:#000;text-decoration:none;font-size:13px;font-weight:600;">info@filaoadventures.co.ke</a></p>
           <div class="rmm-socials" style="margin-top:20px;justify-content:center;">
-             <a href="https://x.com/FilaoAdventures" target="_blank"><i class="fa fa-twitter"></i></a>
+             <a href="https://x.com/FilaoAdventures" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.254 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
              <a href="https://www.facebook.com/profile.php?id=100084891550126#" target="_blank"><i class="fa fa-facebook"></i></a>
              <a href="https://www.instagram.com/filaoadventures/" target="_blank"><i class="fa fa-instagram"></i></a>
              <a href="https://www.tiktok.com/@filaoadventures" target="_blank">
@@ -697,17 +714,17 @@ $navJoiningTours = $navPdo->query("
       </div>
     </div>
 
-    <!-- Destinations Panel (Level 1) -->
+    <!-- Destinations Panel (Level 1 - By Region) -->
     <div class="rmm-panel" id="rmm-panel-destinations">
       <div class="rmm-panel-header">
         <button class="rmm-back-btn" data-target="rmm-panel-main"><i class="fa fa-angle-left"></i></button>
         <span>DESTINATIONS</span>
       </div>
       <ul class="rmm-links rmm-bg-white">
-        <?php foreach($navDestinations as $navDestLoop): ?>
-          <li><a href="#" class="rmm-trigger" data-target="rmm-panel-dest-<?= $navDestLoop['id'] ?>"><?= strtoupper(htmlspecialchars($navDestLoop['name'])) ?> <i class="fa fa-angle-right"></i></a></li>
+        <?php foreach($navRegions as $regionName => $countriesList): ?>
+          <li><a href="#" class="rmm-trigger" data-target="rmm-panel-dest-region-<?= md5($regionName) ?>"><?= strtoupper(htmlspecialchars($regionName)) ?> <i class="fa fa-angle-right"></i></a></li>
         <?php endforeach; ?>
-        <li class="rmm-view-all" style="margin-top:20px;"><a href="destinations">VIEW ALL DESTINATIONS</a></li>
+        <li class="rmm-view-all" style="margin-top:20px;"><a href="destinations">VIEW ALL REGIONS</a></li>
       </ul>
     </div>
 
@@ -732,8 +749,8 @@ $navJoiningTours = $navPdo->query("
         <span>WE RECOMMEND</span>
       </div>
       <ul class="rmm-links rmm-bg-white">
-        <?php foreach($navRecByActivity as $activity => $recTours): ?>
-          <li><a href="#" class="rmm-trigger" data-target="rmm-panel-rec-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $activity)) ?>"><?= strtoupper(htmlspecialchars($activity)) ?> <i class="fa fa-angle-right"></i></a></li>
+        <?php foreach($navRecByActivity as $navActivityName => $recTours): ?>
+          <li><a href="#" class="rmm-trigger" data-target="rmm-panel-rec-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $navActivityName)) ?>"><?= strtoupper(htmlspecialchars($navActivityName)) ?> <i class="fa fa-angle-right"></i></a></li>
         <?php endforeach; ?>
         <li class="rmm-view-all" style="margin-top:20px;"><a href="tours">VIEW ALL RECOMMENDED</a></li>
       </ul>
@@ -746,8 +763,8 @@ $navJoiningTours = $navPdo->query("
         <span>TOURS</span>
       </div>
       <ul class="rmm-links rmm-bg-white">
-        <?php foreach($navToursByCountry as $country => $cTours): ?>
-          <li><a href="#" class="rmm-trigger" data-target="rmm-panel-tours-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $country)) ?>"><?= strtoupper(htmlspecialchars($country)) ?> <i class="fa fa-angle-right"></i></a></li>
+        <?php foreach($navToursByCountry as $navCountry => $cTours): ?>
+          <li><a href="#" class="rmm-trigger" data-target="rmm-panel-tours-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $navCountry)) ?>"><?= strtoupper(htmlspecialchars($navCountry)) ?> <i class="fa fa-angle-right"></i></a></li>
         <?php endforeach; ?>
         <li class="rmm-view-all" style="margin-top:20px;"><a href="tours">VIEW ALL TOURS</a></li>
       </ul>
@@ -760,28 +777,34 @@ $navJoiningTours = $navPdo->query("
         <span>ACTIVITIES</span>
       </div>
       <ul class="rmm-links rmm-bg-white">
-        <?php foreach($navActByCategory as $category => $cActs): ?>
-          <li><a href="#" class="rmm-trigger" data-target="rmm-panel-act-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $category)) ?>"><?= strtoupper(htmlspecialchars($category)) ?> <i class="fa fa-angle-right"></i></a></li>
+        <?php foreach($navActByCategory as $navCatName => $cActs): ?>
+          <li><a href="#" class="rmm-trigger" data-target="rmm-panel-act-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $navCatName)) ?>"><?= strtoupper(htmlspecialchars($navCatName)) ?> <i class="fa fa-angle-right"></i></a></li>
         <?php endforeach; ?>
         <li class="rmm-view-all" style="margin-top:20px;"><a href="activities">VIEW ALL ACTIVITIES</a></li>
       </ul>
     </div>
 
     <!-- Dynamically Generated Level 2 Panels -->
-    <!-- Destinations Level 2 -->
-    <?php foreach ($navDestinations as $navDestLoop): ?>
-    <div class="rmm-panel" id="rmm-panel-dest-<?= $navDestLoop['id'] ?>">
+    <!-- Destinations Level 2 (Regions -> Countries) -->
+    <?php foreach ($navRegions as $regionName => $countriesList): ?>
+    <div class="rmm-panel" id="rmm-panel-dest-region-<?= md5($regionName) ?>">
       <div class="rmm-panel-header">
         <button class="rmm-back-btn" data-target="rmm-panel-destinations"><i class="fa fa-angle-left"></i></button>
-        <span><?= strtoupper(htmlspecialchars($navDestLoop['name'])) ?></span>
+        <span><?= strtoupper(htmlspecialchars($regionName)) ?></span>
       </div>
       <ul class="rmm-links rmm-bg-white">
-        <?php if(!empty($navDestLoop['tours'])): foreach ($navDestLoop['tours'] as $t): ?>
-          <li><a href="tours/<?= $t['slug'] ?>"><?= strtoupper(htmlspecialchars($t['title'])) ?></a></li>
-        <?php endforeach; else: ?>
-          <li><a href="#">NO TOURS YET</a></li>
-        <?php endif; ?>
-        <li class="rmm-view-all" style="margin-top:20px;"><a href="destinations#<?= htmlspecialchars($navDestLoop['slug']) ?>">VIEW ALL IN <?= strtoupper(htmlspecialchars($navDestLoop['name'])) ?></a></li>
+        <?php 
+        $uniqueCountries = [];
+        foreach ($countriesList as $c) {
+          if (!isset($uniqueCountries[$c['country']])) {
+            $uniqueCountries[$c['country']] = $c['featured_image'];
+          }
+        }
+        foreach ($uniqueCountries as $cName => $cImg): 
+        ?>
+          <li><a href="country?name=<?= urlencode($cName) ?>"><?= strtoupper(htmlspecialchars($cName)) ?></a></li>
+        <?php endforeach; ?>
+        <li class="rmm-view-all" style="margin-top:20px;"><a href="destinations">VIEW ALL IN <?= strtoupper(htmlspecialchars($regionName)) ?></a></li>
       </ul>
     </div>
     <?php endforeach; ?>
@@ -794,19 +817,19 @@ $navJoiningTours = $navPdo->query("
         <span><?= strtoupper(htmlspecialchars($themeName)) ?></span>
       </div>
       <ul class="rmm-links rmm-bg-white">
-        <?php foreach ($themeTours as $t): ?>
-          <li><a href="tours/<?= $t['tour_slug'] ?>"><?= strtoupper(htmlspecialchars($t['title'])) ?></a></li>
+        <?php foreach ($themeTours as $navTour): ?>
+          <li><a href="tours/<?= $navTour['tour_slug'] ?>"><?= strtoupper(htmlspecialchars($navTour['title'])) ?></a></li>
         <?php endforeach; ?>
       </ul>
     </div>
     <?php endforeach; ?>
 
     <!-- We Recommend Level 2 -->
-    <?php foreach ($navRecByActivity as $activity => $recTours): ?>
-    <div class="rmm-panel" id="rmm-panel-rec-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $activity)) ?>">
+    <?php foreach ($navRecByActivity as $navActivityName => $recTours): ?>
+    <div class="rmm-panel" id="rmm-panel-rec-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $navActivityName)) ?>">
       <div class="rmm-panel-header">
         <button class="rmm-back-btn" data-target="rmm-panel-recommend"><i class="fa fa-angle-left"></i></button>
-        <span><?= strtoupper(htmlspecialchars($activity)) ?></span>
+        <span><?= strtoupper(htmlspecialchars($navActivityName)) ?></span>
       </div>
       <ul class="rmm-links rmm-bg-white">
         <?php foreach ($recTours as $rt): ?>
@@ -817,11 +840,11 @@ $navJoiningTours = $navPdo->query("
     <?php endforeach; ?>
 
     <!-- Tours Level 2 -->
-    <?php foreach ($navToursByCountry as $country => $cTours): ?>
-    <div class="rmm-panel" id="rmm-panel-tours-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $country)) ?>">
+    <?php foreach ($navToursByCountry as $navCountry => $cTours): ?>
+    <div class="rmm-panel" id="rmm-panel-tours-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $navCountry)) ?>">
       <div class="rmm-panel-header">
         <button class="rmm-back-btn" data-target="rmm-panel-tours"><i class="fa fa-angle-left"></i></button>
-        <span><?= strtoupper(htmlspecialchars($country)) ?></span>
+        <span><?= strtoupper(htmlspecialchars($navCountry)) ?></span>
       </div>
       <ul class="rmm-links rmm-bg-white">
         <?php foreach ($cTours as $t): ?>
@@ -832,11 +855,11 @@ $navJoiningTours = $navPdo->query("
     <?php endforeach; ?>
 
     <!-- Activities Level 2 -->
-    <?php foreach ($navActByCategory as $category => $cActs): ?>
-    <div class="rmm-panel" id="rmm-panel-act-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $category)) ?>">
+    <?php foreach ($navActByCategory as $navCatName => $cActs): ?>
+    <div class="rmm-panel" id="rmm-panel-act-<?= strtolower(preg_replace('/[^a-z0-9]/i', '-', $navCatName)) ?>">
       <div class="rmm-panel-header">
         <button class="rmm-back-btn" data-target="rmm-panel-activities"><i class="fa fa-angle-left"></i></button>
-        <span><?= strtoupper(htmlspecialchars($category)) ?></span>
+        <span><?= strtoupper(htmlspecialchars($navCatName)) ?></span>
       </div>
       <ul class="rmm-links rmm-bg-white">
         <?php foreach ($cActs as $navActLoop): ?>

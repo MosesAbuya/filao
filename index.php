@@ -8,8 +8,9 @@ $tours = $pdo->query("SELECT id, title, slug, duration_days, price_from_usd, exc
 // Fetch hot offers
 $hotOffers = [];
 try {
-    $hotOffers = $pdo->query("SELECT id, title, slug, duration_days, price_from_usd, excerpt, featured_image FROM tours WHERE status='published' AND is_hot_offer = 1 ORDER BY id DESC LIMIT 4")->fetchAll();
-} catch (Exception $e) {}
+  $hotOffers = $pdo->query("SELECT id, title, slug, duration_days, price_from_usd, excerpt, featured_image FROM tours WHERE status='published' AND is_hot_offer = 1 ORDER BY id DESC LIMIT 4")->fetchAll();
+} catch (Exception $e) {
+}
 
 // Fetch Countries with images + tour count
 $countries = $pdo->query("
@@ -73,6 +74,7 @@ function getTourRoute($pdo, $tourId)
       width: 100%;
       z-index: 2;
     }
+
     .fa-video-hero .carousel-indicators {
       position: absolute;
       bottom: 80px;
@@ -82,47 +84,60 @@ function getTourRoute($pdo, $tourId)
     }
   </style>
   <section class="fa-video-hero" id="heroSection" style="position: relative; z-index: 10; overflow: visible;">
-    <div id="heroCarousel" class="carousel slide carousel-fade" data-ride="carousel" data-interval="6000" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0; overflow:hidden;">
-      
+    <div id="heroCarousel" class="carousel slide carousel-fade" data-ride="carousel" data-interval="6000"
+      style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0; overflow:hidden;">
+
       <div class="carousel-inner" style="height:100%;">
         <div class="carousel-item active" style="height:100%;">
-          <img src="images/Filao/Hero/rhino.jpg" class="hero-zoom-anim" style="object-fit:cover;width:100%;height:100%;" alt="Rhino">
+          <img src="images/Filao/Hero/rhino.jpg" class="hero-zoom-anim" style="object-fit:cover;width:100%;height:100%;"
+            alt="Rhino">
           <div class="hero-slide-text">
             <div class="fa-hero-accent justify-content-center">
-              <span class="fa-hero-eyebrow" style="color:#E0E0E0; font-weight:700;">KENYA'S PREMIER SAFARI</span>
+              <span class="fa-hero-eyebrow" style="color:#E0E0E0; font-weight:700;">AFRICA'S PREMIER SAFARI</span>
             </div>
-            <h1 style="margin-bottom: 15px; font-size: 3.5rem; font-weight: 900; color: #F0F0F0 !important;">Witness the Giants</h1>
-            <p style="font-size: 16px; color: #E0E0E0; font-weight:600; max-width: 600px; margin: 0 auto;">Encounter the majestic rhino in its untouched natural habitat.</p>
+            <h1 style="margin-bottom: 15px; font-size: 3.5rem; font-weight: 900; color: #F0F0F0 !important;">Witness the
+              Giants</h1>
+            <p style="font-size: 16px; color: #E0E0E0; font-weight:600; max-width: 600px; margin: 0 auto;">Encounter the
+              majestic rhino in its untouched natural habitat.</p>
           </div>
         </div>
         <div class="carousel-item" style="height:100%;">
-          <img src="images/Filao/Hero/cheetah.jpg" class="hero-zoom-out-anim" style="object-fit:cover;width:100%;height:100%;" alt="Cheetah">
+          <img src="images/Filao/Hero/cheetah.jpg" class="hero-zoom-out-anim"
+            style="object-fit:cover;width:100%;height:100%;" alt="Cheetah">
           <div class="hero-slide-text">
             <div class="fa-hero-accent justify-content-center">
               <span class="fa-hero-eyebrow" style="color:#E0E0E0; font-weight:700;">UNRIVALED ELEGANCE</span>
             </div>
-            <h1 style="margin-bottom: 15px; font-size: 3.5rem; font-weight: 900; color: #F0F0F0 !important;">The Thrill of the Chase</h1>
-            <p style="font-size: 16px; color: #E0E0E0; font-weight:600; max-width: 600px; margin: 0 auto;">Experience the breathtaking speed of the African cheetah.</p>
+            <h1 style="margin-bottom: 15px; font-size: 3.5rem; font-weight: 900; color: #F0F0F0 !important;">The Thrill
+              of the Chase</h1>
+            <p style="font-size: 16px; color: #E0E0E0; font-weight:600; max-width: 600px; margin: 0 auto;">Experience
+              the breathtaking speed of the African cheetah.</p>
           </div>
         </div>
         <div class="carousel-item" style="height:100%;">
-          <img src="images/Filao/Hero/lion.jpg" class="hero-zoom-anim" style="object-fit:cover;width:100%;height:100%;" alt="Lion">
+          <img src="images/Filao/Hero/lion.jpg" class="hero-zoom-anim" style="object-fit:cover;width:100%;height:100%;"
+            alt="Lion">
           <div class="hero-slide-text">
             <div class="fa-hero-accent justify-content-center">
               <span class="fa-hero-eyebrow" style="color:#E0E0E0; font-weight:700;">HEART OF THE SAVANNAH</span>
             </div>
-            <h1 style="margin-bottom: 15px; font-size: 3.5rem; font-weight: 900; color: #F0F0F0 !important;">Realm of the Kings</h1>
-            <p style="font-size: 16px; color: #E0E0E0; font-weight:600; max-width: 600px; margin: 0 auto;">Come face to face with the legendary lions of the Mara.</p>
+            <h1 style="margin-bottom: 15px; font-size: 3.5rem; font-weight: 900; color: #F0F0F0 !important;">Realm of
+              the Kings</h1>
+            <p style="font-size: 16px; color: #E0E0E0; font-weight:600; max-width: 600px; margin: 0 auto;">Come face to
+              face with the legendary lions of the Mara.</p>
           </div>
         </div>
         <div class="carousel-item" style="height:100%;">
-          <img src="images/Filao/Hero/elephant.jpg" class="hero-zoom-out-anim" style="object-fit:cover;width:100%;height:100%;" alt="Elephant">
+          <img src="images/Filao/Hero/elephant.jpg" class="hero-zoom-out-anim"
+            style="object-fit:cover;width:100%;height:100%;" alt="Elephant">
           <div class="hero-slide-text">
             <div class="fa-hero-accent justify-content-center">
               <span class="fa-hero-eyebrow" style="color:#E0E0E0; font-weight:700;">GENTLE GIANTS</span>
             </div>
-            <h1 style="margin-bottom: 15px; font-size: 3.5rem; font-weight: 900; color: #F0F0F0 !important;">Timeless Journeys</h1>
-            <p style="font-size: 16px; color: #E0E0E0; font-weight:600; max-width: 600px; margin: 0 auto;">Walk alongside the colossal elephant herds of Amboseli.</p>
+            <h1 style="margin-bottom: 15px; font-size: 3.5rem; font-weight: 900; color: #F0F0F0 !important;">Timeless
+              Journeys</h1>
+            <p style="font-size: 16px; color: #E0E0E0; font-weight:600; max-width: 600px; margin: 0 auto;">Walk
+              alongside the colossal elephant herds of Amboseli.</p>
           </div>
         </div>
       </div>
@@ -134,11 +149,13 @@ function getTourRoute($pdo, $tourId)
         <li data-target="#heroCarousel" data-slide-to="3"></li>
       </ol>
 
-      <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev" style="z-index:10; width: 5%; left: 5%; background: none; border: none; opacity: 0.8; font-size: 1.8rem; color: #fff; text-decoration: none; display: flex; align-items: center; justify-content: center;">
+      <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev"
+        style="z-index:10; width: 5%; left: 5%; background: none; border: none; opacity: 0.8; font-size: 1.8rem; color: #fff; text-decoration: none; display: flex; align-items: center; justify-content: center;">
         <i class="fa fa-arrow-left" aria-hidden="true" style="text-shadow: 0 2px 5px rgba(0,0,0,0.5);"></i>
         <span class="sr-only">Previous</span>
       </a>
-      <a class="carousel-control-next" href="#heroCarousel" role="button" data-slide="next" style="z-index:10; width: 5%; right: 5%; background: none; border: none; opacity: 0.8; font-size: 1.8rem; color: #fff; text-decoration: none; display: flex; align-items: center; justify-content: center;">
+      <a class="carousel-control-next" href="#heroCarousel" role="button" data-slide="next"
+        style="z-index:10; width: 5%; right: 5%; background: none; border: none; opacity: 0.8; font-size: 1.8rem; color: #fff; text-decoration: none; display: flex; align-items: center; justify-content: center;">
         <i class="fa fa-arrow-right" aria-hidden="true" style="text-shadow: 0 2px 5px rgba(0,0,0,0.5);"></i>
         <span class="sr-only">Next</span>
       </a>
@@ -146,37 +163,110 @@ function getTourRoute($pdo, $tourId)
     <div class="video-overlay" style="z-index:1;background:rgba(0,0,0,0.1); pointer-events: none;"></div>
 
     <!-- Search Bar aligned lower center -->
-    <div class="container fa-video-hero-content" style="max-width:1280px;padding:0 24px; position:absolute; bottom: -40px; left: 50%; transform: translateX(-50%); z-index:20; width: 100%;">
+    <div class="container fa-video-hero-content fa-hero-search-wrap"
+      style="max-width:1280px;padding:0 24px; position:absolute; bottom: -40px; left: 50%; transform: translateX(-50%); z-index:20; width: 100%;">
       <div class="row justify-content-center w-100 mx-0">
-        <div class="col-lg-10 col-xl-9 text-center mx-auto">
-          
-          <form action="tours" method="GET" class="fa-hero-search" style="opacity: 1; margin: 0 auto; max-width: 900px; text-align: left; background: #ffffff; border-radius: 8px; padding: 6px; position: relative; z-index: 10; box-shadow: 0 25px 50px rgba(0,0,0,0.25);">
+        <div class="col-lg-10 col-xl-9 text-center mx-auto fa-hero-search-wrap" style="padding:0;">
+
+          <form action="tours" method="GET" class="fa-hero-search"
+            style="opacity: 1; margin: 0 auto; max-width: 900px; text-align: left; background: #ffffff; border-radius: 8px; padding: 6px; position: relative; z-index: 10; box-shadow: 0 25px 50px rgba(0,0,0,0.25);">
             <style>
-              .fa-hero-search-row { display: flex; align-items: center; flex-wrap: nowrap; width: 100%; }
-              .fa-hero-search-field { padding: 10px 20px; border-right: 1px solid rgba(0,0,0,0.08); }
-              .fa-hero-search-btn-col { flex: 0 0 auto; padding: 0 4px; }
+              .fa-hero-search-row {
+                display: flex;
+                align-items: center;
+                flex-wrap: nowrap;
+                width: 100%;
+              }
+
+              .fa-hero-search-field {
+                padding: 10px 20px;
+                border-right: 1px solid rgba(0, 0, 0, 0.08);
+              }
+
+              .fa-hero-search-btn-col {
+                flex: 0 0 auto;
+                padding: 0 4px;
+              }
+
               @media (max-width: 768px) {
-                .fa-hero-search-row { flex-wrap: wrap; }
-                .fa-hero-search-field { padding: 10px; border-bottom: 1px solid rgba(0,0,0,0.08); }
-                .fa-hero-search-field:nth-child(1) { flex: 0 0 100%; border-right: none !important; }
-                .fa-hero-search-field:nth-child(2) { flex: 0 0 50%; border-right: 1px solid rgba(0,0,0,0.08) !important; border-bottom: none; }
-                .fa-hero-search-field:nth-child(3) { flex: 0 0 50%; border-right: none !important; border-bottom: none; }
-                .fa-hero-search-btn-col { flex: 0 0 100%; padding: 10px; border-top: 1px solid rgba(0,0,0,0.08); }
-                .fa-hero-search-btn-col button { width: 100%; justify-content: center; padding: 12px !important; }
+                .fa-hero-search-wrap {
+                  width: 100% !important;
+                  max-width: 100% !important;
+                  padding: 0 !important;
+                  flex: 0 0 100% !important;
+                }
+
+                .fa-hero-search-wrap .col-lg-10,
+                .fa-hero-search-wrap .col-xl-9 {
+                  max-width: 100% !important;
+                  flex: 0 0 100% !important;
+                  padding: 0 !important;
+                }
+
+                .fa-hero-search {
+                  max-width: 100% !important;
+                  width: 100% !important;
+                  border-radius: 0 !important;
+                }
+
+                .fa-hero-search-row {
+                  flex-wrap: wrap;
+                }
+
+                .fa-hero-search-field {
+                  padding: 10px;
+                  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+                }
+
+                .fa-hero-search-field:nth-child(1) {
+                  flex: 0 0 100%;
+                  border-right: none !important;
+                }
+
+                .fa-hero-search-field:nth-child(2) {
+                  flex: 0 0 50%;
+                  border-right: 1px solid rgba(0, 0, 0, 0.08) !important;
+                  border-bottom: none;
+                }
+
+                .fa-hero-search-field:nth-child(3) {
+                  flex: 0 0 50%;
+                  border-right: none !important;
+                  border-bottom: none;
+                }
+
+                .fa-hero-search-btn-col {
+                  flex: 0 0 100%;
+                  padding: 10px;
+                  border-top: 1px solid rgba(0, 0, 0, 0.08);
+                }
+
+                .fa-hero-search-btn-col button {
+                  width: 100%;
+                  justify-content: center;
+                  padding: 12px !important;
+                }
               }
             </style>
             <div class="fa-hero-search-row">
-              
+
               <div class="fa-search-field fa-hero-search-field" style="flex: 2; position: relative;">
-                <label for="hero-live-search" style="color: #6B6358; font-size:10px; font-weight:700; letter-spacing: 0.1em; text-transform:uppercase; margin-bottom:2px; display:block;">DESTINATION</label>
-                <input type="text" name="dest" id="hero-live-search" placeholder="Where do you want to go?" style="width: 100%; padding: 4px 0; border: none; outline: none; background:transparent; font-size:15px; color:#1C1712;">
-                <div id="hero-search-results" class="ajax-search-results-dropdown d-none" style="position: absolute; top: 100%; left: 0; width: 100%; background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 4px; z-index: 100; max-height: 300px; overflow-y: auto; text-align: left;"></div>
+                <label for="hero-live-search"
+                  style="color: #6B6358; font-size:10px; font-weight:700; letter-spacing: 0.1em; text-transform:uppercase; margin-bottom:2px; display:block;">DESTINATION</label>
+                <input type="text" name="dest" id="hero-live-search" placeholder="Where do you want to go?"
+                  style="width: 100%; padding: 4px 0; border: none; outline: none; background:transparent; font-size:15px; color:#1C1712;">
+                <div id="hero-search-results" class="ajax-search-results-dropdown d-none"
+                  style="position: absolute; top: 100%; left: 0; width: 100%; background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 4px; z-index: 100; max-height: 300px; overflow-y: auto; text-align: left;">
+                </div>
               </div>
-              
+
               <div class="fa-search-field fa-hero-search-field" style="flex: 1.5;">
-                <label style="color: #6B6358; font-size:10px; font-weight:700; letter-spacing: 0.1em; text-transform:uppercase; margin-bottom:2px; display:block;">TRAVEL MONTH</label>
-                <select name="month" style="width: 100%; padding: 4px 0; border: none; outline: none; background:transparent; font-size:15px; color:#1C1712; cursor:pointer; -webkit-appearance:none; -moz-appearance:none; appearance:none; background-image:url('data:image/svg+xml;utf8,<svg fill=%22%231C1712%22 height=%2224%22 viewBox=%220 0 24 24%22 width=%2224%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M7 10l5 5 5-5z%22/><path d=%22M0 0h24v24H0z%22 fill=%22none%22/></svg>'); background-repeat:no-repeat; background-position-x:100%; background-position-y:5px;">
-                  <option value="">Any Month</option>
+                <label
+                  style="color: #6B6358; font-size:10px; font-weight:700; letter-spacing: 0.1em; text-transform:uppercase; margin-bottom:2px; display:block;">TRAVEL
+                  MONTH</label>
+                <select name="month"
+                  style="width: 100%; padding: 4px 0; border: none; outline: none; background:transparent; font-size:15px; color:#1C1712; cursor:pointer; -webkit-appearance:none; -moz-appearance:none; appearance:none; background-image:url('data:image/svg+xml;utf8,<svg fill=%22%231C1712%22 height=%2224%22 viewBox=%220 0 24 24%22 width=%2224%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M7 10l5 5 5-5z%22/><path d=%22M0 0h24v24H0z%22 fill=%22none%22/></svg>'); background-repeat:no-repeat; background-position-x:100%; background-position-y:5px;">
+                  <option value="">Month</option>
                   <option value="january">January</option>
                   <option value="february">February</option>
                   <option value="march">March</option>
@@ -193,8 +283,10 @@ function getTourRoute($pdo, $tourId)
               </div>
 
               <div class="fa-search-field fa-hero-search-field" style="flex: 1.5; border-right: none;">
-                <label style="color: #6B6358; font-size:10px; font-weight:700; letter-spacing: 0.1em; text-transform:uppercase; margin-bottom:2px; display:block;">GUESTS</label>
-                <select name="guests" style="width: 100%; padding: 4px 0; border: none; outline: none; background:transparent; font-size:15px; color:#1C1712; cursor:pointer; -webkit-appearance:none; -moz-appearance:none; appearance:none; background-image:url('data:image/svg+xml;utf8,<svg fill=%22%231C1712%22 height=%2224%22 viewBox=%220 0 24 24%22 width=%2224%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M7 10l5 5 5-5z%22/><path d=%22M0 0h24v24H0z%22 fill=%22none%22/></svg>'); background-repeat:no-repeat; background-position-x:100%; background-position-y:5px;">
+                <label
+                  style="color: #6B6358; font-size:10px; font-weight:700; letter-spacing: 0.1em; text-transform:uppercase; margin-bottom:2px; display:block;">GUESTS</label>
+                <select name="guests"
+                  style="width: 100%; padding: 4px 0; border: none; outline: none; background:transparent; font-size:15px; color:#1C1712; cursor:pointer; -webkit-appearance:none; -moz-appearance:none; appearance:none; background-image:url('data:image/svg+xml;utf8,<svg fill=%22%231C1712%22 height=%2224%22 viewBox=%220 0 24 24%22 width=%2224%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M7 10l5 5 5-5z%22/><path d=%22M0 0h24v24H0z%22 fill=%22none%22/></svg>'); background-repeat:no-repeat; background-position-x:100%; background-position-y:5px;">
                   <option value="1">1 Adult</option>
                   <option value="2">2 Adults</option>
                   <option value="3">3 Adults</option>
@@ -204,16 +296,18 @@ function getTourRoute($pdo, $tourId)
               </div>
 
               <div class="fa-hero-search-btn-col">
-                <button type="submit" class="btn" style="background:#628C52; color:#fff; padding:15px 24px; font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; border-radius:4px; border:none; display:flex; align-items:center; cursor:pointer;"><i class="fa fa-search" style="margin-right:8px; font-size:14px;"></i> SEARCH TOURS</button>
+                <button type="submit" class="btn"
+                  style="background:#628C52; color:#fff; padding:15px 24px; font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; border-radius:4px; border:none; display:flex; align-items:center; cursor:pointer;"><i
+                    class="fa fa-search" style="margin-right:8px; font-size:14px;"></i> SEARCH TOURS</button>
               </div>
-              
+
             </div>
           </form>
 
         </div>
       </div>
     </div>
-    
+
   </section>
 
 
@@ -236,8 +330,8 @@ function getTourRoute($pdo, $tourId)
             <div class="col-md-4 mb-4">
               <div class="services services-1 color-1 d-block img fa-service-card"
                 style="background-image:url('images/Filao/East Africa/pexels-balazsimon-15993990.jpg');">
-                <div class="icon d-flex align-items-center justify-content-center" style="background-color: #C49018;"><span
-                    class="flaticon-paragliding" style="color: #fff;"></span></div>
+                <div class="icon d-flex align-items-center justify-content-center" style="background-color: #C49018;">
+                  <span class="flaticon-paragliding" style="color: #fff;"></span></div>
                 <div class="media-body"
                   style="padding:20px;background:linear-gradient(to top,rgba(0,0,0,.75),transparent);">
                   <h3 class="heading mb-2" style="color:#fff;font-family:'Cormorant Garant',serif;font-size:22px;">
@@ -250,7 +344,8 @@ function getTourRoute($pdo, $tourId)
             <div class="col-md-4 mb-4">
               <div class="services services-1 color-2 d-block img fa-service-card"
                 style="background-image:url('images/Filao/Indian Ocean/pexels-asadphoto-9394268.jpg');">
-                <div class="icon d-flex align-items-center justify-content-center" style="background-color: #C49018;"><span class="flaticon-route" style="color: #fff;"></span>
+                <div class="icon d-flex align-items-center justify-content-center" style="background-color: #C49018;">
+                  <span class="flaticon-route" style="color: #fff;"></span>
                 </div>
                 <div class="media-body"
                   style="padding:20px;background:linear-gradient(to top,rgba(0,0,0,.75),transparent);">
@@ -264,8 +359,8 @@ function getTourRoute($pdo, $tourId)
             <div class="col-md-4 mb-4">
               <div class="services services-1 color-3 d-block img fa-service-card"
                 style="background-image:url('images/Filao/Dubai/pexels-axp-photography-500641970-16412106.jpg');">
-                <div class="icon d-flex align-items-center justify-content-center" style="background-color: #C49018;"><span
-                    class="flaticon-tour-guide" style="color: #fff;"></span></div>
+                <div class="icon d-flex align-items-center justify-content-center" style="background-color: #C49018;">
+                  <span class="flaticon-tour-guide" style="color: #fff;"></span></div>
                 <div class="media-body"
                   style="padding:20px;background:linear-gradient(to top,rgba(0,0,0,.75),transparent);">
                   <h3 class="heading mb-2" style="color:#fff;font-family:'Cormorant Garant',serif;font-size:22px;">
@@ -283,164 +378,198 @@ function getTourRoute($pdo, $tourId)
 
   <!-- ====== HOT OFFERS ====== -->
   <?php if (!empty($hotOffers)): ?>
-  <section class="hot-sale-section" id="hotSaleSection" style="position: relative; overflow: hidden; background-color: #1C1712; color: #fff; padding: 100px 0; margin-bottom: 0;">
-    <!-- Background Images Container -->
-    <div id="hsBackgrounds" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;">
-      <?php foreach ($hotOffers as $index => $offer): 
-        $img = $offer['featured_image'] ? 'uploads/' . $offer['featured_image'] : 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
-      ?>
-        <div class="hs-bg hs-bg-<?= $index ?>" style="position: absolute; top:0; left:0; width: 100%; height: 100%; background-image: url('<?= htmlspecialchars($img) ?>'); background-size: cover; background-position: center; opacity: <?= $index === 0 ? 1 : 0 ?>; transition: opacity 0.8s ease;"></div>
-      <?php endforeach; ?>
-      <!-- Gradient Overlay -->
-      <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to right, rgba(28,23,18,0.5) 0%, rgba(28,23,18,0.85) 45%, #1C1712 65%, #1C1712 100%); z-index: 1;"></div>
-    </div>
-
-    <div class="container" style="max-width:1280px; position: relative; z-index: 2;">
-      <div class="row align-items-center">
-        <!-- LHS Content -->
-        <div class="col-lg-5 mb-5 mb-lg-0 pr-lg-5" id="hsContentWrapper">
-          <span style="display:inline-block; color: #E21B1B; font-family:'Inter', sans-serif; font-size: 13px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px;"><i class="fa fa-fire"></i> Hot Sale Deals</span>
-          
-          <div id="hsTextContainer" style="margin-top: 10px; position: relative; min-height: 380px;">
-            <?php foreach ($hotOffers as $index => $offer): ?>
-              <div class="hs-text hs-text-<?= $index ?>" style="position: absolute; top:0; left:0; width: 100%; opacity: <?= $index === 0 ? 1 : 0 ?>; visibility: <?= $index === 0 ? 'visible' : 'hidden' ?>; transition: all 0.5s ease; transform: translateY(<?= $index === 0 ? '0' : '20px' ?>);">
-                <h2 style="font-family:'Cormorant Garant',serif; font-size:48px; font-weight:700; color:#fff; line-height:1.1; margin-bottom: 20px; text-shadow: 0 2px 4px rgba(0,0,0,0.5);"><?= htmlspecialchars($offer['title']) ?></h2>
-                <p style="font-size:16px; color:rgba(255,255,255,0.85); line-height:1.7; margin-bottom: 30px;">
-                  Experience the magic of this destination. Book now to enjoy exclusive discounts on this unforgettable journey and create memories that will last a lifetime.
-                </p>
-                <div class="d-flex align-items-center">
-                  <div style="margin-right: 40px;">
-                    <span style="font-size:11px; color:rgba(255,255,255,0.6); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:4px; font-weight:600;">Duration</span>
-                    <span style="font-size:20px; font-weight:700; color:#fff;"><i class="fa fa-clock-o" style="color:#C49018; margin-right:5px;"></i> <?= htmlspecialchars($offer['duration_days']) ?> Days</span>
-                  </div>
-                  <div>
-                    <span style="font-size:11px; color:rgba(255,255,255,0.6); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:4px; font-weight:600;">Starting From</span>
-                    <span style="font-size:26px; font-weight:700; color:#C49018;">$<?= number_format($offer['price_from_usd']) ?></span>
-                  </div>
-                </div>
-              </div>
-            <?php endforeach; ?>
+    <section class="hot-sale-section" id="hotSaleSection"
+      style="position: relative; overflow: hidden; background-color: #1C1712; color: #fff; padding: 100px 0; margin-bottom: 0;">
+      <!-- Background Images Container -->
+      <div id="hsBackgrounds" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;">
+        <?php foreach ($hotOffers as $index => $offer):
+          $img = $offer['featured_image'] ? 'uploads/' . $offer['featured_image'] : 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
+          ?>
+          <div class="hs-bg hs-bg-<?= $index ?>"
+            style="position: absolute; top:0; left:0; width: 100%; height: 100%; background-image: url('<?= htmlspecialchars($img) ?>'); background-size: cover; background-position: center; opacity: <?= $index === 0 ? 1 : 0 ?>; transition: opacity 0.8s ease;">
           </div>
-          
-          <div class="hs-controls d-flex align-items-center" style="position: relative; z-index: 10; margin-top: 20px;">
-            <button id="hsPrev" style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.3); color:#fff; width:48px; height:48px; border-radius:50%; margin-right:15px; cursor:pointer; transition:all 0.3s; z-index:10;"><i class="fa fa-arrow-left"></i></button>
-            <button id="hsNext" style="background:#E21B1B; border:1px solid #E21B1B; color:#fff; width:48px; height:48px; border-radius:50%; cursor:pointer; transition:all 0.3s; z-index:10;"><i class="fa fa-arrow-right"></i></button>
-          </div>
+        <?php endforeach; ?>
+        <!-- Gradient Overlay -->
+        <div
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to right, rgba(28,23,18,0.5) 0%, rgba(28,23,18,0.85) 45%, #1C1712 65%, #1C1712 100%); z-index: 1;">
         </div>
-        
-        <!-- RHS Cards -->
-        <div class="col-lg-7">
-          <div style="position: relative; width: 100%; height: 500px; overflow: hidden; perspective: 1000px;">
-            <?php foreach ($hotOffers as $index => $offer): 
-              $img = $offer['featured_image'] ? 'uploads/' . $offer['featured_image'] : 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
-            ?>
-              <div class="hs-card hs-card-<?= $index ?>" data-index="<?= $index ?>" style="position: absolute; top: 50%; left: 0; width: 340px; height: 420px; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.4); transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); cursor:pointer;">
-                <img src="<?= htmlspecialchars($img) ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="">
-                <div style="position: absolute; bottom:0; left:0; width:100%; padding:25px; background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);">
-                  <span style="background: #E21B1B; color: #fff; font-size: 11px; font-weight:700; padding: 4px 10px; border-radius: 4px; text-transform:uppercase; margin-bottom: 12px; display:inline-block; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">Hot Deal</span>
-                  <h4 style="color:#fff; font-family:'Inter',sans-serif; font-weight:700; font-size:22px; line-height:1.2; margin-bottom:15px; text-shadow: 0 2px 4px rgba(0,0,0,0.6);"><?= htmlspecialchars($offer['title']) ?></h4>
-                  <a href="tours/<?= $offer['slug'] ?>" class="btn btn-sm" style="background:#C49018; color:#fff; border-radius:30px; font-weight:600; padding:8px 24px; text-transform:uppercase; font-size:13px; letter-spacing:1px;">View Deal <i class="fa fa-arrow-right ml-1"></i></a>
+      </div>
+
+      <div class="container" style="max-width:1280px; position: relative; z-index: 2;">
+        <div class="row align-items-center">
+          <!-- LHS Content -->
+          <div class="col-lg-5 mb-5 mb-lg-0 pr-lg-5" id="hsContentWrapper">
+            <span
+              style="display:inline-block; color: #E21B1B; font-family:'Inter', sans-serif; font-size: 13px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px;"><i
+                class="fa fa-fire"></i> Hot Sale Deals</span>
+
+            <div id="hsTextContainer" style="margin-top: 10px; position: relative; min-height: 380px;">
+              <?php foreach ($hotOffers as $index => $offer): ?>
+                <div class="hs-text hs-text-<?= $index ?>"
+                  style="position: absolute; top:0; left:0; width: 100%; opacity: <?= $index === 0 ? 1 : 0 ?>; visibility: <?= $index === 0 ? 'visible' : 'hidden' ?>; transition: all 0.5s ease; transform: translateY(<?= $index === 0 ? '0' : '20px' ?>);">
+                  <h2
+                    style="font-family:'Cormorant Garant',serif; font-size:48px; font-weight:700; color:#fff; line-height:1.1; margin-bottom: 20px; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
+                    <?= htmlspecialchars($offer['title']) ?></h2>
+                  <p style="font-size:16px; color:rgba(255,255,255,0.85); line-height:1.7; margin-bottom: 30px;">
+                    Experience the magic of this destination. Book now to enjoy exclusive discounts on this unforgettable
+                    journey and create memories that will last a lifetime.
+                  </p>
+                  <div class="d-flex align-items-center">
+                    <div style="margin-right: 40px;">
+                      <span
+                        style="font-size:11px; color:rgba(255,255,255,0.6); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:4px; font-weight:600;">Duration</span>
+                      <span style="font-size:20px; font-weight:700; color:#fff;"><i class="fa fa-clock-o"
+                          style="color:#C49018; margin-right:5px;"></i> <?= htmlspecialchars($offer['duration_days']) ?>
+                        Days</span>
+                    </div>
+                    <div>
+                      <span
+                        style="font-size:11px; color:rgba(255,255,255,0.6); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:4px; font-weight:600;">Starting
+                        From</span>
+                      <span
+                        style="font-size:26px; font-weight:700; color:#C49018;">$<?= number_format($offer['price_from_usd']) ?></span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            <?php endforeach; ?>
+              <?php endforeach; ?>
+            </div>
+
+            <div class="hs-controls d-flex align-items-center" style="position: relative; z-index: 10; margin-top: 20px;">
+              <button id="hsPrev"
+                style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.3); color:#fff; width:48px; height:48px; border-radius:50%; margin-right:15px; cursor:pointer; transition:all 0.3s; z-index:10;"><i
+                  class="fa fa-arrow-left"></i></button>
+              <button id="hsNext"
+                style="background:#E21B1B; border:1px solid #E21B1B; color:#fff; width:48px; height:48px; border-radius:50%; cursor:pointer; transition:all 0.3s; z-index:10;"><i
+                  class="fa fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <!-- RHS Cards -->
+          <div class="col-lg-7">
+            <div style="position: relative; width: 100%; height: 500px; overflow: hidden; perspective: 1000px;">
+              <?php foreach ($hotOffers as $index => $offer):
+                $img = $offer['featured_image'] ? 'uploads/' . $offer['featured_image'] : 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
+                ?>
+                <div class="hs-card hs-card-<?= $index ?>" data-index="<?= $index ?>"
+                  style="position: absolute; top: 50%; left: 0; width: 340px; height: 420px; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.4); transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); cursor:pointer;">
+                  <img src="<?= htmlspecialchars($img) ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="">
+                  <div
+                    style="position: absolute; bottom:0; left:0; width:100%; padding:25px; background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);">
+                    <span
+                      style="background: #E21B1B; color: #fff; font-size: 11px; font-weight:700; padding: 4px 10px; border-radius: 4px; text-transform:uppercase; margin-bottom: 12px; display:inline-block; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">Hot
+                      Deal</span>
+                    <h4
+                      style="color:#fff; font-family:'Inter',sans-serif; font-weight:700; font-size:22px; line-height:1.2; margin-bottom:15px; text-shadow: 0 2px 4px rgba(0,0,0,0.6);">
+                      <?= htmlspecialchars($offer['title']) ?></h4>
+                    <a href="tours/<?= $offer['slug'] ?>" class="btn btn-sm"
+                      style="background:#C49018; color:#fff; border-radius:30px; font-weight:600; padding:8px 24px; text-transform:uppercase; font-size:13px; letter-spacing:1px;">View
+                      Deal <i class="fa fa-arrow-right ml-1"></i></a>
+                  </div>
+                </div>
+              <?php endforeach; ?>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const totalItems = <?= count($hotOffers) ?>;
-    if (totalItems === 0) return;
-    
-    let currentIndex = 0;
-    let interval;
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const totalItems = <?= count($hotOffers) ?>;
+        if (totalItems === 0) return;
 
-    function updateSlider(index) {
-      // Backgrounds
-      document.querySelectorAll('.hs-bg').forEach((bg, i) => {
-        bg.style.opacity = (i === index) ? '1' : '0';
-      });
-      
-      // Texts
-      document.querySelectorAll('.hs-text').forEach((txt, i) => {
-        if (i === index) {
-          txt.style.opacity = '1';
-          txt.style.visibility = 'visible';
-          txt.style.transform = 'translateY(0)';
-        } else {
-          txt.style.opacity = '0';
-          txt.style.visibility = 'hidden';
-          txt.style.transform = 'translateY(20px)';
+        let currentIndex = 0;
+        let interval;
+
+        function updateSlider(index) {
+          // Backgrounds
+          document.querySelectorAll('.hs-bg').forEach((bg, i) => {
+            bg.style.opacity = (i === index) ? '1' : '0';
+          });
+
+          // Texts
+          document.querySelectorAll('.hs-text').forEach((txt, i) => {
+            if (i === index) {
+              txt.style.opacity = '1';
+              txt.style.visibility = 'visible';
+              txt.style.transform = 'translateY(0)';
+            } else {
+              txt.style.opacity = '0';
+              txt.style.visibility = 'hidden';
+              txt.style.transform = 'translateY(20px)';
+            }
+          });
+
+          // Cards (Active is on left, Next is on right but scaled down, others hidden)
+          document.querySelectorAll('.hs-card').forEach((card, i) => {
+            if (i === index) {
+              // Active card
+              card.style.opacity = '1';
+              card.style.transform = 'translateY(-50%) translateX(20px) scale(1)';
+              card.style.zIndex = '3';
+              card.style.pointerEvents = 'auto';
+            } else if (i === (index + 1) % totalItems) {
+              // Next card preview
+              card.style.opacity = '0.5';
+              card.style.transform = 'translateY(-50%) translateX(380px) scale(0.85)';
+              card.style.zIndex = '2';
+              card.style.pointerEvents = 'none';
+            } else {
+              // Hidden cards
+              card.style.opacity = '0';
+              card.style.transform = 'translateY(-50%) translateX(450px) scale(0.7)';
+              card.style.zIndex = '1';
+              card.style.pointerEvents = 'none';
+            }
+          });
         }
-      });
 
-      // Cards (Active is on left, Next is on right but scaled down, others hidden)
-      document.querySelectorAll('.hs-card').forEach((card, i) => {
-        if (i === index) {
-          // Active card
-          card.style.opacity = '1';
-          card.style.transform = 'translateY(-50%) translateX(20px) scale(1)';
-          card.style.zIndex = '3';
-          card.style.pointerEvents = 'auto';
-        } else if (i === (index + 1) % totalItems) {
-          // Next card preview
-          card.style.opacity = '0.5';
-          card.style.transform = 'translateY(-50%) translateX(380px) scale(0.85)';
-          card.style.zIndex = '2';
-          card.style.pointerEvents = 'none';
-        } else {
-          // Hidden cards
-          card.style.opacity = '0';
-          card.style.transform = 'translateY(-50%) translateX(450px) scale(0.7)';
-          card.style.zIndex = '1';
-          card.style.pointerEvents = 'none';
+        function nextSlide() {
+          currentIndex = (currentIndex + 1) % totalItems;
+          updateSlider(currentIndex);
         }
-      });
-    }
 
-    function nextSlide() {
-      currentIndex = (currentIndex + 1) % totalItems;
-      updateSlider(currentIndex);
-    }
+        function prevSlide() {
+          currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+          updateSlider(currentIndex);
+        }
 
-    function prevSlide() {
-      currentIndex = (currentIndex - 1 + totalItems) % totalItems;
-      updateSlider(currentIndex);
-    }
+        const nextBtn = document.getElementById('hsNext');
+        const prevBtn = document.getElementById('hsPrev');
 
-    const nextBtn = document.getElementById('hsNext');
-    const prevBtn = document.getElementById('hsPrev');
+        if (nextBtn) {
+          nextBtn.addEventListener('click', () => {
+            nextSlide();
+            resetInterval();
+          });
+        }
 
-    if (nextBtn) {
-      nextBtn.addEventListener('click', () => {
-        nextSlide();
+        if (prevBtn) {
+          prevBtn.addEventListener('click', () => {
+            prevSlide();
+            resetInterval();
+          });
+        }
+
+        function resetInterval() {
+          clearInterval(interval);
+          interval = setInterval(nextSlide, 6000);
+        }
+
+        // Initialize
+        updateSlider(0);
         resetInterval();
       });
-    }
+    </script>
+    <style>
+      #hsPrev:hover {
+        background: rgba(255, 255, 255, 0.2) !important;
+      }
 
-    if (prevBtn) {
-      prevBtn.addEventListener('click', () => {
-        prevSlide();
-        resetInterval();
-      });
-    }
-
-    function resetInterval() {
-      clearInterval(interval);
-      interval = setInterval(nextSlide, 6000);
-    }
-
-    // Initialize
-    updateSlider(0);
-    resetInterval();
-  });
-  </script>
-  <style>
-    #hsPrev:hover { background: rgba(255,255,255,0.2) !important; }
-    #hsNext:hover { background: #d31a1a !important; }
-  </style>
+      #hsNext:hover {
+        background: #d31a1a !important;
+      }
+    </style>
   <?php endif; ?>
 
   <!-- ====== FEATURED TOURS ====== -->
@@ -469,14 +598,14 @@ function getTourRoute($pdo, $tourId)
           $img = !empty($tour['featured_image']) ? 'uploads/' . $tour['featured_image'] : 'images/Filao/East Africa/pexels-balazsimon-15993990.jpg';
           $route = getTourRoute($pdo, $tour['id']);
           $excerpt = !empty($tour['excerpt']) ? $tour['excerpt'] : ($tourExcerpts[$idx] ?? 'An expertly guided safari through Kenya\'s most spectacular landscapes and wildlife destinations.');
-          $nights = max(1, (int)($tour['duration_days'] ?? 1)) - 1;
+          $nights = max(1, (int) ($tour['duration_days'] ?? 1)) - 1;
           $price = !empty($tour['price_from_usd']) ? '$' . number_format($tour['price_from_usd']) : 'Contact Us';
           ?>
           <div class="col-lg-4 col-md-6 mb-5 d-flex">
             <div class="fa-tour-card w-100">
               <div class="tc-image-wrap">
-                <img src="<?= htmlspecialchars($img) ?>" alt="<?= htmlspecialchars($tour['title'] ?? '') ?>" class="tc-image"
-                  loading="lazy">
+                <img src="<?= htmlspecialchars($img) ?>" alt="<?= htmlspecialchars($tour['title'] ?? '') ?>"
+                  class="tc-image" loading="lazy">
                 <div class="tc-price-badge <?= !empty($tour['price_from_usd']) ? '' : 'contact' ?>">
                   <?= !empty($tour['price_from_usd']) ? '$' . number_format($tour['price_from_usd']) . '/person' : 'Enquire' ?>
                 </div>
@@ -484,7 +613,8 @@ function getTourRoute($pdo, $tourId)
               </div>
               <div class="tc-body">
                 <div class="tc-country">Kenya &bull; Safari</div>
-                <div class="tc-title"><a href="tours/<?= $tour['slug'] ?? '' ?>"><?= htmlspecialchars($tour['title'] ?? '') ?></a>
+                <div class="tc-title"><a
+                    href="tours/<?= $tour['slug'] ?? '' ?>"><?= htmlspecialchars($tour['title'] ?? '') ?></a>
                 </div>
                 <?php if ($route): ?>
                   <div class="tc-route"><i class="fa fa-map-marker"></i><?= htmlspecialchars($route) ?></div>
@@ -492,7 +622,8 @@ function getTourRoute($pdo, $tourId)
                 <div class="tc-excerpt"><?= htmlspecialchars(substr(strip_tags($excerpt), 0, 130)) ?>...</div>
                 <div class="tc-footer">
                   <div class="tc-price-text">From <strong><?= $price ?></strong></div>
-                  <a href="tours/<?= $tour['slug'] ?? '' ?>" class="tc-cta" style="padding:10px 24px; font-size:11px;">View
+                  <a href="tours/<?= $tour['slug'] ?? '' ?>" class="tc-cta"
+                    style="padding:10px 24px; font-size:11px;">View
                     Itinerary</a>
                 </div>
               </div>
@@ -500,15 +631,14 @@ function getTourRoute($pdo, $tourId)
           </div>
         <?php endforeach; ?>
       </div>
-      </div>
-      <div class="text-center mt-3">
-        <a href="tours" class="view-all-link" style="font-size:12px;">View All Tours &rarr;</a>
-      </div>
+    </div>
+    <div class="text-center mt-3">
+      <a href="tours" class="view-all-link" style="font-size:12px;">View All Tours &rarr;</a>
+    </div>
     </div>
   </section>
-
   <!-- ====== DESTINATIONS CAROUSEL ====== -->
-  <section class="section-pad bg-earth">
+  <section class="section-pad bg-earth" style="overflow:hidden;">
     <div class="container" style="max-width:1280px;">
       <div class="row">
         <div class="col-12">
@@ -518,52 +648,211 @@ function getTourRoute($pdo, $tourId)
           </div>
         </div>
       </div>
-      <div class="carousel-destination owl-carousel">
-        <?php foreach ($countries as $dest):
-          if (!$dest['featured_image'])
-            continue;
-          $img = $dest['featured_image'];
-          if (!str_starts_with($img, 'http') && !str_starts_with($img, 'images/')) {
-            $img = 'uploads/' . $img;
-          }
-          $countrySlug = strtolower(str_replace(' ', '-', $dest['country']));
-          ?>
-          <?php
-          $countryName = $dest['country'];
-          $region = 'Africa';
-          $cLower = strtolower(trim($countryName));
-          if (in_array($cLower, ['maldives', 'sri lanka', 'indonesia', 'bali'])) {
+    </div>
+
+    <!-- Carousel Wrapper -->
+    <div class="fa-dest-carousel-outer" style="position:relative; max-width:1280px; margin:0 auto; padding:0 60px;">
+      <!-- Prev Button -->
+      <button class="fa-dest-prev" aria-label="Previous"
+        style="position:absolute;left:0;top:50%;transform:translateY(-50%);z-index:10;width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.4);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .25s,transform .2s;backdrop-filter:blur(4px);">&#8592;</button>
+      <!-- Next Button -->
+      <button class="fa-dest-next" aria-label="Next"
+        style="position:absolute;right:0;top:50%;transform:translateY(-50%);z-index:10;width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.4);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .25s,transform .2s;backdrop-filter:blur(4px);">&#8594;</button>
+
+      <!-- Track -->
+      <div class="fa-dest-carousel-track-wrap" style="overflow:hidden;">
+        <div class="fa-dest-carousel-track"
+          style="display:flex;gap:20px;transition:transform .45s cubic-bezier(.25,.46,.45,.94);will-change:transform;">
+          <?php foreach ($countries as $dest):
+            if (!$dest['featured_image'])
+              continue;
+            $img = $dest['featured_image'];
+            if (!str_starts_with($img, 'http') && !str_starts_with($img, 'images/')) {
+              $img = 'uploads/' . $img;
+            }
+            $countryName = $dest['country'];
+            $region = 'Africa';
+            $cLower = strtolower(trim($countryName));
+            if (in_array($cLower, ['maldives', 'sri lanka', 'indonesia', 'bali'])) {
               $region = 'Asia';
-          } elseif (in_array($cLower, ['uae', 'united arab emirates', 'dubai', 'oman', 'qatar'])) {
+            } elseif (in_array($cLower, ['uae', 'united arab emirates', 'dubai', 'oman', 'qatar'])) {
               $region = 'Middle East';
-          } elseif (in_array($cLower, ['france', 'italy', 'greece', 'spain', 'uk'])) {
+            } elseif (in_array($cLower, ['france', 'italy', 'greece', 'spain', 'uk'])) {
               $region = 'Europe';
-          } elseif (in_array($cLower, ['seychelles', 'mauritius', 'madagascar'])) {
+            } elseif (in_array($cLower, ['seychelles', 'mauritius', 'madagascar'])) {
               $region = 'Indian Ocean';
-          }
-          ?>
-          <div class="item">
-            <a href="country.php?name=<?= urlencode($countryName) ?>" class="fa-dest-card">
-              <img src="<?= htmlspecialchars($img) ?>" alt="<?= htmlspecialchars($countryName) ?>" loading="lazy">
-              <div class="dc-overlay"></div>
-              <div class="dc-text">
-                <div class="dc-region"><?= htmlspecialchars($region) ?></div>
-                <div class="dc-name"><?= htmlspecialchars($countryName) ?></div>
-              </div>
-              <?php if ($dest['tour_count'] > 0): ?>
-                <div class="dc-tour-count"><?= $dest['tour_count'] ?> Tour<?= $dest['tour_count'] > 1 ? 's' : '' ?></div>
-              <?php endif; ?>
-            </a>
-          </div>
-        <?php endforeach; ?>
-      </div>
-      <div class="row mt-5">
-        <div class="col-12 text-center mt-5">
-          <a href="destinations" class="btn-filao-cta">View All Regions</a>
+            }
+            ?>
+            <div class="fa-dest-slide" style="flex:0 0 calc(25% - 15px);min-width:calc(25% - 15px);">
+              <a href="country.php?name=<?= urlencode($countryName) ?>" class="fa-dest-card" style="display:block; position:relative; width:100%; border-radius:10px; overflow:hidden; height:400px; text-decoration:none; border:1px solid #E5DDD0; background:#000;">
+                <img src="<?= htmlspecialchars($img) ?>" alt="<?= htmlspecialchars($countryName) ?>" style="width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.5s ease;">
+                
+                <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%);"></div>
+                
+                <?php if ($dest['tour_count'] > 0): ?>
+                  <div style="position:absolute; top:15px; left:15px; background:rgba(28,23,18,0.75); color:#fff; border:1px solid rgba(196,144,24,0.4); backdrop-filter:blur(4px); font-family:'Inter',sans-serif; font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:5px 12px; border-radius:30px; z-index:2;">
+                    <?= $dest['tour_count'] ?> Tour<?= $dest['tour_count'] > 1 ? 's' : '' ?>
+                  </div>
+                <?php endif; ?>
+
+                <div style="position:absolute; bottom:45px; left:0; right:0; padding:20px 20px 15px; display:flex; flex-direction:column; z-index:2;">
+                  <div style="font-family:'Inter',sans-serif; font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.8); margin-bottom:4px;">
+                    <?= htmlspecialchars($region) ?>
+                  </div>
+                  <div style="font-family:'Cormorant Garant',serif; font-size:26px; font-weight:600; color:#fff; line-height:1.2;">
+                    <?= htmlspecialchars($countryName) ?>
+                  </div>
+                </div>
+                
+                <div style="position:absolute; bottom:0; left:0; right:0; z-index:3;">
+                  <span class="dc-explore-btn">
+                    Explore Destination
+                  </span>
+                </div>
+              </a>
+            </div>
+          <?php endforeach; ?>
         </div>
       </div>
     </div>
+
+    <!-- Pagination Dots -->
+    <div class="fa-dest-dots" style="display:flex;justify-content:center;gap:8px;margin-top:28px;"></div>
+
+    <div style="text-align:center;margin-top:36px;">
+      <a href="destinations" class="btn-filao-cta">View All Regions</a>
+    </div>
   </section>
+
+  <style>
+    .fa-dest-card img {
+      transition: transform .5s ease;
+    }
+
+    .fa-dest-card:hover img {
+      transform: scale(1.06);
+    }
+
+    .fa-dest-prev:hover,
+    .fa-dest-next:hover {
+      background: rgba(196, 144, 24, 0.85) !important;
+      border-color: #C49018 !important;
+      transform: translateY(-50%) scale(1.08) !important;
+    }
+
+    .fa-dest-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.35);
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: background .25s, transform .2s;
+    }
+
+    .fa-dest-dot.active {
+      background: #C49018;
+      transform: scale(1.3);
+    }
+
+    @media(max-width:1024px) {
+      .fa-dest-slide {
+        flex: 0 0 calc(33.333% - 14px) !important;
+        min-width: calc(33.333% - 14px) !important;
+      }
+    }
+
+    @media(max-width:768px) {
+      .fa-dest-carousel-outer {
+        padding: 0 44px !important;
+      }
+
+      .fa-dest-slide {
+        flex: 0 0 calc(50% - 10px) !important;
+        min-width: calc(50% - 10px) !important;
+      }
+    }
+
+    @media(max-width:480px) {
+      .fa-dest-carousel-outer {
+        padding: 0 36px !important;
+      }
+
+      .fa-dest-slide {
+        flex: 0 0 calc(100% - 0px) !important;
+        min-width: calc(100% - 0px) !important;
+      }
+    }
+  </style>
+
+  <script>
+    (function () {
+      var track = document.querySelector('.fa-dest-carousel-track');
+      var slides = document.querySelectorAll('.fa-dest-slide');
+      var dotsContainer = document.querySelector('.fa-dest-dots');
+      if (!track || !slides.length) return;
+
+      var currentIndex = 0;
+      var slidesPerView = 4;
+
+      function getSlidesPerView() {
+        var w = window.innerWidth;
+        if (w <= 480) return 1;
+        if (w <= 768) return 2;
+        if (w <= 1024) return 3;
+        return 4;
+      }
+
+      function buildDots() {
+        dotsContainer.innerHTML = '';
+        slidesPerView = getSlidesPerView();
+        var totalPages = Math.ceil(slides.length / slidesPerView);
+        for (var i = 0; i < totalPages; i++) {
+          var dot = document.createElement('button');
+          dot.className = 'fa-dest-dot' + (i === 0 ? ' active' : '');
+          dot.setAttribute('aria-label', 'Page ' + (i + 1));
+          dot.dataset.page = i;
+          dot.addEventListener('click', function () { goTo(parseInt(this.dataset.page) * getSlidesPerView()); });
+          dotsContainer.appendChild(dot);
+        }
+      }
+
+      function updateDots() {
+        var spv = getSlidesPerView();
+        var activePage = Math.round(currentIndex / spv);
+        document.querySelectorAll('.fa-dest-dot').forEach(function (d, i) {
+          d.classList.toggle('active', i === activePage);
+        });
+      }
+
+      function goTo(index) {
+        var spv = getSlidesPerView();
+        var max = Math.max(0, slides.length - spv);
+        currentIndex = Math.max(0, Math.min(index, max));
+        var slideWidth = slides[0].offsetWidth + 20;
+        track.style.transform = 'translateX(-' + (currentIndex * slideWidth) + 'px)';
+        updateDots();
+      }
+
+      document.querySelector('.fa-dest-prev').addEventListener('click', function () {
+        goTo(currentIndex - getSlidesPerView());
+      });
+      document.querySelector('.fa-dest-next').addEventListener('click', function () {
+        goTo(currentIndex + getSlidesPerView());
+      });
+
+      buildDots();
+      window.addEventListener('resize', function () { buildDots(); goTo(0); });
+
+      // Auto-play every 5s
+      setInterval(function () {
+        var spv = getSlidesPerView();
+        var max = Math.max(0, slides.length - spv);
+        goTo(currentIndex + spv > max ? 0 : currentIndex + spv);
+      }, 5000);
+    })();
+  </script>
 
   <!-- ====== STATS BAR ====== -->
   <section class="fa-stats-bar" style="border-top:1px solid rgba(255,255,255,.07);">
@@ -603,8 +892,8 @@ function getTourRoute($pdo, $tourId)
       <div class="row align-items-center">
         <div class="col-lg-5 mb-5 mb-lg-0">
           <div style="overflow:hidden;border-radius:4px;height:520px;">
-            <img src="images/Filao/Company/tourists behind safari car.jpeg"
-              alt="Filao Adventures Story" style="width:100%;height:100%;object-fit:cover;display:block;">
+            <img src="images/Filao/Company/tourists behind safari car.jpeg" alt="Filao Adventures Story"
+              style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
         </div>
         <div class="col-lg-6 offset-lg-1">
@@ -663,8 +952,10 @@ function getTourRoute($pdo, $tourId)
       </div>
       <div class="row justify-content-center">
         <div class="col-lg-10">
-          <div style="background: rgba(255,255,255,0.05); padding: 40px; border-radius: 12px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);">
-            <div id="featurable-ca357a07-9cb6-4644-8d3e-18eac19a55c6" data-featurable-async></div><script src="https://featurable.com/assets/bundle.js" defer charset="UTF-8"></script> 
+          <div
+            style="background: rgba(255,255,255,0.05); padding: 40px; border-radius: 12px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);">
+            <div id="featurable-16f22807-3fe2-4d25-8b1d-f18fe679684a" data-featurable-async></div>
+            <script src="https://featurable.com/assets/bundle.js" defer charset="UTF-8"></script>
           </div>
         </div>
       </div>
@@ -683,25 +974,30 @@ function getTourRoute($pdo, $tourId)
         </div>
       </div>
       <div class="row">
-        <?php foreach($recent_blogs as $blog): 
-           $imgSrc = $blog['featured_image'] ? (str_starts_with($blog['featured_image'],'images/') ? $blog['featured_image'] : 'uploads/'.$blog['featured_image']) : 'images/Filao/East Africa/pexels-droneafrica-13234382.jpg';
-        ?>
-        <div class="col-lg-4 col-md-6 mb-5 d-flex align-items-stretch">
-          <div class="fa-blog-card w-100">
-            <div class="bc-image-wrap">
-              <a href="blog-detail?slug=<?= htmlspecialchars($blog['slug']) ?>">
-                <img src="<?= htmlspecialchars($imgSrc) ?>" alt="<?= htmlspecialchars($blog['title']) ?>" class="bc-image" loading="lazy">
-              </a>
+        <?php foreach ($recent_blogs as $blog):
+          $imgSrc = $blog['featured_image'] ? (str_starts_with($blog['featured_image'], 'images/') ? $blog['featured_image'] : 'uploads/' . $blog['featured_image']) : 'images/Filao/East Africa/pexels-droneafrica-13234382.jpg';
+          ?>
+          <div class="col-lg-4 col-md-6 mb-5 d-flex align-items-stretch">
+            <div class="fa-blog-card w-100">
+              <div class="bc-image-wrap">
+                <a href="blog-detail?slug=<?= htmlspecialchars($blog['slug']) ?>">
+                  <img src="<?= htmlspecialchars($imgSrc) ?>" alt="<?= htmlspecialchars($blog['title']) ?>"
+                    class="bc-image" loading="lazy">
+                </a>
+              </div>
+              <div class="bc-meta">
+                <span class="bc-date"><?= date('M d, Y', strtotime($blog['created_at'])) ?></span>
+                <span class="bc-cat"><?= htmlspecialchars($blog['category'] ?? 'Uncategorized') ?></span>
+              </div>
+              <div class="bc-title"><a
+                  href="blog-detail?slug=<?= htmlspecialchars($blog['slug']) ?>"><?= htmlspecialchars($blog['title']) ?></a>
+              </div>
+              <div class="bc-excerpt">
+                <?= htmlspecialchars(mb_strimwidth(strip_tags($blog['excerpt'] ?: $blog['body']), 0, 120, '...')) ?></div>
+              <a href="blog-detail?slug=<?= htmlspecialchars($blog['slug']) ?>" class="bc-link">Read More <i
+                  class="fa fa-arrow-right"></i></a>
             </div>
-            <div class="bc-meta">
-              <span class="bc-date"><?= date('M d, Y', strtotime($blog['created_at'])) ?></span>
-              <span class="bc-cat"><?= htmlspecialchars($blog['category'] ?? 'Uncategorized') ?></span>
-            </div>
-            <div class="bc-title"><a href="blog-detail?slug=<?= htmlspecialchars($blog['slug']) ?>"><?= htmlspecialchars($blog['title']) ?></a></div>
-            <div class="bc-excerpt"><?= htmlspecialchars(mb_strimwidth(strip_tags($blog['excerpt'] ?: $blog['body']), 0, 120, '...')) ?></div>
-            <a href="blog-detail?slug=<?= htmlspecialchars($blog['slug']) ?>" class="bc-link">Read More <i class="fa fa-arrow-right"></i></a>
           </div>
-        </div>
         <?php endforeach; ?>
       </div>
       <div class="text-center"><a href="blog" class="view-all-link">View All Articles &rarr;</a></div>
@@ -759,30 +1055,30 @@ function getTourRoute($pdo, $tourId)
         loop: true, margin: 24, nav: false, dots: true, autoplay: true, autoplayTimeout: 5000,
         responsive: { 0: { items: 1 }, 768: { items: 2 } }
       });
-      
+
       // Hero AJAX Search
       var heroSearchInput = document.getElementById('hero-live-search');
       var heroSearchResults = document.getElementById('hero-search-results');
       if (heroSearchInput && heroSearchResults) {
         var heroSearchTimeout;
-        heroSearchInput.addEventListener('input', function() {
+        heroSearchInput.addEventListener('input', function () {
           var q = this.value.trim();
           clearTimeout(heroSearchTimeout);
-          
+
           if (q.length < 2) {
             heroSearchResults.classList.add('d-none');
             return;
           }
-          
-          heroSearchTimeout = setTimeout(function() {
+
+          heroSearchTimeout = setTimeout(function () {
             fetch('ajax-search.php?q=' + encodeURIComponent(q))
-              .then(function(res) { return res.json(); })
-              .then(function(data) {
+              .then(function (res) { return res.json(); })
+              .then(function (data) {
                 if (data.length === 0) {
                   heroSearchResults.innerHTML = '<div style="padding:16px;color:#6B6358;font-size:14px;text-align:center;">No results found</div>';
                 } else {
                   var html = '<ul style="list-style:none;margin:0;padding:0;">';
-                  data.forEach(function(item) {
+                  data.forEach(function (item) {
                     html += `
                       <li style="border-bottom:1px solid #E5DDD0;">
                         <a href="${item.url}" style="display:flex;align-items:center;padding:12px 16px;text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='#FAF8F4'" onmouseout="this.style.background='transparent'">
@@ -800,19 +1096,19 @@ function getTourRoute($pdo, $tourId)
                 }
                 heroSearchResults.classList.remove('d-none');
               })
-              .catch(function(err) {
+              .catch(function (err) {
                 console.error('Search error', err);
               });
           }, 300);
         });
-        
-        document.addEventListener('click', function(e) {
+
+        document.addEventListener('click', function (e) {
           if (!e.target.closest('.fa-search-field')) {
             heroSearchResults.classList.add('d-none');
           }
         });
       }
-      
+
       // Explicitly initialize and start carousel
       if (typeof jQuery !== 'undefined') {
         $('#heroCarousel').carousel({

@@ -26,7 +26,21 @@ $gallery = $gallery->fetchAll();
 // Build map waypoints JSON for Leaflet
 $waypoints = [];
 $destNames = [];
-$nairobiCoords = ['lat' => -1.2921, 'lng' => 36.8219, 'name' => 'Nairobi (Start)', 'day' => 1];
+$startCoords = ['lat' => -1.2921, 'lng' => 36.8219, 'name' => 'Nairobi'];
+
+// Check if tour has a start_destination_id
+if (!empty($tour['start_destination_id'])) {
+    $startDestStmt = $pdo->prepare('SELECT name, latitude, longitude FROM destinations WHERE id=?');
+    $startDestStmt->execute([$tour['start_destination_id']]);
+    $startDest = $startDestStmt->fetch();
+    if ($startDest) {
+        $startCoords = [
+            'lat' => (float)$startDest['latitude'], 
+            'lng' => (float)$startDest['longitude'], 
+            'name' => $startDest['name']
+        ];
+    }
+}
 
 foreach($steps as $step) {
   $destNames[] = $step['dest_name'];
@@ -35,16 +49,19 @@ foreach($steps as $step) {
   }
 }
 
-// Ensure Nairobi is the first waypoint
-if (count($waypoints) > 0 && stripos($waypoints[0]['name'], 'Nairobi') === false) {
-    array_unshift($waypoints, $nairobiCoords);
+// Ensure start point is the first waypoint
+if (count($waypoints) > 0 && stripos($waypoints[0]['name'], $startCoords['name']) === false) {
+    $firstPoint = $startCoords;
+    $firstPoint['name'] = $startCoords['name'] . ' (Start)';
+    $firstPoint['day'] = 1;
+    array_unshift($waypoints, $firstPoint);
 }
-// Ensure Nairobi is the last waypoint
-if (count($waypoints) > 0 && stripos($waypoints[count($waypoints)-1]['name'], 'Nairobi') === false) {
-    $endNairobi = $nairobiCoords;
-    $endNairobi['name'] = 'Nairobi (End)';
-    $endNairobi['day'] = end($waypoints)['day'] + 1;
-    $waypoints[] = $endNairobi;
+// Ensure start point is the last waypoint
+if (count($waypoints) > 0 && stripos($waypoints[count($waypoints)-1]['name'], $startCoords['name']) === false) {
+    $endPoint = $startCoords;
+    $endPoint['name'] = $startCoords['name'] . ' (End)';
+    $endPoint['day'] = end($waypoints)['day'] + 1;
+    $waypoints[] = $endPoint;
 }
 
 $waypointsJson = json_encode($waypoints);

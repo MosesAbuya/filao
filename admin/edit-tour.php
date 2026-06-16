@@ -81,14 +81,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $updateStmt = $pdo->prepare("UPDATE tours SET 
             title=?, slug=?, description=?, excerpt=?, duration_days=?, price_from_usd=?, 
-            status=?, featured_image=?, focus_keyphrase=?, seo_title=?, meta_description=?, 
+            status=?, start_destination_id=?, featured_image=?, focus_keyphrase=?, seo_title=?, meta_description=?, 
             highlights=?, inclusions=?, exclusions=?, is_hot_offer=?, is_active_ad=?, is_joining_tour=?, 
             price_1_pax=?, price_2_pax=?, price_3_pax=?, price_4_pax=?, price_5_pax=?, price_6_pax=?,
             price_child_1_pax=?, price_child_2_pax=?, price_child_3_pax=?, price_child_4_pax=?, price_child_5_pax=?, price_child_6_pax=? WHERE id=?");
             
         $updateStmt->execute([
             $title, $slug, $_POST['description'] ?? '', $_POST['excerpt'] ?? '', 
-            (int)$_POST['duration_days'], (float)$_POST['price_from_usd'], $status, $featuredImage,
+            (int)$_POST['duration_days'], (float)$_POST['price_from_usd'], $status, 
+            !empty($_POST['start_destination_id']) ? (int)$_POST['start_destination_id'] : null,
+            $featuredImage,
             $_POST['focus_keyphrase'] ?? '', $_POST['seo_title'] ?? '', $_POST['meta_description'] ?? '',
             $_POST['highlights'] ?? '', $_POST['inclusions'] ?? '', $_POST['exclusions'] ?? '',
             isset($_POST['is_hot_offer']) ? 1 : 0,
@@ -306,6 +308,15 @@ include 'partials/sidebar.php';
                                             <input class="form-check-input" type="checkbox" role="switch" id="is_joining_tour" name="is_joining_tour" value="1" <?= $tour['is_joining_tour'] ? 'checked' : '' ?>>
                                             <label class="form-check-label" for="is_joining_tour">Joining Tour</label>
                                         </div>
+                                        <hr>
+                                        <label class="form-label mt-2">Map Starting Point</label>
+                                        <select name="start_destination_id" class="form-select">
+                                            <option value="">Default (Nairobi)</option>
+                                            <?php foreach ($destinations as $d): ?>
+                                                <option value="<?= $d['id'] ?>" <?= ($tour['start_destination_id'] == $d['id']) ? 'selected' : '' ?>><?= htmlspecialchars($d['name']) ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <small class="text-muted d-block mt-1">If blank, Nairobi is used.</small>
                                     </div>
                                 </div>
                                 <div class="panel mb-4">
