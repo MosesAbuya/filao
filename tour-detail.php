@@ -64,6 +64,25 @@ if (count($waypoints) > 0 && stripos($waypoints[count($waypoints)-1]['name'], $s
     $waypoints[] = $endPoint;
 }
 
+$tourCountries = [];
+foreach($steps as $step) {
+    if (!empty($step['country'])) {
+        $tourCountries[] = trim($step['country']);
+    }
+}
+$tourCountries = array_unique($tourCountries);
+$daysCount = $tour['duration_days'] ?? 1;
+$daysWord = $daysCount == 1 ? 'day' : 'days';
+
+if (count($tourCountries) > 1) {
+    $durationText = $daysCount . " $daysWord Combined in " . implode(' & ', $tourCountries);
+} elseif (count($tourCountries) == 1) {
+    $durationText = $daysCount . " $daysWord in " . array_values($tourCountries)[0];
+} else {
+    $fallbackCountry = !empty($tour['country']) ? $tour['country'] : 'East Africa';
+    $durationText = $daysCount . " $daysWord in " . $fallbackCountry;
+}
+
 $waypointsJson = json_encode($waypoints);
 $routeStr = implode(' &rarr; ', array_unique($destNames));
 $heroImg = !empty($tour['featured_image']) ? 'uploads/'.$tour['featured_image'] : 'images/Filao/East Africa/pexels-droneafrica-13234382.jpg';
@@ -138,7 +157,7 @@ $nights = max(1, (int)($tour['duration_days'] ?? 1)) - 1;
   <div class="overlay"></div>
   <div class="td-hero-content">
     <h1><?= htmlspecialchars($tour['title'] ?? '') ?></h1>
-    <p class="duration"><?= htmlspecialchars($tour['duration_days'] ?? '1') ?> days in <?= htmlspecialchars($tour['country'] ?? 'East Africa') ?></p>
+    <p class="duration"><?= htmlspecialchars($durationText) ?></p>
     <a href="#" class="btn-hero" data-open-planner="true" data-tour-id="<?= $tour['id'] ?? '' ?>" data-tour-title="<?= htmlspecialchars($tour['title'] ?? '') ?>">Start Planning Now</a>
   </div>
   <div class="hero-breadcrumb">
@@ -183,7 +202,7 @@ $nights = max(1, (int)($tour['duration_days'] ?? 1)) - 1;
         <!-- OVERVIEW -->
         <div class="tab-pane fade show active" id="overview" role="tabpanel">
           <div class="td-content-box">
-            <h3>About This Safari</h3>
+            <h3>Overview</h3>
             <div style="font-size:15px;line-height:1.75;color:#4A4340;">
               <?= !empty($tour['description']) ? $tour['description'] : '<p>'.nl2br(htmlspecialchars($tour['excerpt'] ?? '')).'</p>' ?>
             </div>
