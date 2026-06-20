@@ -150,6 +150,17 @@ if (!empty($navMultiCountryTours)) {
     $navSafarisByTheme['Multi-Country'] = $navMultiCountryTours;
 }
 ?>
+<!-- Hidden Google Translate Element -->
+<div id="google_translate_element"></div>
+
+<!-- ====== LANGUAGE DETECTION BAR ====== -->
+<div id="fa-lang-bar" style="display:none;">
+  <span class="fa-lb-flag">🌍</span>
+  <span class="fa-lb-msg">This page is available in <strong id="fa-lb-lang-name"></strong>. Would you like to translate it?</span>
+  <button class="fa-lb-translate" id="fa-lb-btn-translate">Translate</button>
+  <button class="fa-lb-dismiss" id="fa-lb-btn-dismiss">Dismiss &times;</button>
+</div>
+
 <!-- ====== MAIN HEADER ====== -->
 <header class="fa-site-header" id="faNavbar">
 
@@ -568,6 +579,24 @@ if (!empty($navMultiCountryTours)) {
 
       <!-- Right Controls -->
       <div class="fa-navbar-controls">
+        <!-- Language Selector -->
+        <div class="fa-lang-selector-wrap d-none d-lg-flex">
+          <i class="fa fa-globe fa-globe-icon"></i>
+          <select id="fa-lang-select" title="Select Language" onchange="faSetLanguage(this.value)">
+            <option value="en">EN</option>
+            <option value="fr">FR</option>
+            <option value="de">DE</option>
+            <option value="es">ES</option>
+            <option value="it">IT</option>
+            <option value="zh-CN">中文</option>
+            <option value="ar">AR</option>
+            <option value="pt">PT</option>
+            <option value="ja">JA</option>
+            <option value="ru">RU</option>
+            <option value="nl">NL</option>
+            <option value="sv">SV</option>
+          </select>
+        </div>
         <button class="fa-nav-toggle" id="fa-search-toggle" aria-label="Search">
           <i class="fa fa-search"></i>
         </button>
@@ -634,6 +663,7 @@ if (!empty($navMultiCountryTours)) {
       <ul>
         <li><a href="why-us">Why Book With Filao?</a></li>
         <li><a href="tailor-made">Tailor-Made Itineraries</a></li>
+        <li><a href="corporate">Corporate &amp; MICE Travel</a></li>
         <li><a href="travel-confidence">Travel With Confidence</a></li>
         <li><a href="booking-terms">Booking Terms</a></li>
         <li><a href="travel-insurance">Travel Insurance</a></li>
@@ -896,6 +926,7 @@ if (!empty($navMultiCountryTours)) {
       <ul class="rmm-links rmm-bg-white">
         <li><a href="why-us">WHY BOOK WITH FILAO?</a></li>
         <li><a href="tailor-made">TAILOR-MADE ITINERARIES</a></li>
+        <li><a href="corporate">CORPORATE &amp; MICE TRAVEL</a></li>
         <li><a href="travel-confidence">TRAVEL WITH CONFIDENCE</a></li>
         <li><a href="booking-terms">BOOKING TERMS</a></li>
         <li><a href="travel-insurance">TRAVEL INSURANCE</a></li>
@@ -906,3 +937,95 @@ if (!empty($navMultiCountryTours)) {
 
   </div>
 </nav>
+
+<!-- ====== GOOGLE TRANSLATE INIT ====== -->
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,fr,de,es,it,zh-CN,ar,pt,ja,ru,nl,sv',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+
+function faSetLanguage(langCode) {
+  if (langCode === 'en') {
+    // Reset to English
+    var iframe = document.querySelector('.goog-te-menu-frame');
+    if (iframe) {
+      var iDoc = iframe.contentDocument || iframe.contentWindow.document;
+      var links = iDoc.querySelectorAll('.goog-te-menu2-item span.text');
+      links.forEach(function(l) { if (l.innerText === 'English') l.click(); });
+    }
+    // Fallback: reload with no cookie
+    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
+    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.' + location.hostname;
+    location.reload();
+    return;
+  }
+  document.cookie = 'googtrans=/en/' + langCode + '; path=/';
+  document.cookie = 'googtrans=/en/' + langCode + '; path=/; domain=.' + location.hostname;
+  location.reload();
+}
+
+// Map browser language codes to Google Translate codes and display names
+var FA_LANG_MAP = {
+  'fr': {code:'fr', name:'Français'},
+  'de': {code:'de', name:'Deutsch'},
+  'es': {code:'es', name:'Español'},
+  'it': {code:'it', name:'Italiano'},
+  'zh': {code:'zh-CN', name:'中文'},
+  'zh-cn': {code:'zh-CN', name:'中文'},
+  'zh-tw': {code:'zh-CN', name:'中文'},
+  'ar': {code:'ar', name:'العربية'},
+  'pt': {code:'pt', name:'Português'},
+  'ja': {code:'ja', name:'日本語'},
+  'ru': {code:'ru', name:'Русский'},
+  'nl': {code:'nl', name:'Nederlands'},
+  'sv': {code:'sv', name:'Svenska'}
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Sync select with current googtrans cookie
+  var cookieMatch = document.cookie.match(/googtrans=\/en\/([a-z\-]+)/);
+  if (cookieMatch && cookieMatch[1] && cookieMatch[1] !== 'en') {
+    var sel = document.getElementById('fa-lang-select');
+    if (sel) sel.value = cookieMatch[1];
+  }
+
+  // Language Detection Bar
+  var dismissed = localStorage.getItem('fa_lang_dismissed');
+  if (dismissed) return;
+  var alreadyTranslated = document.cookie.indexOf('googtrans') !== -1;
+  if (alreadyTranslated) return;
+
+  var userLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+  var baseLang = userLang.split('-')[0];
+  var match = FA_LANG_MAP[userLang] || FA_LANG_MAP[baseLang];
+
+  if (match) {
+    var bar = document.getElementById('fa-lang-bar');
+    var langName = document.getElementById('fa-lb-lang-name');
+    if (bar && langName) {
+      langName.textContent = match.name;
+      bar.style.display = 'flex';
+    }
+    document.getElementById('fa-lb-btn-translate').addEventListener('click', function() {
+      faSetLanguage(match.code);
+    });
+    document.getElementById('fa-lb-btn-dismiss').addEventListener('click', function() {
+      localStorage.setItem('fa_lang_dismissed', '1');
+      bar.style.animation = 'fa-lang-bar-out 0.3s ease forwards';
+      setTimeout(function(){ bar.style.display = 'none'; }, 300);
+    });
+  }
+});
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<style>
+@keyframes fa-lang-bar-out {
+  from { opacity:1; max-height:60px; }
+  to   { opacity:0; max-height:0; padding:0; }
+}
+</style>

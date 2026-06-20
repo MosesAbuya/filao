@@ -143,6 +143,6 @@ $heroImg = $img ?: 'images/Filao/East Africa/pexels-droneafrica-15373902.jpg';
 
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<script src="assets/js/filao-nav.js"></script>`n<script src="js/start-planning.js"></script>
+<script src="assets/js/filao-nav.js"></script>`n<script src="js/start-planning.js?v=1781967414"></script>
 </body>
 </html>

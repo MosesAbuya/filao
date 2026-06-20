@@ -11,18 +11,15 @@
   const state = {
     currentStep: 1,
     isTourContext: false,
-    totalSteps: 8,      // steps rendered (1-8 + thankyou=9)
+    totalSteps: 6,      // steps rendered (1-6 + thankyou=7)
     knows_dest: null,
     destination: null,
-    activities: [],
     travel_month: null,
     travel_year: new Date().getFullYear(),
     duration: null,
     adults: 2,
     children: 0,
     budget: 4000,
-    travelled_before: null,
-    referred: null,
     tour_id: null,
     tour_title: null,
   };
@@ -78,8 +75,8 @@
       ctxLabel.textContent = tourTitle;
       ctxBanner.style.display = 'flex';
 
-      // Skip step 1 (know where?), 2 (destination), and 3 (activities) for tour context
-      goToStep(4);
+      // Skip step 1 (know where?) and step 2 (destination) for tour context
+      goToStep(3);
     } else {
       state.isTourContext = false;
       ctxBanner.style.display = 'none';
@@ -98,12 +95,9 @@
   function resetState () {
     state.currentStep = 1;
     state.isTourContext = false;
-    state.activities = [];
     state.destination = null;
     state.travel_month = null;
     state.duration = null;
-    state.travelled_before = null;
-    state.referred = null;
     state.tour_id = null;
     state.tour_title = null;
     
@@ -116,7 +110,6 @@
     document.getElementById('spEmail').value = '';
     document.getElementById('spPhone').value = '';
     document.getElementById('spMessage').value = '';
-    document.getElementById('spCustomPurpose').value = '';
     // clear all selections
     document.querySelectorAll('.sp-choice-btn.sp-selected').forEach(el => el.classList.remove('sp-selected'));
     document.querySelectorAll('.sp-month-btn.sp-selected').forEach(el => el.classList.remove('sp-selected'));
@@ -210,8 +203,8 @@
     const btn = e.target.closest('.sp-back-btn');
     if (!btn || btn.id === 'spCloseThankYou') return;
     let prev = parseInt(btn.dataset.prev);
-    // In tour context, skip steps 1, 2 and 3
-    if (state.isTourContext && (prev === 1 || prev === 2 || prev === 3)) {
+    // In tour context, skip steps 1 and 2
+    if (state.isTourContext && (prev === 1 || prev === 2)) {
       closeModal();
       return;
     }
@@ -282,7 +275,6 @@
       }
       
       const msg   = document.getElementById('spMessage').value.trim();
-      const customPurpose = document.getElementById('spCustomPurpose').value.trim();
       const exactDate = document.getElementById('spExactDate') ? document.getElementById('spExactDate').value : '';
 
       formError.style.display = 'none';
@@ -308,7 +300,6 @@
       formData.append('email', email);
       formData.append('phone', phone);
       formData.append('message', msg);
-      formData.append('custom_purpose', customPurpose);
       formData.append('destination', state.destination || '');
       formData.append('tour_id', state.tour_id || '');
       formData.append('tour_title', state.tour_title || '');
@@ -319,13 +310,12 @@
       formData.append('adults', state.adults);
       formData.append('children', state.children);
       formData.append('budget', state.budget);
-      formData.append('travelled_before', state.travelled_before || '');
-      formData.append('referred', state.referred || '');
       const optInBox = document.getElementById('spNewsletterOptIn');
       if (optInBox && optInBox.checked) {
         formData.append('newsletter_optin', '1');
       }
-      state.activities.forEach(a => formData.append('activities[]', a));
+
+
 
       const basePath = window.location.hostname === 'localhost' ? '/filao' : '';
       fetch(basePath + '/handlers/enquiry.php', {
@@ -343,7 +333,7 @@
         try { data = JSON.parse(txt); } catch(e) { throw new Error('Invalid JSON: ' + txt.substring(0, 300)); }
         if (data.success) {
           document.getElementById('spThankYouMsg').textContent = data.message;
-          goToStep(9);
+          goToStep(7);
         } else {
           formError.textContent = data.message || 'Something went wrong. Please try again.';
           formError.style.display = 'block';

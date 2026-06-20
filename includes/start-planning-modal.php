@@ -81,45 +81,8 @@ $currentYear = (int) date('Y');
         </div>
       </div>
 
-      <!-- ======= STEP 3: Why are you travelling? (Activities) ======= -->
+      <!-- ======= STEP 3: When to travel? ======= -->
       <div class="sp-step" data-step="3">
-        <div class="sp-step-icon"><i class="fa fa-binoculars"></i></div>
-        <h2 class="sp-step-title">Why are you travelling?</h2>
-        <p class="sp-step-sub">Select all the experiences you're excited about we'll tailor your trip accordingly. <em
-            style="color:#C49018;">You can choose more than one!</em></p>
-        <div class="sp-choice-grid sp-choice-wrap sp-multiselect">
-          <?php foreach ($modalActs as $a): ?>
-            <button class="sp-choice-btn sp-multi" data-field="activities"
-              data-val="<?= htmlspecialchars($a['name']) ?>"><?= htmlspecialchars($a['name']) ?></button>
-          <?php endforeach; ?>
-          <!-- Additional travel occasions -->
-          <button class="sp-choice-btn sp-multi" data-field="activities" data-val="Honeymoon">Honeymoon</button>
-          <button class="sp-choice-btn sp-multi" data-field="activities" data-val="Family Safari">Family Safari</button>
-          <button class="sp-choice-btn sp-multi" data-field="activities" data-val="Special Occasion">Special
-            Occasion</button>
-          <button class="sp-choice-btn sp-multi" data-field="activities" data-val="Trip with Friends">Trip with
-            Friends</button>
-          <button class="sp-choice-btn sp-multi" data-field="activities" data-val="Adventure & Hiking">Adventure &amp;
-            Hiking</button>
-          <button class="sp-choice-btn sp-multi" data-field="activities" data-val="Wellness & Relaxation">Wellness &amp;
-            Relaxation</button>
-          <button class="sp-choice-btn sp-multi" data-field="activities" data-val="Sustainable Travel">Sustainable
-            Travel</button>
-        </div>
-        <!-- Custom reason -->
-        <div class="sp-custom-input-wrap" style="margin-top:18px;">
-          <label for="spCustomPurpose" class="sp-label">Something else? Tell us:</label>
-          <input type="text" id="spCustomPurpose" name="custom_purpose" class="sp-text-input"
-            placeholder="e.g. anniversary, bucket list, business...">
-        </div>
-        <div class="sp-nav-row">
-          <button class="sp-back-btn" data-prev="2"><i class="fa fa-angle-left mr-1"></i> Back</button>
-          <button class="sp-next-btn" data-next="4">Next <i class="fa fa-angle-right ml-1"></i></button>
-        </div>
-      </div>
-
-      <!-- ======= STEP 4: When to travel? ======= -->
-      <div class="sp-step" data-step="4">
         <div class="sp-step-icon"><i class="fa fa-calendar"></i></div>
         <h2 class="sp-step-title">When would you like to travel?</h2>
         <p class="sp-step-sub">Select a preferred month or a range if you're flexible. We'll find the best seasonal
@@ -158,13 +121,13 @@ $currentYear = (int) date('Y');
           </select>
         </div>
         <div class="sp-nav-row">
-          <button class="sp-back-btn" data-prev="3"><i class="fa fa-angle-left mr-1"></i> Back</button>
-          <button class="sp-next-btn" data-next="5">Next <i class="fa fa-angle-right ml-1"></i></button>
+          <button class="sp-back-btn" data-prev="2"><i class="fa fa-angle-left mr-1"></i> Back</button>
+          <button class="sp-next-btn" data-next="4">Next <i class="fa fa-angle-right ml-1"></i></button>
         </div>
       </div>
 
-      <!-- ======= STEP 5: Who's travelling? ======= -->
-      <div class="sp-step" data-step="5">
+      <!-- ======= STEP 4: Who's travelling? ======= -->
+      <div class="sp-step" data-step="4">
         <div class="sp-step-icon"><i class="fa fa-users"></i></div>
         <h2 class="sp-step-title">Who will be travelling with you?</h2>
         <p class="sp-step-sub">Please note that children older than 12 are considered adults. This helps us find the
@@ -188,13 +151,13 @@ $currentYear = (int) date('Y');
           </div>
         </div>
         <div class="sp-nav-row">
-          <button class="sp-back-btn" data-prev="4"><i class="fa fa-angle-left mr-1"></i> Back</button>
-          <button class="sp-next-btn" data-next="6">Next <i class="fa fa-angle-right ml-1"></i></button>
+          <button class="sp-back-btn" data-prev="3"><i class="fa fa-angle-left mr-1"></i> Back</button>
+          <button class="sp-next-btn" data-next="5">Next <i class="fa fa-angle-right ml-1"></i></button>
         </div>
       </div>
 
-      <!-- ======= STEP 6: Budget ======= -->
-      <div class="sp-step" data-step="6">
+      <!-- ======= STEP 5: Budget ======= -->
+      <div class="sp-step" data-step="5">
         <div class="sp-step-icon"><i class="fa fa-usd"></i></div>
         <h2 class="sp-step-title">What is your budget per person?</h2>
         <p class="sp-step-sub">This includes accommodation, activities, and local travel. International flights are
@@ -211,39 +174,13 @@ $currentYear = (int) date('Y');
           </div>
         </div>
         <div class="sp-nav-row">
-          <button class="sp-back-btn" data-prev="5"><i class="fa fa-angle-left mr-1"></i> Back</button>
-          <button class="sp-next-btn" data-next="7">Next <i class="fa fa-angle-right ml-1"></i></button>
+          <button class="sp-back-btn" data-prev="4"><i class="fa fa-angle-left mr-1"></i> Back</button>
+          <button class="sp-next-btn" data-next="6">Next <i class="fa fa-angle-right ml-1"></i></button>
         </div>
       </div>
 
-      <!-- ======= STEP 7: Travelled before / Referred ======= -->
-      <div class="sp-step" data-step="7">
-        <div class="sp-step-icon"><i class="fa fa-star"></i></div>
-        <h2 class="sp-step-title">Just a couple more things...</h2>
-        <p class="sp-step-sub">This helps us give you the most personalised experience possible.</p>
-
-        <div class="sp-question-block">
-          <p class="sp-step-question">Have you travelled with Filao Adventures before?</p>
-          <div class="sp-choice-grid sp-choice-2col">
-            <button class="sp-choice-btn" data-field="travelled_before" data-val="yes">Yes, I have!</button>
-            <button class="sp-choice-btn" data-field="travelled_before" data-val="no">No, first time</button>
-          </div>
-        </div>
-        <div class="sp-question-block mt-4">
-          <p class="sp-step-question">Were you referred by someone who has travelled with us?</p>
-          <div class="sp-choice-grid sp-choice-2col">
-            <button class="sp-choice-btn" data-field="referred" data-val="yes">Yes</button>
-            <button class="sp-choice-btn" data-field="referred" data-val="no">No</button>
-          </div>
-        </div>
-        <div class="sp-nav-row">
-          <button class="sp-back-btn" data-prev="6"><i class="fa fa-angle-left mr-1"></i> Back</button>
-          <button class="sp-next-btn" data-next="8">Next <i class="fa fa-angle-right ml-1"></i></button>
-        </div>
-      </div>
-
-      <!-- ======= STEP 8: Contact Info ======= -->
-      <div class="sp-step" data-step="8">
+      <!-- ======= STEP 6: Contact Info ======= -->
+      <div class="sp-step" data-step="6">
         <div class="sp-step-icon"><i class="fa fa-envelope"></i></div>
         <h2 class="sp-step-title">Almost there! How do we reach you?</h2>
         <p class="sp-step-sub">A Filao safari specialist will personally reach out to you within 24 hours to begin
@@ -282,7 +219,7 @@ $currentYear = (int) date('Y');
         <div id="spFormError" class="sp-form-error" style="display:none;"></div>
 
         <div class="sp-nav-row">
-          <button class="sp-back-btn" data-prev="7"><i class="fa fa-angle-left mr-1"></i> Back</button>
+          <button class="sp-back-btn" data-prev="5"><i class="fa fa-angle-left mr-1"></i> Back</button>
           <button class="sp-submit-btn" id="spSubmitBtn">
             <i class="fa fa-paper-plane mr-2"></i> Send My Safari Plan
           </button>
@@ -291,8 +228,8 @@ $currentYear = (int) date('Y');
           your data.</p>
       </div>
 
-      <!-- ======= STEP 9: Thank You ======= -->
-      <div class="sp-step sp-step-thankyou" data-step="9">
+      <!-- ======= STEP 7: Thank You ======= -->
+      <div class="sp-step sp-step-thankyou" data-step="7">
         <div class="sp-thankyou-icon">
           <i class="fa fa-check-circle"></i>
         </div>

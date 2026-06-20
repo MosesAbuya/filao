@@ -314,70 +314,240 @@ function getTourRoute($pdo, $tourId)
 
 
   <!-- ====== WHAT WE OFFER ====== -->
-  <section class="section-pad bg-white">
+  <section class="section-pad bg-white" style="padding-bottom:60px;">
     <div class="container" style="max-width:1280px;">
-      <div class="row align-items-center">
-        <div class="col-lg-4 mb-5 mb-lg-0">
-          <div class="fa-section-heading">
-            <span class="eyebrow">Our Services</span>
-            <h2>Experiences Crafted<br>For You</h2>
-            <p>We don't sell tours we craft journeys. Every Filao adventure begins with understanding your pace, your
-              passions, and your dream.</p>
-          </div>
-          <a href="tours" class="view-all-link">Explore All Tours <i class="fa fa-arrow-right"></i></a>
-        </div>
-        <div class="col-lg-8">
-          <div class="row">
-            <div class="col-md-4 mb-4">
-              <div class="services services-1 color-1 d-block img fa-service-card"
-                style="background-image:url('images/Filao/East Africa/pexels-balazsimon-15993990.jpg');">
-                <div class="icon d-flex align-items-center justify-content-center" style="background-color: #C49018;">
-                  <span class="flaticon-paragliding" style="color: #fff;"></span></div>
-                <div class="media-body"
-                  style="padding:20px;background:linear-gradient(to top,rgba(0,0,0,.75),transparent);">
-                  <h3 class="heading mb-2" style="color:#fff;font-family:'Cormorant Garant',serif;font-size:22px;">
-                    Safari Tours</h3>
-                  <p style="color:rgba(255,255,255,.8);font-size:13px;line-height:1.6;">Immersive wildlife safaris to
-                    Kenya and Tanzania's most iconic national parks and reserves.</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 mb-4">
-              <div class="services services-1 color-2 d-block img fa-service-card"
-                style="background-image:url('images/Filao/Indian Ocean/pexels-asadphoto-9394268.jpg');">
-                <div class="icon d-flex align-items-center justify-content-center" style="background-color: #C49018;">
-                  <span class="flaticon-route" style="color: #fff;"></span>
-                </div>
-                <div class="media-body"
-                  style="padding:20px;background:linear-gradient(to top,rgba(0,0,0,.75),transparent);">
-                  <h3 class="heading mb-2" style="color:#fff;font-family:'Cormorant Garant',serif;font-size:22px;">Beach
-                    Holidays</h3>
-                  <p style="color:rgba(255,255,255,.8);font-size:13px;line-height:1.6;">Exclusive retreats to Diani
-                    Beach, Zanzibar, Maldives, and Indian Ocean destinations.</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 mb-4">
-              <div class="services services-1 color-3 d-block img fa-service-card"
-                style="background-image:url('images/Filao/Dubai/pexels-axp-photography-500641970-16412106.jpg');">
-                <div class="icon d-flex align-items-center justify-content-center" style="background-color: #C49018;">
-                  <span class="flaticon-tour-guide" style="color: #fff;"></span></div>
-                <div class="media-body"
-                  style="padding:20px;background:linear-gradient(to top,rgba(0,0,0,.75),transparent);">
-                  <h3 class="heading mb-2" style="color:#fff;font-family:'Cormorant Garant',serif;font-size:22px;">
-                    International Luxury</h3>
-                  <p style="color:rgba(255,255,255,.8);font-size:13px;line-height:1.6;">Curated escapes to Bali, Dubai,
-                    Santorini, Paris and beyond tailored to your style.</p>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div class="text-center mb-5">
+        <div class="fa-section-heading" style="text-align:center;">
+          <span class="eyebrow">Our Services</span>
+          <h2>Experiences Crafted For You</h2>
+          <p style="max-width:560px;margin:0 auto;">We don't sell tours we craft journeys. Every Filao adventure begins
+            with understanding your pace, your passions, and your dream.</p>
         </div>
       </div>
     </div>
+
+    <!-- Full-bleed service cards grid -->
+    <div class="fa-services-grid">
+
+      <!-- Safari Tours -->
+      <a href="safaris" class="fa-svc-card"
+        style="background-image:url('images/Filao/East Africa/pexels-balazsimon-15993990.jpg');">
+        <div class="fa-svc-overlay"></div>
+        <div class="fa-svc-icon">
+          <i class="fa fa-binoculars"></i>
+        </div>
+        <div class="fa-svc-body">
+          <h3>Safari Tours</h3>
+          <p>Immersive wildlife safaris to Kenya and Tanzania's most iconic national parks and reserves.</p>
+          <span class="fa-svc-cta">Explore Safaris <i class="fa fa-arrow-right"></i></span>
+        </div>
+      </a>
+
+      <!-- Beach Holidays -->
+      <a href="hot-deals" class="fa-svc-card"
+        style="background-image:url('images/Filao/Indian Ocean/pexels-asadphoto-9394268.jpg');">
+        <div class="fa-svc-overlay"></div>
+        <div class="fa-svc-icon">
+          <i class="fa fa-umbrella"></i>
+        </div>
+        <div class="fa-svc-body">
+          <h3>Beach Holidays</h3>
+          <p>Exclusive retreats to Diani Beach, Zanzibar, Maldives, and Indian Ocean paradises.</p>
+          <span class="fa-svc-cta">View Deals <i class="fa fa-arrow-right"></i></span>
+        </div>
+      </a>
+
+      <!-- International Luxury -->
+      <a href="tours" class="fa-svc-card"
+        style="background-image:url('images/Filao/Dubai/pexels-axp-photography-500641970-16412106.jpg');">
+        <div class="fa-svc-overlay"></div>
+        <div class="fa-svc-icon">
+          <i class="fa fa-globe"></i>
+        </div>
+        <div class="fa-svc-body">
+          <h3>International Luxury</h3>
+          <p>Curated escapes to Bali, Dubai, Santorini, Paris and beyond tailored to your style.</p>
+          <span class="fa-svc-cta">Discover More <i class="fa fa-arrow-right"></i></span>
+        </div>
+      </a>
+
+      <!-- Corporate Travel -->
+      <a href="corporate" class="fa-svc-card" style="background-image:url('images/corporate-hero.jpg');">
+        <div class="fa-svc-overlay"></div>
+        <div class="fa-svc-icon">
+          <i class="fa fa-briefcase"></i>
+        </div>
+        <div class="fa-svc-body">
+          <h3>Corporate Travel</h3>
+          <p>Seamless group travel, team incentives &amp; executive safaris tailored for businesses &amp; MICE events.
+          </p>
+          <span class="fa-svc-cta">Learn More <i class="fa fa-arrow-right"></i></span>
+        </div>
+      </a>
+
+    </div><!-- /.fa-services-grid -->
+
+    <style>
+      .fa-services-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        height: 520px;
+        margin-top: 48px;
+        gap: 4px;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .fa-svc-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        overflow: hidden;
+        text-decoration: none !important;
+        background-size: cover;
+        background-position: center;
+        transition: flex 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        flex: 1;
+      }
+
+      .fa-svc-card:hover {
+        flex: 1.8;
+      }
+
+      .fa-svc-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top,
+            rgba(28, 23, 18, 0.92) 0%,
+            rgba(28, 23, 18, 0.55) 50%,
+            rgba(28, 23, 18, 0.15) 100%);
+        transition: background 0.4s ease;
+      }
+
+      .fa-svc-card:hover .fa-svc-overlay {
+        background: linear-gradient(to top,
+            rgba(28, 23, 18, 0.95) 0%,
+            rgba(28, 23, 18, 0.6) 55%,
+            rgba(28, 23, 18, 0.2) 100%);
+      }
+
+      .fa-svc-icon {
+        position: absolute;
+        top: 28px;
+        left: 28px;
+        width: 52px;
+        height: 52px;
+        background: #C49018;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease, background 0.3s ease;
+        z-index: 2;
+      }
+
+      .fa-svc-icon i {
+        color: #fff;
+        font-size: 20px;
+      }
+
+      .fa-svc-card:hover .fa-svc-icon {
+        transform: scale(1.1);
+        background: #a37614;
+      }
+
+      .fa-svc-body {
+        position: relative;
+        z-index: 2;
+        padding: 28px;
+      }
+
+      .fa-svc-body h3 {
+        font-family: 'Cormorant Garant', serif;
+        font-size: 26px;
+        font-weight: 600;
+        color: #fff;
+        margin: 0 0 10px;
+        line-height: 1.2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .fa-svc-card:hover .fa-svc-body h3 {
+        white-space: normal;
+      }
+
+      .fa-svc-body p {
+        font-family: 'Inter', sans-serif;
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.85);
+        line-height: 1.65;
+        margin: 0 0 14px;
+      }
+
+      .fa-svc-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-family: 'Inter', sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #C49018;
+        opacity: 0.75;
+        transition: opacity 0.25s ease, gap 0.25s ease;
+      }
+
+      .fa-svc-card:hover .fa-svc-cta {
+        opacity: 1;
+        gap: 10px;
+      }
+
+      @media (max-width: 991px) {
+        .fa-services-grid {
+          grid-template-columns: repeat(2, 1fr);
+          height: auto;
+        }
+
+        .fa-svc-card {
+          min-height: 340px;
+          flex: unset !important;
+        }
+
+        .fa-svc-card:hover {
+          flex: unset !important;
+        }
+
+        .fa-svc-body p {
+          max-height: 120px !important;
+          opacity: 1 !important;
+        }
+
+        .fa-svc-cta {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      }
+
+      @media (max-width: 575px) {
+        .fa-services-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .fa-svc-card {
+          min-height: 280px;
+        }
+      }
+    </style>
   </section>
 
+
   <!-- ====== HOT OFFERS ====== -->
+
   <?php if (!empty($hotOffers)): ?>
     <section class="hot-sale-section" id="hotSaleSection"
       style="position: relative; overflow: hidden; background-color: #1C1712; color: #fff; padding: 100px 0; margin-bottom: 0;">
@@ -410,7 +580,8 @@ function getTourRoute($pdo, $tourId)
                   style="position: absolute; top:0; left:0; width: 100%; opacity: <?= $index === 0 ? 1 : 0 ?>; visibility: <?= $index === 0 ? 'visible' : 'hidden' ?>; transition: all 0.5s ease; transform: translateY(<?= $index === 0 ? '0' : '20px' ?>);">
                   <h2
                     style="font-family:'Cormorant Garant',serif; font-size:48px; font-weight:700; color:#fff; line-height:1.1; margin-bottom: 20px; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
-                    <?= htmlspecialchars($offer['title']) ?></h2>
+                    <?= htmlspecialchars($offer['title']) ?>
+                  </h2>
                   <p style="font-size:16px; color:rgba(255,255,255,0.85); line-height:1.7; margin-bottom: 30px;">
                     Experience the magic of this destination. Book now to enjoy exclusive discounts on this unforgettable
                     journey and create memories that will last a lifetime.
@@ -461,7 +632,8 @@ function getTourRoute($pdo, $tourId)
                       Deal</span>
                     <h4
                       style="color:#fff; font-family:'Inter',sans-serif; font-weight:700; font-size:22px; line-height:1.2; margin-bottom:15px; text-shadow: 0 2px 4px rgba(0,0,0,0.6);">
-                      <?= htmlspecialchars($offer['title']) ?></h4>
+                      <?= htmlspecialchars($offer['title']) ?>
+                    </h4>
                     <a href="tours/<?= $offer['slug'] ?>" class="btn btn-sm"
                       style="background:#C49018; color:#fff; border-radius:30px; font-weight:600; padding:8px 24px; text-transform:uppercase; font-size:13px; letter-spacing:1px;">View
                       Deal <i class="fa fa-arrow-right ml-1"></i></a>
@@ -677,26 +849,34 @@ function getTourRoute($pdo, $tourId)
             }
             ?>
             <div class="fa-dest-slide" style="flex:0 0 calc(25% - 15px);min-width:calc(25% - 15px);">
-              <a href="country.php?name=<?= urlencode($countryName) ?>" class="fa-dest-card" style="display:block; position:relative; width:100%; border-radius:10px; overflow:hidden; height:400px; text-decoration:none; border:1px solid #E5DDD0; background:#000;">
-                <img src="<?= htmlspecialchars($img) ?>" alt="<?= htmlspecialchars($countryName) ?>" style="width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.5s ease;">
-                
-                <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%);"></div>
-                
+              <a href="country.php?name=<?= urlencode($countryName) ?>" class="fa-dest-card"
+                style="display:block; position:relative; width:100%; border-radius:10px; overflow:hidden; height:400px; text-decoration:none; border:1px solid #E5DDD0; background:#000;">
+                <img src="<?= htmlspecialchars($img) ?>" alt="<?= htmlspecialchars($countryName) ?>"
+                  style="width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.5s ease;">
+
+                <div
+                  style="position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%);">
+                </div>
+
                 <?php if ($dest['tour_count'] > 0): ?>
-                  <div style="position:absolute; top:15px; left:15px; background:rgba(28,23,18,0.75); color:#fff; border:1px solid rgba(196,144,24,0.4); backdrop-filter:blur(4px); font-family:'Inter',sans-serif; font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:5px 12px; border-radius:30px; z-index:2;">
+                  <div
+                    style="position:absolute; top:15px; left:15px; background:rgba(28,23,18,0.75); color:#fff; border:1px solid rgba(196,144,24,0.4); backdrop-filter:blur(4px); font-family:'Inter',sans-serif; font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:5px 12px; border-radius:30px; z-index:2;">
                     <?= $dest['tour_count'] ?> Tour<?= $dest['tour_count'] > 1 ? 's' : '' ?>
                   </div>
                 <?php endif; ?>
 
-                <div style="position:absolute; bottom:45px; left:0; right:0; padding:20px 20px 15px; display:flex; flex-direction:column; z-index:2;">
-                  <div style="font-family:'Inter',sans-serif; font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.8); margin-bottom:4px;">
+                <div
+                  style="position:absolute; bottom:45px; left:0; right:0; padding:20px 20px 15px; display:flex; flex-direction:column; z-index:2;">
+                  <div
+                    style="font-family:'Inter',sans-serif; font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.8); margin-bottom:4px;">
                     <?= htmlspecialchars($region) ?>
                   </div>
-                  <div style="font-family:'Cormorant Garant',serif; font-size:26px; font-weight:600; color:#fff; line-height:1.2;">
+                  <div
+                    style="font-family:'Cormorant Garant',serif; font-size:26px; font-weight:600; color:#fff; line-height:1.2;">
                     <?= htmlspecialchars($countryName) ?>
                   </div>
                 </div>
-                
+
                 <div style="position:absolute; bottom:0; left:0; right:0; z-index:3;">
                   <span class="dc-explore-btn">
                     Explore Destination
@@ -986,7 +1166,8 @@ function getTourRoute($pdo, $tourId)
                   href="blog-detail?slug=<?= htmlspecialchars($blog['slug']) ?>"><?= htmlspecialchars($blog['title']) ?></a>
               </div>
               <div class="bc-excerpt">
-                <?= htmlspecialchars(mb_strimwidth(strip_tags($blog['excerpt'] ?: $blog['body']), 0, 120, '...')) ?></div>
+                <?= htmlspecialchars(mb_strimwidth(strip_tags($blog['excerpt'] ?: $blog['body']), 0, 120, '...')) ?>
+              </div>
               <a href="blog-detail?slug=<?= htmlspecialchars($blog['slug']) ?>" class="bc-link">Read More <i
                   class="fa fa-arrow-right"></i></a>
             </div>
@@ -1112,7 +1293,7 @@ function getTourRoute($pdo, $tourId)
       }
     });
   </script>
-  <script src="js/start-planning.js"></script>
+  <script src="js/start-planning.js?v=1781967414"></script>
 </body>
 
 </html>

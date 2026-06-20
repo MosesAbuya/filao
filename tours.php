@@ -247,7 +247,7 @@ function getTourRouteT($pdo,$id){
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="assets/js/filao-nav.js"></script>
-<script src="js/start-planning.js"></script>
+<script src="js/start-planning.js?v=1781967414"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('tours-filter-form');

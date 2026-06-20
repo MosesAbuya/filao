@@ -531,7 +531,7 @@ $nights = max(1, (int)($tour['duration_days'] ?? 1)) - 1;
 <script src="assets/js/filao-nav.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="https://cdn.jsdelivr.net/npm/leaflet-polylinedecorator@1.6.0/dist/leaflet.polylineDecorator.min.js"></script>
-<script src="js/start-planning.js"></script>
+<script src="js/start-planning.js?v=1781967414"></script>
 <script>
 $(document).ready(function() {
   // Magnific Popup for Gallery

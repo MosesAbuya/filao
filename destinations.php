@@ -154,7 +154,7 @@ if ($currentRegion && isset($navRegions[$currentRegion])) {
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="assets/js/filao-nav.js"></script>
-<script src="js/start-planning.js"></script>
+<script src="js/start-planning.js?v=1781967414"></script>
 
 <!-- Leaflet Map Scripts -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
