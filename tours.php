@@ -16,7 +16,7 @@ if (!empty($_GET['q'])) {
         EXISTS (
             SELECT 1 FROM itinerary_steps ist 
             JOIN destinations d ON d.id=ist.destination_id 
-            LEFT JOIN countries c ON d.country COLLATE utf8mb4_unicode_ci = c.name COLLATE utf8mb4_unicode_ci
+            LEFT JOIN countries c ON d.country = c.name
             LEFT JOIN regions r ON c.region_id = r.id
             WHERE ist.tour_id=t.id AND (
                 d.name LIKE ? OR 
@@ -39,7 +39,7 @@ if (!empty($_GET['dest'])) {
     $where[] = "(t.title LIKE ? OR EXISTS (
         SELECT 1 FROM itinerary_steps ist 
         JOIN destinations d ON d.id=ist.destination_id 
-        LEFT JOIN countries c ON d.country COLLATE utf8mb4_unicode_ci = c.name COLLATE utf8mb4_unicode_ci
+        LEFT JOIN countries c ON d.country = c.name
         LEFT JOIN regions r ON c.region_id = r.id
         WHERE ist.tour_id=t.id AND (
             d.name LIKE ? OR 

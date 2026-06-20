@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        // Categories
+        // Categories pivot
         if (!empty($_POST['categories']) && is_array($_POST['categories'])) {
             $catStmt = $pdo->prepare("INSERT INTO tour_category_pivot (tour_id, category_id) VALUES (?, ?)");
             foreach ($_POST['categories'] as $catId) {

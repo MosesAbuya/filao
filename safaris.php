@@ -38,12 +38,11 @@ $whereSql = implode(" AND ", $where);
 $stmt = $pdo->prepare("
     SELECT t.id, t.title, t.slug, t.duration_days, t.price_from_usd, t.excerpt, t.description, t.featured_image, t.status 
     FROM tours t 
-    JOIN activity_tour at ON t.id = at.tour_id
-    JOIN activities a ON at.activity_id = a.id
-    WHERE $whereSql AND a.slug = ?
+    JOIN tour_category_pivot tcp ON t.id = tcp.tour_id
+    JOIN tour_categories tc ON tcp.category_id = tc.id
+    WHERE $whereSql AND tc.slug = 'safari-tours'
     ORDER BY t.duration_days ASC
 ");
-$params[] = 'safari';
 $stmt->execute($params);
 $tours = $stmt->fetchAll();
 

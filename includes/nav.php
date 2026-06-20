@@ -106,18 +106,16 @@ foreach ($navActivities as $navActItem) {
 }
 
 // Safaris dynamically grouped by Theme
-$navSafarisStmt = $navPdo->prepare("
+$navSafarisThemes = $navPdo->query("
     SELECT tx.name as theme_name, tx.slug as theme_slug, t.id, t.title, t.slug as tour_slug, t.featured_image
     FROM taxonomies tx
     JOIN tour_taxonomy_pivot ttp ON tx.id = ttp.taxonomy_id
     JOIN tours t ON ttp.tour_id = t.id
-    JOIN activity_tour at ON t.id = at.tour_id
-    JOIN activities a ON at.activity_id = a.id
-    WHERE t.status='published' AND a.slug = ? AND tx.name IN ('Family Friendly', 'Honeymoon', 'Solo Traveler')
+    JOIN tour_category_pivot tcp ON t.id = tcp.tour_id
+    JOIN tour_categories tc ON tcp.category_id = tc.id
+    WHERE t.status='published' AND tc.slug = 'safari-tours' AND tx.name IN ('Family Friendly', 'Honeymoon', 'Solo Traveler')
     ORDER BY tx.name ASC, t.duration_days ASC
-");
-$navSafarisStmt->execute(['safari']);
-$navSafarisThemes = $navSafarisStmt->fetchAll();
+")->fetchAll();
 
 $navSafarisByTheme = [];
 foreach ($navSafarisThemes as $st) {

@@ -3,8 +3,7 @@ require_once 'includes/db.php';
 $slug = $_GET['slug'] ?? '';
 $id = intval($_GET['id'] ?? 0);
 
-$base_href = ($_SERVER['HTTP_HOST'] === 'localhost' || $_SERVER['HTTP_HOST'] === '127.0.0.1') ? '/filao/' : '/';
-if (!$slug && !$id) { header('Location: ' . $base_href . 'activities'); exit; }
+if (!$slug && !$id) { header('Location: /filao/activities'); exit; }
 $pdo = getPDO();
 
 if ($slug) {
@@ -16,18 +15,21 @@ if ($slug) {
 }
 
 $act = $act->fetch();
-if (!$act) { header('Location: ' . $base_href . 'activities'); exit; }
+if (!$act) { header('Location: /filao/activities'); exit; }
 $id = $act['id'];
 
 // Related tours using pivot table activity_tour
 $tours = $pdo->prepare('
-    SELECT t.id, t.title, t.slug, t.duration_days, t.price_from_usd, t.excerpt, t.featured_image 
+    SELECT DISTINCT t.id, t.title, t.slug, t.duration_days, t.price_from_usd, t.excerpt, t.description, t.featured_image 
     FROM tours t 
-    JOIN activity_tour at ON at.tour_id=t.id 
-    WHERE at.activity_id=? AND t.status='published' 
-    LIMIT 3
+    LEFT JOIN activity_tour at ON at.tour_id = t.id 
+    LEFT JOIN tour_taxonomy_pivot ttp ON t.id = ttp.tour_id
+    LEFT JOIN taxonomies tx ON ttp.taxonomy_id = tx.id
+    WHERE (at.activity_id = ? OR (tx.type = "activity" AND (? LIKE CONCAT("%", tx.name, "%") OR tx.name = ?))) 
+    AND t.status="published" 
+    LIMIT 6
 ');
-$tours->execute([$id]);
+$tours->execute([$id, $act['name'], $act['name']]);
 $tours = $tours->fetchAll();
 
 $img = $act['featured_image'];
@@ -127,12 +129,14 @@ $heroImg = $img ?: 'images/Filao/East Africa/pexels-droneafrica-15373902.jpg';
             </a>
           </div>
           <div class="tc-body" style="padding:24px;">
+            <div class="tc-country" style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--fa-gold);margin-bottom:6px;font-family:'Inter',sans-serif;"><?= getTourCountries($pdo, $t['id']) ?></div>
             <div style="font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#9E3A25;margin-bottom:8px;"><?= $nights ?> Nights &bull; Safari</div>
             <div style="font-family:'Cormorant Garant',serif;font-size:24px;font-weight:500;margin-bottom:12px;line-height:1.2;">
               <a href="tours/<?= $t['slug'] ?>" style="color:#1C1712;text-decoration:none;"><?= htmlspecialchars($t['title']) ?></a>
             </div>
+            <?php $excerpt = !empty($t['excerpt']) ? $t['excerpt'] : (!empty($t['description']) ? $t['description'] : ''); ?>
             <div style="font-size:14px;color:#6B6358;font-family:'Inter',sans-serif;margin-bottom:20px;line-height:1.6;">
-              <?= htmlspecialchars(substr(strip_tags($t['excerpt'] ?? ''),0,120)) ?>...
+              <?= htmlspecialchars(mb_substr(strip_tags($excerpt),0,120)) ?>...
             </div>
             <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #E5DDD0; padding-top:16px;">
               <div style="font-size:14px;color:#1C1712;font-family:'Inter',sans-serif;">From <strong>$<?= number_format($t['price_from_usd'] ?: 1200) ?></strong></div>
