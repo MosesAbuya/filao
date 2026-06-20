@@ -574,6 +574,27 @@ if (!empty($navMultiCountryTours)) {
              </button>
           </li>
 
+          <!-- LANGUAGE SELECTOR (MOBILE ONLY) -->
+          <li class="d-lg-none" style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.1); padding-top:15px;">
+             <div style="display:flex; align-items:center; color:#fff; font-size:14px; gap:10px;">
+                <i class="fa fa-globe" style="font-size:16px;"></i>
+                <select class="fa-lang-select" title="Select Language" onchange="faSetLanguage(this.value)" style="background:transparent; border:1px solid rgba(255,255,255,0.3); color:#fff; padding:5px 10px; border-radius:4px; outline:none; font-family:'Inter',sans-serif; flex-grow:1;">
+                  <option value="en" style="color:#000;">EN - English</option>
+                  <option value="fr" style="color:#000;">FR - Français</option>
+                  <option value="de" style="color:#000;">DE - Deutsch</option>
+                  <option value="es" style="color:#000;">ES - Español</option>
+                  <option value="it" style="color:#000;">IT - Italiano</option>
+                  <option value="zh-CN" style="color:#000;">中文 - Chinese</option>
+                  <option value="ar" style="color:#000;">AR - العربية</option>
+                  <option value="pt" style="color:#000;">PT - Português</option>
+                  <option value="ja" style="color:#000;">JA - 日本語</option>
+                  <option value="ru" style="color:#000;">RU - Русский</option>
+                  <option value="nl" style="color:#000;">NL - Nederlands</option>
+                  <option value="sv" style="color:#000;">SV - Svenska</option>
+                </select>
+             </div>
+          </li>
+
         </ul>
       </nav>
 
@@ -582,7 +603,7 @@ if (!empty($navMultiCountryTours)) {
         <!-- Language Selector -->
         <div class="fa-lang-selector-wrap d-none d-lg-flex">
           <i class="fa fa-globe fa-globe-icon"></i>
-          <select id="fa-lang-select" title="Select Language" onchange="faSetLanguage(this.value)">
+          <select class="fa-lang-select" title="Select Language" onchange="faSetLanguage(this.value)">
             <option value="en">EN</option>
             <option value="fr">FR</option>
             <option value="de">DE</option>
@@ -990,8 +1011,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // Sync select with current googtrans cookie
   var cookieMatch = document.cookie.match(/googtrans=\/en\/([a-z\-]+)/);
   if (cookieMatch && cookieMatch[1] && cookieMatch[1] !== 'en') {
-    var sel = document.getElementById('fa-lang-select');
-    if (sel) sel.value = cookieMatch[1];
+    document.querySelectorAll('.fa-lang-select').forEach(function(sel) {
+      sel.value = cookieMatch[1];
+    });
   }
 
   // Language Detection Bar
