@@ -23,7 +23,7 @@ $tours = $pdo->prepare('
     SELECT t.id, t.title, t.slug, t.duration_days, t.price_from_usd, t.excerpt, t.featured_image 
     FROM tours t 
     JOIN activity_tour at ON at.tour_id=t.id 
-    WHERE at.activity_id=? AND t.status="published" 
+    WHERE at.activity_id=? AND t.status='published' 
     LIMIT 3
 ');
 $tours->execute([$id]);

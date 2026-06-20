@@ -40,7 +40,7 @@ $stmt = $pdo->prepare("
     FROM tours t 
     JOIN activity_tour at ON t.id = at.tour_id
     JOIN activities a ON at.activity_id = a.id
-    WHERE $whereSql AND a.slug LIKE '%safari%'
+    WHERE $whereSql AND a.slug COLLATE utf8mb4_unicode_ci LIKE '%safari%' COLLATE utf8mb4_unicode_ci
     ORDER BY t.duration_days ASC
 ");
 $stmt->execute($params);
