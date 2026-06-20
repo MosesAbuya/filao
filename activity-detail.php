@@ -8,10 +8,10 @@ if (!$slug && !$id) { header('Location: ' . $base_href . 'activities'); exit; }
 $pdo = getPDO();
 
 if ($slug) {
-    $act = $pdo->prepare("SELECT *, 'other' as category, image as featured_image FROM taxonomies WHERE type='activity' AND slug=?");
+    $act = $pdo->prepare('SELECT * FROM activities WHERE slug=?');
     $act->execute([$slug]);
 } else {
-    $act = $pdo->prepare("SELECT *, 'other' as category, image as featured_image FROM taxonomies WHERE type='activity' AND id=?");
+    $act = $pdo->prepare('SELECT * FROM activities WHERE id=?');
     $act->execute([$id]);
 }
 
@@ -23,8 +23,8 @@ $id = $act['id'];
 $tours = $pdo->prepare('
     SELECT t.id, t.title, t.slug, t.duration_days, t.price_from_usd, t.excerpt, t.featured_image 
     FROM tours t 
-    JOIN tour_taxonomy_pivot ttp ON ttp.tour_id=t.id 
-    WHERE ttp.taxonomy_id=? AND t.status='published' 
+    JOIN activity_tour at ON at.tour_id=t.id 
+    WHERE at.activity_id=? AND t.status='published' 
     LIMIT 3
 ');
 $tours->execute([$id]);
