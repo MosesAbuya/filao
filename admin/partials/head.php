@@ -20,6 +20,9 @@ if (!isset($pageTitle)) $pageTitle = 'Dashboard';
     
     <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
+    
+    <!-- Summernote CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs5.min.css" rel="stylesheet">
 </head>
 <body class="<?= isset($bodyClass) ? sanitize($bodyClass) : '' ?>">
 <?php

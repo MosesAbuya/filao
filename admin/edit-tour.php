@@ -276,8 +276,8 @@ include 'partials/sidebar.php';
                                         </div>
                                     </div>
                                     <div class="mb-4">
-                                        <label class="tinymce-label">Full Description <span class="text-danger">*</span></label>
-                                        <div class="tinymce-wrapper">
+                                        <label class="editor-label">Full Description <span class="text-danger">*</span></label>
+                                        <div class="editor-wrapper">
                                             <textarea id="description" name="description" class="editor-full"><?= sanitize($tour['description']) ?></textarea>
                                         </div>
                                     </div>
@@ -383,16 +383,16 @@ document.getElementById('end_destination_id').addEventListener('change', functio
                                 <div class="panel mb-4">
                                     <div class="panel-header"><h2>Highlights & Features</h2></div>
                                     <div class="mb-4">
-                                        <label class="tinymce-label">Tour Highlights</label>
-                                        <div class="tinymce-wrapper"><textarea name="highlights" class="editor-simple"><?= sanitize($tour['highlights']) ?></textarea></div>
+                                        <label class="editor-label">Tour Highlights</label>
+                                        <div class="editor-wrapper"><textarea name="highlights" class="editor-simple"><?= sanitize($tour['highlights']) ?></textarea></div>
                                     </div>
                                     <div class="mb-4">
-                                        <label class="tinymce-label">Inclusions</label>
-                                        <div class="tinymce-wrapper"><textarea name="inclusions" class="editor-simple"><?= sanitize($tour['inclusions']) ?></textarea></div>
+                                        <label class="editor-label">Inclusions</label>
+                                        <div class="editor-wrapper"><textarea name="inclusions" class="editor-simple"><?= sanitize($tour['inclusions']) ?></textarea></div>
                                     </div>
                                     <div class="mb-0">
-                                        <label class="tinymce-label">Exclusions</label>
-                                        <div class="tinymce-wrapper"><textarea name="exclusions" class="editor-simple"><?= sanitize($tour['exclusions']) ?></textarea></div>
+                                        <label class="editor-label">Exclusions</label>
+                                        <div class="editor-wrapper"><textarea name="exclusions" class="editor-simple"><?= sanitize($tour['exclusions']) ?></textarea></div>
                                     </div>
                                 </div>
                             </div>
@@ -525,7 +525,7 @@ document.getElementById('end_destination_id').addEventListener('change', functio
                                                 <input type="text" class="form-control" name="steps[<?= $index ?>][transit_duration]" value="<?= sanitize($step['transit_duration']) ?>">
                                             </div>
                                             <div class="col-12">
-                                                <label class="tinymce-label">Daily Description <span class="text-danger">*</span></label>
+                                                <label class="editor-label">Daily Description <span class="text-danger">*</span></label>
                                                 <textarea class="form-control step-desc-editor" name="steps[<?= $index ?>][description]" rows="4"><?= sanitize($step['step_description']) ?></textarea>
                                             </div>
                                             <div class="col-12 mt-3">

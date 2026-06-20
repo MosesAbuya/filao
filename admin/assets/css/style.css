@@ -1103,15 +1103,15 @@ textarea.form-control { min-height: 120px; resize: vertical; }
 }
 .login-logo p { color: var(--fa-muted); font-size: 0.875rem; margin: 0.25rem 0 0; }
 
-/* ── TinyMCE labels ─────────────────────────────────────── */
-.tinymce-label {
+/* ── Editor labels ─────────────────────────────────────── */
+.editor-label {
   font-weight: 600;
   font-size: 0.875rem;
   color: var(--fa-text);
   margin-bottom: 0.4rem;
   display: block;
 }
-.tinymce-wrapper { border-radius: 8px; overflow: hidden; }
+.editor-wrapper { border-radius: 8px; overflow: hidden; }
 
 /* ── Character counter ──────────────────────────────────── */
 .char-counter {

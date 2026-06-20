@@ -124,15 +124,19 @@ include 'partials/sidebar.php';
 
 <?php include 'partials/scripts.php'; ?>
 <script>
-    tinymce.init({
-        selector: '.editor-simple',
-        plugins: 'link lists',
-        toolbar: 'bold italic | bullist numlist | link',
-        height: 250,
-        menubar: false,
-        skin: (document.documentElement.getAttribute('data-theme') === 'dark' ? 'oxide-dark' : 'oxide'),
-        content_css: (document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default')
+    
+    $(document).ready(function() {
+        $('.editor-simple').summernote({
+            height: 250,
+            toolbar: [
+                ['font', ['bold', 'italic', 'clear']],
+                ['para', ['ul', 'ol']],
+                ['insert', ['link']],
+                ['view', ['codeview']]
+            ]
+        });
     });
+
 </script>
 </body>
 </html>

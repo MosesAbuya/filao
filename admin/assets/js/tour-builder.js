@@ -1,37 +1,40 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- TinyMCE Initialization ---
-    tinymce.init({
-        selector: '.editor-full',
-        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+    // --- Summernote Initialization ---
+    // Full editor for main description
+    $('.editor-full').summernote({
         height: 500,
-        skin: (document.documentElement.getAttribute('data-theme') === 'dark' ? 'oxide-dark' : 'oxide'),
-        content_css: (document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'),
-        branding: false
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+            ['fontname', ['fontname']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen', 'codeview', 'help']]
+        ]
     });
 
-    tinymce.init({
-        selector: '.editor-simple',
-        plugins: 'link lists',
-        toolbar: 'bold italic | bullist numlist | link | removeformat',
+    // Simple editor for highlights/inclusions/etc.
+    $('.editor-simple').summernote({
         height: 250,
-        menubar: false,
-        skin: (document.documentElement.getAttribute('data-theme') === 'dark' ? 'oxide-dark' : 'oxide'),
-        content_css: (document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'),
-        branding: false
+        toolbar: [
+            ['font', ['bold', 'italic', 'clear']],
+            ['para', ['ul', 'ol']],
+            ['insert', ['link']],
+            ['view', ['codeview']]
+        ]
     });
 
     // Initialize existing step descriptions
-    tinymce.init({
-        selector: '.step-desc-editor',
-        plugins: 'link lists',
-        toolbar: 'bold italic | bullist numlist | link | removeformat',
+    $('.step-desc-editor').summernote({
         height: 200,
-        menubar: false,
-        skin: (document.documentElement.getAttribute('data-theme') === 'dark' ? 'oxide-dark' : 'oxide'),
-        content_css: (document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'),
-        branding: false
+        toolbar: [
+            ['font', ['bold', 'italic', 'clear']],
+            ['para', ['ul', 'ol']],
+            ['insert', ['link']]
+        ]
     });
 
     // --- Slug Generator ---
@@ -167,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <input type="text" class="form-control" name="steps[${stepCount}][transit_duration]" placeholder="e.g. 2 hours, 45 minutes flight">
                         </div>
                         <div class="col-12">
-                            <label class="tinymce-label">Daily Description <span class="text-danger">*</span></label>
+                            <label class="editor-label">Daily Description <span class="text-danger">*</span></label>
                             <textarea class="form-control step-desc-editor" name="steps[${stepCount}][description]" rows="4"></textarea>
                         </div>
                         <div class="col-12 mt-3">
@@ -180,18 +183,16 @@ document.addEventListener('DOMContentLoaded', () => {
             
             container.insertAdjacentHTML('beforeend', stepHtml);
             
-            // Init minimal tinymce for this specific step
+            // Init minimal summernote for this specific step
             const newTextarea = container.lastElementChild.querySelector('.step-desc-editor');
             newTextarea.id = 'step_desc_' + stepCount;
-            tinymce.init({
-                target: newTextarea,
-                plugins: 'link lists',
-                toolbar: 'bold italic | bullist numlist | link',
+            $(newTextarea).summernote({
                 height: 200,
-                menubar: false,
-                skin: (document.documentElement.getAttribute('data-theme') === 'dark' ? 'oxide-dark' : 'oxide'),
-                content_css: (document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'),
-                branding: false
+                toolbar: [
+                    ['font', ['bold', 'italic', 'clear']],
+                    ['para', ['ul', 'ol']],
+                    ['insert', ['link']]
+                ]
             });
 
             stepCount++;
@@ -201,10 +202,10 @@ document.addEventListener('DOMContentLoaded', () => {
         container.addEventListener('click', (e) => {
             if (e.target.closest('.step-remove-btn')) {
                 const card = e.target.closest('.step-card');
-                // destroy tinymce instance if exists
+                // destroy summernote instance if exists
                 const textarea = card.querySelector('.step-desc-editor');
-                if (textarea && textarea.id && tinymce.get(textarea.id)) {
-                    tinymce.get(textarea.id).remove();
+                if (textarea) {
+                    $(textarea).summernote('destroy');
                 }
                 card.remove();
                 updateStepNumbers();

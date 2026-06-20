@@ -208,8 +208,8 @@ include 'partials/sidebar.php';
                                         </div>
                                     </div>
                                     <div class="mb-4">
-                                        <label class="tinymce-label">Full Description <span class="text-danger">*</span></label>
-                                        <div class="tinymce-wrapper">
+                                        <label class="editor-label">Full Description <span class="text-danger">*</span></label>
+                                        <div class="editor-wrapper">
                                             <textarea id="description" name="description" class="editor-full"></textarea>
                                         </div>
                                     </div>
@@ -317,16 +317,16 @@ document.getElementById('end_destination_id').addEventListener('change', functio
                                 <div class="panel mb-4">
                                     <div class="panel-header"><h2>Highlights & Features</h2></div>
                                     <div class="mb-4">
-                                        <label class="tinymce-label">Tour Highlights (Bullet Points)</label>
-                                        <div class="tinymce-wrapper"><textarea name="highlights" class="editor-simple"></textarea></div>
+                                        <label class="editor-label">Tour Highlights (Bullet Points)</label>
+                                        <div class="editor-wrapper"><textarea name="highlights" class="editor-simple"></textarea></div>
                                     </div>
                                     <div class="mb-4">
-                                        <label class="tinymce-label">Inclusions</label>
-                                        <div class="tinymce-wrapper"><textarea name="inclusions" class="editor-simple"></textarea></div>
+                                        <label class="editor-label">Inclusions</label>
+                                        <div class="editor-wrapper"><textarea name="inclusions" class="editor-simple"></textarea></div>
                                     </div>
                                     <div class="mb-0">
-                                        <label class="tinymce-label">Exclusions</label>
-                                        <div class="tinymce-wrapper"><textarea name="exclusions" class="editor-simple"></textarea></div>
+                                        <label class="editor-label">Exclusions</label>
+                                        <div class="editor-wrapper"><textarea name="exclusions" class="editor-simple"></textarea></div>
                                     </div>
                                 </div>
                             </div>

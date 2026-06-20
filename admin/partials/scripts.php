@@ -7,8 +7,8 @@
 <!-- SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
 
-<!-- TinyMCE -->
-<script src="https://cdn.tiny.cloud/1/tyerws3n0wmvt156kocntme79tt696a7mz8bg8brh2nhhhpk/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<!-- Summernote JS -->
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs5.min.js"></script>
 
 <!-- SortableJS for drag and drop (itinerary steps) -->
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
