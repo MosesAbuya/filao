@@ -32,7 +32,7 @@ $stmt = $pdo->prepare("
     FROM tours t
     LEFT JOIN itinerary_steps ist ON ist.tour_id = t.id
     LEFT JOIN destinations d ON d.id = ist.destination_id
-    LEFT JOIN countries c ON d.country = c.name
+    LEFT JOIN countries c ON d.country COLLATE utf8mb4_unicode_ci = c.name COLLATE utf8mb4_unicode_ci
     LEFT JOIN regions r ON c.region_id = r.id
     WHERE t.status='published' AND (
         t.title LIKE ? OR 

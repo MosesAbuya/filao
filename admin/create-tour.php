@@ -5,7 +5,7 @@ $pdo = getPDO();
 
 // Get dependencies
 $categories = $pdo->query("SELECT id, name FROM tour_categories ORDER BY display_order")->fetchAll();
-$activities = $pdo->query("SELECT id, name FROM taxonomies WHERE type = 'activity' ORDER BY name")->fetchAll();
+$activities = $pdo->query("SELECT id, name FROM activities ORDER BY name")->fetchAll();
 $features = $pdo->query("SELECT id, name FROM taxonomies WHERE type = 'feature' ORDER BY name")->fetchAll();
 $destinations = $pdo->query("SELECT id, name FROM destinations ORDER BY name")->fetchAll();
 $accommodations = $pdo->query("SELECT id, name FROM accommodations ORDER BY name")->fetchAll();
@@ -78,11 +78,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        // Categories pivot
+        // Categories
         if (!empty($_POST['categories']) && is_array($_POST['categories'])) {
             $catStmt = $pdo->prepare("INSERT INTO tour_category_pivot (tour_id, category_id) VALUES (?, ?)");
             foreach ($_POST['categories'] as $catId) {
                 $catStmt->execute([$tourId, (int)$catId]);
+            }
+        }
+
+        // Activities pivot
+        if (!empty($_POST['activities']) && is_array($_POST['activities'])) {
+            $actStmt = $pdo->prepare("INSERT INTO activity_tour (tour_id, activity_id) VALUES (?, ?)");
+            foreach ($_POST['activities'] as $actId) {
+                $actStmt->execute([$tourId, (int)$actId]);
             }
         }
 
@@ -290,8 +298,8 @@ document.getElementById('end_destination_id').addEventListener('change', functio
                                     <div class="category-chip-grid mb-3">
                                         <?php foreach($activities as $tax): ?>
                                             <div class="category-chip">
-                                                <input type="checkbox" name="taxonomies[]" id="tax_<?= $tax['id'] ?>" value="<?= $tax['id'] ?>">
-                                                <label for="tax_<?= $tax['id'] ?>"><?= sanitize($tax['name']) ?></label>
+                                                <input type="checkbox" name="activities[]" id="act_<?= $tax['id'] ?>" value="<?= $tax['id'] ?>">
+                                                <label for="act_<?= $tax['id'] ?>"><?= sanitize($tax['name']) ?></label>
                                             </div>
                                         <?php endforeach; ?>
                                     </div>

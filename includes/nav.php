@@ -113,7 +113,7 @@ $navSafarisThemes = $navPdo->query("
     JOIN tours t ON ttp.tour_id = t.id
     JOIN activity_tour at ON t.id = at.tour_id
     JOIN activities a ON at.activity_id = a.id
-    WHERE t.status='published' AND a.slug = 'safari' AND tx.name IN ('Family Friendly', 'Honeymoon', 'Solo Traveler')
+    WHERE t.status='published' AND a.slug LIKE '%safari%' AND tx.name IN ('Family Friendly', 'Honeymoon', 'Solo Traveler')
     ORDER BY tx.name ASC, t.duration_days ASC
 ")->fetchAll();
 
