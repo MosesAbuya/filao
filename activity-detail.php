@@ -3,27 +3,28 @@ require_once 'includes/db.php';
 $slug = $_GET['slug'] ?? '';
 $id = intval($_GET['id'] ?? 0);
 
-if (!$slug && !$id) { header('Location: /filao/activities'); exit; }
+$base_href = ($_SERVER['HTTP_HOST'] === 'localhost' || $_SERVER['HTTP_HOST'] === '127.0.0.1') ? '/filao/' : '/';
+if (!$slug && !$id) { header('Location: ' . $base_href . 'activities'); exit; }
 $pdo = getPDO();
 
 if ($slug) {
-    $act = $pdo->prepare('SELECT * FROM activities WHERE slug=?');
+    $act = $pdo->prepare("SELECT *, 'other' as category, image as featured_image FROM taxonomies WHERE type='activity' AND slug=?");
     $act->execute([$slug]);
 } else {
-    $act = $pdo->prepare('SELECT * FROM activities WHERE id=?');
+    $act = $pdo->prepare("SELECT *, 'other' as category, image as featured_image FROM taxonomies WHERE type='activity' AND id=?");
     $act->execute([$id]);
 }
 
 $act = $act->fetch();
-if (!$act) { header('Location: /filao/activities'); exit; }
+if (!$act) { header('Location: ' . $base_href . 'activities'); exit; }
 $id = $act['id'];
 
 // Related tours using pivot table activity_tour
 $tours = $pdo->prepare('
     SELECT t.id, t.title, t.slug, t.duration_days, t.price_from_usd, t.excerpt, t.featured_image 
     FROM tours t 
-    JOIN activity_tour at ON at.tour_id=t.id 
-    WHERE at.activity_id=? AND t.status='published' 
+    JOIN tour_taxonomy_pivot ttp ON ttp.tour_id=t.id 
+    WHERE ttp.taxonomy_id=? AND t.status='published' 
     LIMIT 3
 ');
 $tours->execute([$id]);

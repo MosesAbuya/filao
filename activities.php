@@ -1,7 +1,7 @@
 <?php
 require_once 'includes/db.php';
 $pdo = getPDO();
-$activities = $pdo->query("SELECT id, name, slug, category, featured_image FROM activities ORDER BY name ASC")->fetchAll();
+$activities = $pdo->query("SELECT id, name, slug, 'other' as category, image as featured_image FROM taxonomies WHERE type='activity' ORDER BY name ASC")->fetchAll();
 
 $acts = [];
 foreach($activities as $act) {

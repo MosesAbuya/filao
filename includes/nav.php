@@ -111,9 +111,9 @@ $navSafarisThemes = $navPdo->query("
     FROM taxonomies tx
     JOIN tour_taxonomy_pivot ttp ON tx.id = ttp.taxonomy_id
     JOIN tours t ON ttp.tour_id = t.id
-    JOIN activity_tour at ON t.id = at.tour_id
-    JOIN activities a ON at.activity_id = a.id
-    WHERE t.status='published' AND a.slug COLLATE utf8mb4_unicode_ci LIKE '%safari%' COLLATE utf8mb4_unicode_ci AND tx.name IN ('Family Friendly', 'Honeymoon', 'Solo Traveler')
+    JOIN tour_taxonomy_pivot ttp_act ON t.id = ttp_act.tour_id
+    JOIN taxonomies a ON ttp_act.taxonomy_id = a.id
+    WHERE t.status='published' AND a.type='activity' AND a.slug LIKE '%safari%' AND tx.name IN ('Family Friendly', 'Honeymoon', 'Solo Traveler')
     ORDER BY tx.name ASC, t.duration_days ASC
 ")->fetchAll();
 

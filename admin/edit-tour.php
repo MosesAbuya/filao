@@ -5,7 +5,7 @@ $pdo = getPDO();
 
 // Get dependencies
 $categories = $pdo->query("SELECT id, name FROM tour_categories ORDER BY display_order")->fetchAll();
-$activities = $pdo->query("SELECT id, name FROM activities ORDER BY name")->fetchAll();
+$activities = $pdo->query("SELECT id, name FROM taxonomies WHERE type = 'activity' ORDER BY name")->fetchAll();
 $features = $pdo->query("SELECT id, name FROM taxonomies WHERE type = 'feature' ORDER BY name")->fetchAll();
 $destinations = $pdo->query("SELECT id, name FROM destinations ORDER BY name")->fetchAll();
 $accommodations = $pdo->query("SELECT id, name FROM accommodations ORDER BY name")->fetchAll();
@@ -30,10 +30,6 @@ $selectedCats = $tourCats->fetchAll(PDO::FETCH_COLUMN);
 $tourTax = $pdo->prepare("SELECT taxonomy_id FROM tour_taxonomy_pivot WHERE tour_id = ?");
 $tourTax->execute([$id]);
 $selectedTax = $tourTax->fetchAll(PDO::FETCH_COLUMN);
-
-$tourAct = $pdo->prepare("SELECT activity_id FROM activity_tour WHERE tour_id = ?");
-$tourAct->execute([$id]);
-$selectedAct = $tourAct->fetchAll(PDO::FETCH_COLUMN);
 
 $tourSeason = $pdo->prepare("SELECT month_number, rating FROM tour_seasonality WHERE tour_id = ?");
 $tourSeason->execute([$id]);
@@ -143,15 +139,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $catStmt = $pdo->prepare("INSERT INTO tour_category_pivot (tour_id, category_id) VALUES (?, ?)");
             foreach ($_POST['categories'] as $catId) {
                 $catStmt->execute([$id, (int)$catId]);
-            }
-        }
-
-        // Activities pivot
-        $pdo->prepare("DELETE FROM activity_tour WHERE tour_id = ?")->execute([$id]);
-        if (!empty($_POST['activities']) && is_array($_POST['activities'])) {
-            $actStmt = $pdo->prepare("INSERT INTO activity_tour (tour_id, activity_id) VALUES (?, ?)");
-            foreach ($_POST['activities'] as $actId) {
-                $actStmt->execute([$id, (int)$actId]);
             }
         }
 
@@ -370,8 +357,8 @@ document.getElementById('end_destination_id').addEventListener('change', functio
                                     <div class="category-chip-grid mb-3">
                                         <?php foreach($activities as $tax): ?>
                                             <div class="category-chip">
-                                                <input type="checkbox" name="activities[]" id="act_<?= $tax['id'] ?>" value="<?= $tax['id'] ?>" <?= in_array($tax['id'], $selectedAct) ? 'checked' : '' ?>>
-                                                <label for="act_<?= $tax['id'] ?>"><?= sanitize($tax['name']) ?></label>
+                                                <input type="checkbox" name="taxonomies[]" id="tax_<?= $tax['id'] ?>" value="<?= $tax['id'] ?>" <?= in_array($tax['id'], $selectedTax) ? 'checked' : '' ?>>
+                                                <label for="tax_<?= $tax['id'] ?>"><?= sanitize($tax['name']) ?></label>
                                             </div>
                                         <?php endforeach; ?>
                                     </div>

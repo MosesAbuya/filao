@@ -38,9 +38,9 @@ $whereSql = implode(" AND ", $where);
 $stmt = $pdo->prepare("
     SELECT t.id, t.title, t.slug, t.duration_days, t.price_from_usd, t.excerpt, t.description, t.featured_image, t.status 
     FROM tours t 
-    JOIN activity_tour at ON t.id = at.tour_id
-    JOIN activities a ON at.activity_id = a.id
-    WHERE $whereSql AND a.slug COLLATE utf8mb4_unicode_ci LIKE '%safari%' COLLATE utf8mb4_unicode_ci
+    JOIN tour_taxonomy_pivot ttp_act ON t.id = ttp_act.tour_id
+    JOIN taxonomies a ON ttp_act.taxonomy_id = a.id
+    WHERE $whereSql AND a.type='activity' AND a.slug LIKE '%safari%'
     ORDER BY t.duration_days ASC
 ");
 $stmt->execute($params);
