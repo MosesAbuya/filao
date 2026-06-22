@@ -320,7 +320,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <div style="text-align:center;">
                 <div
                   style="font-size:26px;font-weight:700;font-family:'Cormorant Garant',serif;color:#C49018;line-height:1;">
-                  2020</div>
+                  2018</div>
                 <div
                   style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-top:3px;">
                   Founded</div>

@@ -7,7 +7,7 @@
  * JavaScript triggers it via openPlanningModal(tourId, tourTitle, destName)
  */
 $pdo_modal = getPDO();
-$modalDests = $pdo_modal->query("SELECT id, name FROM destinations ORDER BY name ASC")->fetchAll();
+$modalDests = $pdo_modal->query("SELECT id, name FROM countries ORDER BY name ASC")->fetchAll();
 $modalActs = $pdo_modal->query("SELECT id, name, category FROM activities ORDER BY category ASC, name ASC")->fetchAll();
 $currentYear = (int) date('Y');
 ?>

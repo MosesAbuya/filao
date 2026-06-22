@@ -42,7 +42,7 @@
           <h2>Born From A Love Of Africa's Wild Places</h2>
         </div>
         <div style="font-size:16px;color:#4A4340;line-height:1.8;">
-          <p>Founded in 2020, Filao Adventures was born from a deep, enduring love of Africa's wild places. What started as a small operation guiding passionate travelers through Kenya's renowned national parks has grown into a full-service luxury travel company crafting journeys to over 15 destinations worldwide.</p>
+          <p>Founded in 2018, Filao Adventures was born from a deep, enduring love of Africa's wild places. What started as a small operation guiding passionate travelers through Kenya's renowned national parks has grown into a full-service luxury travel company crafting journeys to over 15 destinations worldwide.</p>
           <p>But despite our growth, our core philosophy remains unchanged. We believe that every traveler deserves a safari designed specifically for them &mdash; one that reflects their pace, their interests, and their dreams.</p>
           <p>We are not a mass-market booking engine. We are a team of dedicated safari specialists and local experts who know the African bush intimately. We know which luxury camps offer the best views of the migration, which guides have an uncanny ability to spot leopards, and exactly when to visit each park for the optimal experience.</p>
           <p>When you travel with Filao Adventures, you're not just taking a trip; you're embarking on a carefully curated journey designed to leave you with memories that will last a lifetime.</p>
