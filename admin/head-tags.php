@@ -64,7 +64,7 @@ include 'partials/sidebar.php';
                                         <td><strong><?= sanitize($tag['name']) ?></strong></td>
                                         <td>
                                             <form method="POST" class="d-inline" action="head-tags.php">
-                                                <?= csrfInput() ?>
+                                                <?= csrfField() ?>
                                                 <input type="hidden" name="action" value="toggle">
                                                 <input type="hidden" name="tag_id" value="<?= $tag['id'] ?>">
                                                 <input type="hidden" name="status" value="<?= $tag['is_active'] ? '0' : '1' ?>">
