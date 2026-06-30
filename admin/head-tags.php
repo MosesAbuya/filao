@@ -68,7 +68,7 @@ include 'partials/sidebar.php';
                     </div>
                 </div>
                 <div class="heading-actions">
-                    <button type="button" class="btn btn-primary" onclick="openTagModal()"><i class="bi bi-plus-lg me-1"></i> Add Tag</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tagModal" onclick="openTagModal(0, '', '', 1)"><i class="bi bi-plus-lg me-1"></i> Add Tag</button>
                 </div>
             </div>
 
@@ -107,7 +107,7 @@ include 'partials/sidebar.php';
                                         </td>
                                         <td><?= date('M j, Y', strtotime($tag['created_at'])) ?></td>
                                         <td class="text-end action-cell">
-                                            <button type="button" class="btn btn-light btn-sm"
+                                            <button type="button" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#tagModal"
                                                 onclick="openTagModal(<?= $tag['id'] ?>, '<?= htmlspecialchars(addslashes($tag['name'])) ?>', `<?= htmlspecialchars($tag['code']) ?>`, <?= $tag['is_active'] ?>)"
                                                 title="Edit"><i class="bi bi-pencil"></i></button>
                                             <button type="button" class="btn btn-danger btn-sm"
@@ -178,9 +178,6 @@ include 'partials/sidebar.php';
         
         document.getElementById('modalTagActive').checked = (isActive == 1);
         document.getElementById('tagModalLabel').innerText = id > 0 ? 'Edit Head Tag' : 'Add Head Tag';
-        
-        var tagModal = new bootstrap.Modal(document.getElementById('tagModal'));
-        tagModal.show();
     }
 
     function deleteRecord(table, id) {
