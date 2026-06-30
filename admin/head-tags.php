@@ -3,36 +3,6 @@ require_once __DIR__ . '/auth_guard.php';
 
 $pdo = getPDO();
 
-// Handle form submission for Add/Edit
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'save') {
-    if (!csrfVerify($_POST['csrf_token'] ?? '')) {
-        setFlash('danger', 'Security token invalid or expired.');
-    } else {
-        $id = (int)($_POST['tag_id'] ?? 0);
-        $name = trim($_POST['name'] ?? '');
-        $code = $_POST['code'] ?? '';
-        $is_active = isset($_POST['is_active']) ? 1 : 0;
-
-        if (empty($name) || empty($code)) {
-            setFlash('danger', 'Name and Code are required.');
-        } else {
-            if ($id > 0) {
-                // Update
-                $stmt = $pdo->prepare("UPDATE head_tags SET name = ?, code = ?, is_active = ? WHERE id = ?");
-                $stmt->execute([$name, $code, $is_active, $id]);
-                setFlash('success', 'Tag updated successfully.');
-            } else {
-                // Insert
-                $stmt = $pdo->prepare("INSERT INTO head_tags (name, code, is_active) VALUES (?, ?, ?)");
-                $stmt->execute([$name, $code, $is_active]);
-                setFlash('success', 'Tag created successfully.');
-            }
-            header("Location: head-tags.php");
-            exit;
-        }
-    }
-}
-
 // Handle toggle status
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'toggle') {
      if (csrfVerify($_POST['csrf_token'] ?? '')) {
@@ -68,7 +38,7 @@ include 'partials/sidebar.php';
                     </div>
                 </div>
                 <div class="heading-actions">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tagModal" onclick="openTagModal(0, '', '', 1)"><i class="bi bi-plus-lg me-1"></i> Add Tag</button>
+                    <a href="create-head-tag.php" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i> Add Tag</a>
                 </div>
             </div>
 
@@ -107,9 +77,7 @@ include 'partials/sidebar.php';
                                         </td>
                                         <td><?= date('M j, Y', strtotime($tag['created_at'])) ?></td>
                                         <td class="text-end action-cell">
-                                            <button type="button" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#tagModal"
-                                                onclick="openTagModal(<?= $tag['id'] ?>, '<?= htmlspecialchars(addslashes($tag['name'])) ?>', `<?= htmlspecialchars($tag['code']) ?>`, <?= $tag['is_active'] ?>)"
-                                                title="Edit"><i class="bi bi-pencil"></i></button>
+                                            <a href="edit-head-tag.php?id=<?= $tag['id'] ?>" class="btn btn-light btn-sm" title="Edit"><i class="bi bi-pencil"></i></a>
                                             <button type="button" class="btn btn-danger btn-sm"
                                                 onclick="deleteRecord('head_tags', <?= $tag['id'] ?>)" title="Delete"><i
                                                     class="bi bi-trash"></i></button>
@@ -128,58 +96,8 @@ include 'partials/sidebar.php';
     <?php include 'partials/footer.php'; ?>
 </div>
 
-<!-- Add/Edit Tag Modal -->
-<div class="modal fade" id="tagModal" tabindex="-1" aria-labelledby="tagModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <form action="head-tags.php" method="POST">
-          <?= csrfInput() ?>
-          <input type="hidden" name="action" value="save">
-          <input type="hidden" name="tag_id" id="modalTagId" value="0">
-          
-          <div class="modal-header">
-            <h5 class="modal-title" id="tagModalLabel">Add Head Tag</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-              <div class="mb-3">
-                  <label for="modalTagName" class="form-label">Name</label>
-                  <input type="text" class="form-control" id="modalTagName" name="name" required placeholder="e.g. Meta Pixel">
-              </div>
-              <div class="mb-3">
-                  <label for="modalTagCode" class="form-label">Code Snippet (HTML/JS)</label>
-                  <textarea class="form-control text-monospace" id="modalTagCode" name="code" rows="8" required placeholder="<script>...</script>"></textarea>
-                  <div class="form-text">This code will be injected right before the closing &lt;/head&gt; tag on all public pages.</div>
-              </div>
-              <div class="mb-3 form-check">
-                  <input type="checkbox" class="form-check-input" id="modalTagActive" name="is_active" value="1" checked>
-                  <label class="form-check-label" for="modalTagActive">Active</label>
-              </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-primary">Save Tag</button>
-          </div>
-      </form>
-    </div>
-  </div>
-</div>
-
 <?php include 'partials/scripts.php'; ?>
 <script>
-    function openTagModal(id = 0, name = '', code = '', isActive = 1) {
-        document.getElementById('modalTagId').value = id;
-        document.getElementById('modalTagName').value = name;
-        
-        // Decode HTML entities for textarea
-        const txt = document.createElement("textarea");
-        txt.innerHTML = code;
-        document.getElementById('modalTagCode').value = txt.value;
-        
-        document.getElementById('modalTagActive').checked = (isActive == 1);
-        document.getElementById('tagModalLabel').innerText = id > 0 ? 'Edit Head Tag' : 'Add Head Tag';
-    }
-
     function deleteRecord(table, id) {
         Swal.fire({
             title: 'Are you sure?',
