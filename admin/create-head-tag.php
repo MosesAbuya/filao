@@ -39,7 +39,7 @@ include 'partials/sidebar.php';
     <?php include 'partials/navbar.php'; ?>
     <div class="dashboard-content">
         <form action="create-head-tag.php" method="POST">
-            <?= csrfInput() ?>
+            <?= csrfField() ?>
             <div class="container-fluid px-3 px-lg-4">
                 <div class="page-heading">
                     <div class="page-heading-copy">
