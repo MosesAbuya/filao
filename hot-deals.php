@@ -102,6 +102,7 @@ function getTourRouteT($pdo,$id){
     .fa-tour-card .tc-price .price-val { color:#fff !important; }
     .fa-tour-card .tc-route { color:rgba(255,255,255,0.6) !important; }
   </style>
+<?php @include_once __DIR__.'/includes/head_tags.php'; ?>
 </head>
 <body>
 <?php require_once 'includes/nav.php'; ?>

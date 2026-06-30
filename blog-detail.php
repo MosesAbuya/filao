@@ -69,6 +69,7 @@ $readTime = max(1, round(str_word_count(strip_tags($blog['body'])) / 200));
     .rel-card-title a { color:inherit;text-decoration:none; }
     .rel-card-title a:hover { color:#C49018; }
   </style>
+<?php @include_once __DIR__.'/includes/head_tags.php'; ?>
 </head>
 <body>
 <?php require_once 'includes/nav.php'; ?>

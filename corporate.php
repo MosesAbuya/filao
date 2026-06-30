@@ -253,6 +253,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       margin-bottom: 20px;
     }
   </style>
+<?php @include_once __DIR__.'/includes/head_tags.php'; ?>
 </head>
 
 <body>

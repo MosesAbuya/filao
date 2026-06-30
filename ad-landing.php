@@ -183,6 +183,7 @@ $nights = max(1, (int)($tour['duration_days'] ?? 1)) - 1;
     /* Footer */
     .ad-footer { background:var(--ad-dark); color:rgba(255,255,255,0.5); padding:60px 0; text-align:center; font-size:14px; }
   </style>
+<?php @include_once __DIR__.'/includes/head_tags.php'; ?>
 </head>
 <body>
 

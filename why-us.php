@@ -18,6 +18,7 @@
     .rich-content ul { font-size: 16px; color: #4A4340; line-height: 1.8; margin-bottom: 25px; }
     .rich-content ul li { margin-bottom: 10px; }
   </style>
+<?php @include_once __DIR__.'/includes/head_tags.php'; ?>
 </head>
 <body>
 <?php require_once 'includes/nav.php'; ?>

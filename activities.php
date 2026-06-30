@@ -55,6 +55,7 @@ foreach($activities as $act) {
     
     .dest-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px; }
   </style>
+<?php @include_once __DIR__.'/includes/head_tags.php'; ?>
 </head>
 <body>
 <?php require_once 'includes/nav.php'; ?>

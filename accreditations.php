@@ -53,6 +53,7 @@
       margin-bottom: 10px;
     }
   </style>
+<?php @include_once __DIR__.'/includes/head_tags.php'; ?>
 </head>
 
 <body>

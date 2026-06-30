@@ -91,6 +91,10 @@ $user = currentUser();
             <span class="nav-icon"><i class="bi bi-gear-fill"></i></span>
             <span class="nav-text">Settings</span>
         </a>
+        <a href="head-tags.php" class="nav-link <?= $currentPage === 'head-tags.php' ? 'active' : '' ?>">
+            <span class="nav-icon"><i class="bi bi-code-square"></i></span>
+            <span class="nav-text">Head Tags</span>
+        </a>
         <?php endif; ?>
     </nav>
 

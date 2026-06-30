@@ -93,6 +93,7 @@ $template = <<<HTML
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/css/filao-theme.css">
+<?php @include_once __DIR__.'/includes/head_tags.php'; ?>
 </head>
 <body>
 <?php require_once 'includes/nav.php'; ?>

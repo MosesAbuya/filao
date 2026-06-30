@@ -127,6 +127,7 @@ function getTourRouteT($pdo,$id){
     .btn-filter-clear { display:block;text-align:center;font-size:11px;color:#6B6358;text-decoration:none; }
     .results-info { font-size:13px;color:#6B6358;margin-bottom:24px;font-family:'Inter',sans-serif; }
   </style>
+<?php @include_once __DIR__.'/includes/head_tags.php'; ?>
 </head>
 <body>
 <?php require_once 'includes/nav.php'; ?>

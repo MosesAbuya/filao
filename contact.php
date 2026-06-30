@@ -29,6 +29,7 @@ $pdo = getPDO();
     .contact-item .text a:hover { color:#C49018; }
     #contactFeedback { display:none; }
   </style>
+<?php @include_once __DIR__.'/includes/head_tags.php'; ?>
 </head>
 <body>
 <?php require_once 'includes/nav.php'; ?>

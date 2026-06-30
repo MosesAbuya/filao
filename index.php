@@ -58,6 +58,7 @@ function getTourRoute($pdo, $tourId)
   <link rel="stylesheet" href="css/flaticon.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="assets/css/filao-theme.css?v=<?= time() ?>">
+<?php @include_once __DIR__.'/includes/head_tags.php'; ?>
 </head>
 
 <body>

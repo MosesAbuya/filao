@@ -180,6 +180,7 @@ $nights = max(1, (int)($tour['duration_days'] ?? 1)) - 1;
     .leaflet-popup-content-wrapper { border-radius:4px; font-family:'Inter',sans-serif; }
     .leaflet-popup-content { margin:13px 19px; font-size:13px; line-height:1.5; color:#1C1712; }
   </style>
+<?php @include_once __DIR__.'/includes/head_tags.php'; ?>
 </head>
 <body>
 <?php require_once 'includes/nav.php'; ?>

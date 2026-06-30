@@ -49,6 +49,7 @@ $categories = $pdo->query("SELECT DISTINCT category FROM blogs WHERE status='pub
     .blog-filter-btn { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; padding:6px 16px; border-radius:30px; border:1px solid #E5DDD0; background:#fff; color:#4A4340; font-family:'Inter',sans-serif; transition:all 0.2s; text-decoration:none; }
     .blog-filter-btn:hover, .blog-filter-btn.active { background:#1C1712; color:#fff; border-color:#1C1712; }
   </style>
+<?php @include_once __DIR__.'/includes/head_tags.php'; ?>
 </head>
 <body>
 <?php require_once 'includes/nav.php'; ?>
