@@ -669,7 +669,7 @@ if (!empty($navMultiCountryTours)) {
       <h4>Who We Are</h4>
       <ul>
         <li><a href="about">About Us</a></li>
-
+        <li><a href="partner-agent">Apply To Be An Agent</a></li>
         <li><a href="accreditations">Our Accreditations</a></li>
         <li><a href="testimonials">Client Testimonials</a></li>
         <li><a href="sustainable-tourism">Sustainable Tourism</a></li>
@@ -928,7 +928,7 @@ if (!empty($navMultiCountryTours)) {
       </div>
       <ul class="rmm-links rmm-bg-white">
         <li><a href="about">ABOUT US</a></li>
-
+        <li><a href="partner-agent">APPLY TO BE AN AGENT</a></li>
         <li><a href="accreditations">OUR ACCREDITATIONS</a></li>
         <li><a href="testimonials">CLIENT TESTIMONIALS</a></li>
         <li><a href="sustainable-tourism">SUSTAINABLE TOURISM</a></li>

@@ -27,6 +27,11 @@ $user = currentUser();
             <span class="nav-text">Inquiries</span>
         </a>
 
+        <a href="partner_agents.php" class="nav-link <?= $currentPage === 'partner_agents.php' ? 'active' : '' ?>">
+            <span class="nav-icon"><i class="bi bi-briefcase-fill"></i></span>
+            <span class="nav-text">Agents</span>
+        </a>
+
         <a href="newsletters.php" class="nav-link <?= $currentPage === 'newsletters.php' ? 'active' : '' ?>">
             <span class="nav-icon"><i class="bi bi-envelope-paper-fill"></i></span>
             <span class="nav-text">Newsletters</span>

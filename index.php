@@ -1136,6 +1136,18 @@ function getTourRoute($pdo, $tourId)
     </div>
   </section>
 
+  <!-- ====== AGENT CTA ====== -->
+  <section class="fa-cta-banner"
+    style="background-image:url('images/Filao/Company/tourist behind tour vehicle.jpeg'); padding: 80px 0;">
+    <div class="overlay" style="background:linear-gradient(to right, rgba(28,23,18,0.95) 0%, rgba(28,23,18,0.7) 100%);"></div>
+    <div class="container fa-cta-content" style="max-width:1280px; text-align:center;">
+      <span class="eyebrow" style="color:#C49018; letter-spacing:0.15em; text-transform:uppercase; font-size:11px; font-weight:700; margin-bottom:15px; display:block;">For Travel Professionals</span>
+      <h2>Apply To Be An Agent</h2>
+      <p style="max-width:700px; margin: 0 auto 30px;">Offer your discerning clients exclusive access to East Africa's finest luxury safaris. Join our network of trusted global agents to enjoy dedicated support, bespoke itineraries, and premium B2B rates.</p>
+      <a href="partner-agent" class="btn-filao-cta" style="font-size:12px;padding:14px 32px;">Apply Now &rarr;</a>
+    </div>
+  </section>
+
   <!-- ====== BLOG TEASERS ====== -->
   <section class="section-pad bg-cream">
     <div class="container" style="max-width:1280px;">
