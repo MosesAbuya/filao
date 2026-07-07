@@ -19,7 +19,7 @@ if (file_exists($phpmailerBase . 'Exception.php') &&
 
 require_once __DIR__ . '/db.php';
 
-function sendSiteEmail($toEmail, $toName, $subject, $body, $isHtml = true) {
+function sendSiteEmail($toEmail, $toName, $subject, $body, $isHtml = true, $configPrefix = '') {
     global $phpmailerAvailable;
 
     if (!$phpmailerAvailable) {
@@ -30,12 +30,13 @@ function sendSiteEmail($toEmail, $toName, $subject, $body, $isHtml = true) {
     $stmt = $pdo->query("SELECT setting_key, setting_value FROM settings");
     $settings_raw = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
     
-    $host = $settings_raw['smtp_host'] ?? '';
-    $port = $settings_raw['smtp_port'] ?? '587';
-    $user = $settings_raw['smtp_username'] ?? '';
-    $pass = $settings_raw['smtp_password'] ?? '';
-    $fromEmail = $settings_raw['smtp_from_email'] ?? 'info@filaoadventures.com';
-    $fromName = $settings_raw['smtp_from_name'] ?? 'Filao Adventures';
+    // Resolve settings, falling back to global if the prefixed one is empty
+    $host = !empty($configPrefix) && !empty($settings_raw[$configPrefix . 'smtp_host']) ? $settings_raw[$configPrefix . 'smtp_host'] : ($settings_raw['smtp_host'] ?? '');
+    $port = !empty($configPrefix) && !empty($settings_raw[$configPrefix . 'smtp_port']) ? $settings_raw[$configPrefix . 'smtp_port'] : ($settings_raw['smtp_port'] ?? '587');
+    $user = !empty($configPrefix) && !empty($settings_raw[$configPrefix . 'smtp_username']) ? $settings_raw[$configPrefix . 'smtp_username'] : ($settings_raw['smtp_username'] ?? '');
+    $pass = !empty($configPrefix) && !empty($settings_raw[$configPrefix . 'smtp_password']) ? $settings_raw[$configPrefix . 'smtp_password'] : ($settings_raw['smtp_password'] ?? '');
+    $fromEmail = !empty($configPrefix) && !empty($settings_raw[$configPrefix . 'smtp_from_email']) ? $settings_raw[$configPrefix . 'smtp_from_email'] : ($settings_raw['smtp_from_email'] ?? 'info@filaoadventures.com');
+    $fromName = !empty($configPrefix) && !empty($settings_raw[$configPrefix . 'smtp_from_name']) ? $settings_raw[$configPrefix . 'smtp_from_name'] : ($settings_raw['smtp_from_name'] ?? 'Filao Adventures');
 
     // Ensure we don't crash the server if settings are missing, throw our own exception.
     if (empty($host) || empty($user) || empty($pass)) {

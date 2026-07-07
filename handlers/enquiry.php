@@ -35,8 +35,12 @@ function clean($v) {
     return htmlspecialchars(strip_tags(trim($v ?? '')));
 }
 
-$stmtSettings = $pdo->query("SELECT setting_value FROM settings WHERE setting_key = 'contact_email'");
-$adminEmail = $stmtSettings->fetchColumn() ?: 'info@filaoadventures.co.ke';
+$stmtSettings = $pdo->query("SELECT setting_key, setting_value FROM settings WHERE setting_key IN ('contact_email', 'contact_notify_email', 'tour_notify_email', 'plan_notify_email')");
+$settings_raw = $stmtSettings->fetchAll(PDO::FETCH_KEY_PAIR);
+$globalAdminEmail = $settings_raw['contact_email'] ?? 'info@filaoadventures.co.ke';
+$contactAdminEmail = !empty($settings_raw['contact_notify_email']) ? $settings_raw['contact_notify_email'] : $globalAdminEmail;
+$tourAdminEmail = !empty($settings_raw['tour_notify_email']) ? $settings_raw['tour_notify_email'] : $globalAdminEmail;
+$planAdminEmail = !empty($settings_raw['plan_notify_email']) ? $settings_raw['plan_notify_email'] : $globalAdminEmail;
 
 // ----------------------------------------------------------
 // ENSURE tables exist
@@ -131,7 +135,7 @@ if ($type === 'contact') {
                       <p><strong>Phone:</strong> $phone</p>
                       <p><strong>Subject:</strong> $subject</p>
                       <p><strong>Message:</strong><br/>$msg</p>";
-        sendSiteEmail($adminEmail, "Filao Admin", "New Contact Enquiry: $subject", $adminBody);
+        sendSiteEmail($contactAdminEmail, "Filao Admin", "New Contact Enquiry: $subject", $adminBody, true, '');
 
         $userBody = "
             <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;'>
@@ -149,7 +153,7 @@ if ($type === 'contact') {
                     <p><a href='https://filaoadventures.co.ke' style='color: #C49018; text-decoration: none;'>www.filaoadventures.co.ke</a></p>
                 </div>
             </div>";
-        sendSiteEmail($email, "$fname $lname", "We have received your enquiry", $userBody);
+        sendSiteEmail($email, "$fname $lname", "We have received your enquiry", $userBody, true, '');
     } catch (\Exception $e) {
         $emailMsg = "";
     }
@@ -201,7 +205,7 @@ if ($type === 'tour_enquiry') {
                       <p><strong>Phone:</strong> $phone</p>
                       <p><strong>Guests:</strong> $adults Adults, $children Children</p>
                       <p><strong>Message:</strong><br/>$msg</p>";
-        sendSiteEmail($adminEmail, "Filao Admin", "Tour Enquiry: $tour_title", $adminBody);
+        sendSiteEmail($tourAdminEmail, "Filao Admin", "Tour Enquiry: $tour_title", $adminBody, true, 'tour_');
 
         $userBody = "
             <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;'>
@@ -219,7 +223,7 @@ if ($type === 'tour_enquiry') {
                     <p><a href='https://filaoadventures.co.ke' style='color: #C49018; text-decoration: none;'>www.filaoadventures.co.ke</a></p>
                 </div>
             </div>";
-        sendSiteEmail($email, $fname, "We have received your tour enquiry - {$tour_title}", $userBody);
+        sendSiteEmail($email, $fname, "We have received your tour enquiry - {$tour_title}", $userBody, true, 'tour_');
     } catch (\Exception $e) {
         $emailMsg = "";
     }
@@ -306,7 +310,7 @@ if ($type === 'start_planning') {
                       <p><strong>Budget:</strong> \$$budget</p>
                       <p><strong>Activities:</strong> $activities</p>
                       <p><strong>Message:</strong><br/>$msg</p>";
-        sendSiteEmail($adminEmail, "Filao Admin", "New Trip Planning Request from $fname $lname", $adminBody);
+        sendSiteEmail($planAdminEmail, "Filao Admin", "New Trip Planning Request from $fname $lname", $adminBody, true, 'plan_');
 
         $userBody = "
             <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;'>
@@ -324,7 +328,7 @@ if ($type === 'start_planning') {
                     <p><a href='https://filaoadventures.co.ke' style='color: #C49018; text-decoration: none;'>www.filaoadventures.co.ke</a></p>
                 </div>
             </div>";
-        sendSiteEmail($email, "$fname $lname", "We've received your safari plan", $userBody);
+        sendSiteEmail($email, "$fname $lname", "We've received your safari plan", $userBody, true, 'plan_');
     } catch (\Exception $e) {
         $emailMsg = "";
     }

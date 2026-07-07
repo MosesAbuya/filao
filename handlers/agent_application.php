@@ -24,8 +24,9 @@ function clean($v) {
     return htmlspecialchars(strip_tags(trim($v ?? '')));
 }
 
-$stmtSettings = $pdo->query("SELECT setting_value FROM settings WHERE setting_key = 'contact_email'");
-$adminEmail = $stmtSettings->fetchColumn() ?: 'info@filaoadventures.co.ke';
+$stmtSettings = $pdo->query("SELECT setting_key, setting_value FROM settings WHERE setting_key IN ('contact_email', 'agent_notify_email')");
+$settings_raw = $stmtSettings->fetchAll(PDO::FETCH_KEY_PAIR);
+$adminEmail = !empty($settings_raw['agent_notify_email']) ? $settings_raw['agent_notify_email'] : ($settings_raw['contact_email'] ?? 'info@filaoadventures.co.ke');
 
 // CREATE TABLE
 $pdo->exec("CREATE TABLE IF NOT EXISTS partner_agents (
@@ -48,10 +49,8 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS partner_agents (
     emergency_email VARCHAR(255) NOT NULL,
     
     agent_type ENUM('RETAIL', 'WHOLESALE') NOT NULL,
-    consortium VARCHAR(255) DEFAULT NULL,
     product_updates ENUM('YES', 'NO') NOT NULL DEFAULT 'NO',
     updates_email VARCHAR(255) DEFAULT NULL,
-    webconnect_rates ENUM('YES', 'NO') NOT NULL DEFAULT 'NO',
     
     status ENUM('new', 'reviewed', 'approved', 'rejected') NOT NULL DEFAULT 'new',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -117,7 +116,7 @@ try {
                   <p><strong>Type:</strong> $agent_type</p>
                   <hr>
                   <p>Please log in to the admin dashboard to review the full details of this application.</p>";
-    sendSiteEmail($adminEmail, "Filao Admin", "New Agent Application: $company_name", $adminBody);
+    sendSiteEmail($adminEmail, "Filao Admin", "New Agent Application: $company_name", $adminBody, true, 'agent_');
 
     $userBody = "
         <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;'>
@@ -134,7 +133,7 @@ try {
                 <p><a href='https://filaoadventures.co.ke' style='color: #C49018; text-decoration: none;'>www.filaoadventures.co.ke</a></p>
             </div>
         </div>";
-    sendSiteEmail($agent_email, $agent_name, "We've received your agent application", $userBody);
+    sendSiteEmail($agent_email, $agent_name, "We've received your agent application", $userBody, true, 'agent_');
 } catch (\Exception $e) {
     $emailMsg = "";
 }

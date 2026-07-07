@@ -13,7 +13,7 @@ if (!csrfVerify($_POST['csrf_token'] ?? '')) {
     exit;
 }
 
-$allowedTables = ['tours', 'destinations', 'accommodations', 'taxonomies', 'enquiries', 'newsletters', 'regions', 'countries', 'activities', 'blogs', 'head_tags'];
+$allowedTables = ['tours', 'destinations', 'accommodations', 'taxonomies', 'enquiries', 'newsletters', 'regions', 'countries', 'activities', 'blogs', 'head_tags', 'partner_agents'];
 $table = $_POST['table'] ?? '';
 $id = (int)($_POST['id'] ?? 0);
 

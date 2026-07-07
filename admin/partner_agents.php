@@ -23,10 +23,8 @@ $pdo->exec("CREATE TABLE IF NOT EXISTS partner_agents (
     emergency_email VARCHAR(255) NOT NULL,
     
     agent_type ENUM('RETAIL', 'WHOLESALE') NOT NULL,
-    consortium VARCHAR(255) DEFAULT NULL,
     product_updates ENUM('YES', 'NO') NOT NULL DEFAULT 'NO',
     updates_email VARCHAR(255) DEFAULT NULL,
-    webconnect_rates ENUM('YES', 'NO') NOT NULL DEFAULT 'NO',
     
     status ENUM('new', 'reviewed', 'approved', 'rejected') NOT NULL DEFAULT 'new',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
