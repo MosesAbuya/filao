@@ -128,8 +128,7 @@
       <p class="mb-0">
         &copy; <?php echo date('Y'); ?> Filao Adventures. All Rights Reserved. &mdash; Nairobi, Kenya &mdash; Crafting
         Unforgettable Journeys.<br>
-        <span style="font-size:12px;opacity:0.7;">Site by <a href="https://mmtechpro.co.ke" target="_blank"
-            style="color:inherit;text-decoration:underline;">Millenium Meritum Technology &amp; Procurement</a></span>
+        <span style="font-size:12px;opacity:0.7;">Site by <span style="color:inherit;font-weight:500;">Vector 9 Technologies</span></span>
       </p>
     </div>
   </div>
