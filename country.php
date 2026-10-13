@@ -186,7 +186,7 @@ $(document).ready(function() {
     mapContainer.innerHTML = ''; // clear loading text
     var map = L.map('destMap');
     
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=<?= defined('CARTO_API_KEY') ? CARTO_API_KEY : 'cb1_4iyw_1_b00d62afad8028539981e974' ?>', {
       attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
       subdomains: 'abcd',
       maxZoom: 20

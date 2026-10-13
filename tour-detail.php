@@ -561,7 +561,7 @@ $(document).ready(function() {
       var map = L.map('tourMap');
       
       // CartoDB Voyager tiles (clean, professional look)
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=<?= defined('CARTO_API_KEY') ? CARTO_API_KEY : 'cb1_4iyw_1_b00d62afad8028539981e974' ?>', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
         subdomains: 'abcd',
         maxZoom: 20
